@@ -5,24 +5,17 @@
 */
 
 #include "N76E003.h"
-
-// #include <stdio.h>
-// #include <string.h>
 				   	
 #ifndef F_CPU
 #define F_CPU 				16000000UL
 #endif
 				   
-typedef signed char int8_t;
-typedef signed short int16_t;
-typedef	signed long int32_t;
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned long uint32_t;
-
-//typedef void (*voidFuncPtr)(void);
-
-//#define ISR(a) @svlreg @far @interrupt void a(void)
+typedef signed char 		int8_t;
+typedef signed short 		int16_t;
+typedef	signed long 		int32_t;
+typedef unsigned char 		uint8_t;
+typedef unsigned short 		uint16_t;
+typedef unsigned long 		uint32_t;
 
 #define sei()    setb(IE, EA);  /* enable interrupts */
 #define cli()    clrb(IE, EA);  /* disable interrupts */
@@ -45,32 +38,23 @@ typedef unsigned long uint32_t;
 	TA = 0x55;           \
 	reg &= ~(1 << bit);  \
 	sei();
- /*
-#define pinMode(DDRx, BITx, mode)						\
-	if(inbit(mode, BIT_DDR)) setb(DDRx, BITx);			\
-	else	clrb(DDRx, BITx);							\
-	if(inbit(mode, BIT_CR1)) setb(*(&DDRx+1), BITx);	\
-	else	clrb(*(&DDRx+1), BITx);						\
-	if(inbit(mode, BIT_CR2)) setb(*(&DDRx+2), BITx);	\
-	else	clrb(*(&DDRx+2), BITx);
-					*/
+
 #define BIN		2
 #define DEC		10
 #define HEX		16
 
-#define BIT_DDR 		2
-#define BIT_CR1 		1
-#define BIT_CR2 		0
-
 // pin mode
-#define IN_F			0x00
-#define IN_F_INT		0x01
-#define IN_U			0x02
-#define IN_U_INT		0x03
-#define OUT_OD			0x04
-#define OUT_OD_FAST		0x05
-#define OUT_PP			0x06
-#define OUT_PP_FAST		0x07
+#define QUASI			0x00
+#define OUTPUT_PP		0x01
+#define INPUT			0x10
+#define OUTPUT_OD		0x11
+
+#define CONCAT2(a,b) a##b
+
+// mode: QUASI, OUTPUT_PP, INPUT, OUTPUT_OD
+#define pinMode(PORTx, BITx, mode)                     \
+	if(mode & 0xF0) setb(CONCAT2(PORTx,  m1), BITx); else clrb(CONCAT2(PORTx,  m1), BITx); \
+	if(mode & 0x0F) setb(CONCAT2(PORTx,  m2), BITx); else clrb(CONCAT2(PORTx,  m2), BITx);
 
 void _delay_ms(uint32_t  __ms);
 void _delay_us(uint32_t _us);
