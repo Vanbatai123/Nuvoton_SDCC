@@ -14,7 +14,7 @@ void main(void)
 
     while (1)
     {
-        UART0_println("START\n");
+        UART0_println("START\r\n");
         _delay_ms(800);
     }
 }

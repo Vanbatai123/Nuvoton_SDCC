@@ -44,3 +44,10 @@ void UART0_println(char *str)
 	UART0_print(str);
 	UART0_print("\r\n");
 }
+
+void UART0_printNum(long num)
+{
+	char dis[20];
+	sprintf(dis, "%li", num);
+	UART0_print(dis);
+}
