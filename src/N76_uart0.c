@@ -4,10 +4,11 @@
  * Author: Van_BasTai
  */
 
-#include "include.h"
-#include "n76_uart0.h"
+#include <include.h>
+#include <stdio.h>
+#include <N76_uart0.h>
 
-void UART0_config(uint8_t baud)
+void UART0_begin(uint8_t baud)
 {
 	clrb(P0M1, 6);
 	clrb(P0M2, 6);

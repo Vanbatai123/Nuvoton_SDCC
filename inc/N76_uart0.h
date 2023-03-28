@@ -16,7 +16,7 @@
 // static volatile voidFuncPtr UART0_HANDLER = NULL;
 
 
-void UART0_config(uint8_t baud);
+void UART0_begin(uint8_t baud);
 void UART0_putChar(uint8_t val);
 void UART0_print(char* str);
 void UART0_println(char* str);

@@ -1,0 +1,871 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.8.0 #10562 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Test_I2C
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _NumberOfFields
+                                     12 	.globl _DS1307
+                                     13 	.globl _main
+                                     14 	.globl _I2C_read
+                                     15 	.globl _I2C_requestFrom
+                                     16 	.globl _I2C_endTransmission
+                                     17 	.globl _I2C_write
+                                     18 	.globl _I2C_beginTransmission
+                                     19 	.globl _I2C_begin
+                                     20 	.globl _UART0_printNum
+                                     21 	.globl _UART0_println
+                                     22 	.globl _UART0_print
+                                     23 	.globl _UART0_begin
+                                     24 	.globl __delay_ms
+                                     25 	.globl _eiph1
+                                     26 	.globl _eip1
+                                     27 	.globl _pmd
+                                     28 	.globl _pmen
+                                     29 	.globl _pdtcnt
+                                     30 	.globl _pdten
+                                     31 	.globl _scon_1
+                                     32 	.globl _eiph
+                                     33 	.globl _aindids
+                                     34 	.globl _spdr
+                                     35 	.globl _spsr
+                                     36 	.globl _spcr2
+                                     37 	.globl _spcr
+                                     38 	.globl _capcon4
+                                     39 	.globl _capcon3
+                                     40 	.globl _b
+                                     41 	.globl _eip
+                                     42 	.globl _c2h
+                                     43 	.globl _c2l
+                                     44 	.globl _pif
+                                     45 	.globl _pipen
+                                     46 	.globl _pinen
+                                     47 	.globl _picon
+                                     48 	.globl _adccon0
+                                     49 	.globl _c1h
+                                     50 	.globl _c1l
+                                     51 	.globl _c0h
+                                     52 	.globl _c0l
+                                     53 	.globl _adcdly
+                                     54 	.globl _adccon2
+                                     55 	.globl _adccon1
+                                     56 	.globl _acc
+                                     57 	.globl _pwmcon1
+                                     58 	.globl _piocon0
+                                     59 	.globl _pwm3l
+                                     60 	.globl _pwm2l
+                                     61 	.globl _pwm1l
+                                     62 	.globl _pwm0l
+                                     63 	.globl _pwmpl
+                                     64 	.globl _pwmcon0
+                                     65 	.globl _fbd
+                                     66 	.globl _pnp
+                                     67 	.globl _pwm3h
+                                     68 	.globl _pwm2h
+                                     69 	.globl _pwm1h
+                                     70 	.globl _pwm0h
+                                     71 	.globl _pwmph
+                                     72 	.globl _psw
+                                     73 	.globl _adcmph
+                                     74 	.globl _adcmpl
+                                     75 	.globl _pwm5l
+                                     76 	.globl _th2
+                                     77 	.globl _pwm4l
+                                     78 	.globl _tl2
+                                     79 	.globl _rcmp2h
+                                     80 	.globl _rcmp2l
+                                     81 	.globl _t2mod
+                                     82 	.globl _t2con
+                                     83 	.globl _ta
+                                     84 	.globl _piocon1
+                                     85 	.globl _rh3
+                                     86 	.globl _pwm5h
+                                     87 	.globl _rl3
+                                     88 	.globl _pwm4h
+                                     89 	.globl _t3con
+                                     90 	.globl _adcrh
+                                     91 	.globl _adcrl
+                                     92 	.globl _i2addr
+                                     93 	.globl _i2con
+                                     94 	.globl _i2toc
+                                     95 	.globl _i2clk
+                                     96 	.globl _i2stat
+                                     97 	.globl _i2dat
+                                     98 	.globl _saddr_1
+                                     99 	.globl _saden_1
+                                    100 	.globl _saden
+                                    101 	.globl _ip
+                                    102 	.globl _pwmintc
+                                    103 	.globl _iph
+                                    104 	.globl _p2s
+                                    105 	.globl _p1sr
+                                    106 	.globl _p1m2
+                                    107 	.globl _p1s
+                                    108 	.globl _p1m1
+                                    109 	.globl _p0sr
+                                    110 	.globl _p0m2
+                                    111 	.globl _p0s
+                                    112 	.globl _p0m1
+                                    113 	.globl _p3
+                                    114 	.globl _iapcn
+                                    115 	.globl _iapfd
+                                    116 	.globl _p3sr
+                                    117 	.globl _p3m2
+                                    118 	.globl _p3s
+                                    119 	.globl _p3m1
+                                    120 	.globl _bodcon1
+                                    121 	.globl _wdcon
+                                    122 	.globl _saddr
+                                    123 	.globl _ie
+                                    124 	.globl _iapah
+                                    125 	.globl _iapal
+                                    126 	.globl _iapuen
+                                    127 	.globl _iaptrg
+                                    128 	.globl _bodcon0
+                                    129 	.globl _auxr1
+                                    130 	.globl _p2
+                                    131 	.globl _chpcon
+                                    132 	.globl _eie1
+                                    133 	.globl _eie
+                                    134 	.globl _sbuf_1
+                                    135 	.globl _sbuf
+                                    136 	.globl _scon
+                                    137 	.globl _cken
+                                    138 	.globl _ckswt
+                                    139 	.globl _ckdiv
+                                    140 	.globl _capcon2
+                                    141 	.globl _capcon1
+                                    142 	.globl _capcon0
+                                    143 	.globl _sfrs
+                                    144 	.globl _p1
+                                    145 	.globl _wkcon
+                                    146 	.globl _ckcon
+                                    147 	.globl _th1
+                                    148 	.globl _th0
+                                    149 	.globl _tl1
+                                    150 	.globl _tl0
+                                    151 	.globl _tmod
+                                    152 	.globl _tcon
+                                    153 	.globl _pcon
+                                    154 	.globl _rwk
+                                    155 	.globl _rctrim1
+                                    156 	.globl _rctrim0
+                                    157 	.globl _dph
+                                    158 	.globl _dpl
+                                    159 	.globl _sp
+                                    160 	.globl _p0
+                                    161 	.globl _setTime_PARM_7
+                                    162 	.globl _setTime_PARM_6
+                                    163 	.globl _setTime_PARM_5
+                                    164 	.globl _setTime_PARM_4
+                                    165 	.globl _setTime_PARM_3
+                                    166 	.globl _setTime_PARM_2
+                                    167 	.globl _year
+                                    168 	.globl _month
+                                    169 	.globl _wday
+                                    170 	.globl _day
+                                    171 	.globl _hour
+                                    172 	.globl _minute
+                                    173 	.globl _second
+                                    174 	.globl _readDS1307
+                                    175 	.globl _bcd2dec
+                                    176 	.globl _dec2bcd
+                                    177 	.globl _digitalClockDisplay
+                                    178 	.globl _printDigits
+                                    179 	.globl _setTime
+                                    180 ;--------------------------------------------------------
+                                    181 ; special function registers
+                                    182 ;--------------------------------------------------------
+                                    183 	.area RSEG    (ABS,DATA)
+      000000                        184 	.org 0x0000
+                           000080   185 _p0	=	0x0080
+                           000081   186 _sp	=	0x0081
+                           000082   187 _dpl	=	0x0082
+                           000083   188 _dph	=	0x0083
+                           000084   189 _rctrim0	=	0x0084
+                           000085   190 _rctrim1	=	0x0085
+                           000086   191 _rwk	=	0x0086
+                           000087   192 _pcon	=	0x0087
+                           000088   193 _tcon	=	0x0088
+                           000089   194 _tmod	=	0x0089
+                           00008A   195 _tl0	=	0x008a
+                           00008B   196 _tl1	=	0x008b
+                           00008C   197 _th0	=	0x008c
+                           00008D   198 _th1	=	0x008d
+                           00008E   199 _ckcon	=	0x008e
+                           00008F   200 _wkcon	=	0x008f
+                           000090   201 _p1	=	0x0090
+                           000091   202 _sfrs	=	0x0091
+                           000092   203 _capcon0	=	0x0092
+                           000093   204 _capcon1	=	0x0093
+                           000094   205 _capcon2	=	0x0094
+                           000095   206 _ckdiv	=	0x0095
+                           000096   207 _ckswt	=	0x0096
+                           000097   208 _cken	=	0x0097
+                           000098   209 _scon	=	0x0098
+                           000099   210 _sbuf	=	0x0099
+                           00009A   211 _sbuf_1	=	0x009a
+                           00009B   212 _eie	=	0x009b
+                           00009C   213 _eie1	=	0x009c
+                           00009F   214 _chpcon	=	0x009f
+                           0000A0   215 _p2	=	0x00a0
+                           0000A2   216 _auxr1	=	0x00a2
+                           0000A3   217 _bodcon0	=	0x00a3
+                           0000A4   218 _iaptrg	=	0x00a4
+                           0000A5   219 _iapuen	=	0x00a5
+                           0000A6   220 _iapal	=	0x00a6
+                           0000A7   221 _iapah	=	0x00a7
+                           0000A8   222 _ie	=	0x00a8
+                           0000A9   223 _saddr	=	0x00a9
+                           0000AA   224 _wdcon	=	0x00aa
+                           0000AB   225 _bodcon1	=	0x00ab
+                           0000AC   226 _p3m1	=	0x00ac
+                           0000AC   227 _p3s	=	0x00ac
+                           0000AD   228 _p3m2	=	0x00ad
+                           0000AD   229 _p3sr	=	0x00ad
+                           0000AE   230 _iapfd	=	0x00ae
+                           0000AF   231 _iapcn	=	0x00af
+                           0000B0   232 _p3	=	0x00b0
+                           0000B1   233 _p0m1	=	0x00b1
+                           0000B1   234 _p0s	=	0x00b1
+                           0000B2   235 _p0m2	=	0x00b2
+                           0000B2   236 _p0sr	=	0x00b2
+                           0000B3   237 _p1m1	=	0x00b3
+                           0000B3   238 _p1s	=	0x00b3
+                           0000B4   239 _p1m2	=	0x00b4
+                           0000B4   240 _p1sr	=	0x00b4
+                           0000B5   241 _p2s	=	0x00b5
+                           0000B7   242 _iph	=	0x00b7
+                           0000B7   243 _pwmintc	=	0x00b7
+                           0000B8   244 _ip	=	0x00b8
+                           0000B9   245 _saden	=	0x00b9
+                           0000BA   246 _saden_1	=	0x00ba
+                           0000BB   247 _saddr_1	=	0x00bb
+                           0000BC   248 _i2dat	=	0x00bc
+                           0000BD   249 _i2stat	=	0x00bd
+                           0000BE   250 _i2clk	=	0x00be
+                           0000BF   251 _i2toc	=	0x00bf
+                           0000C0   252 _i2con	=	0x00c0
+                           0000C1   253 _i2addr	=	0x00c1
+                           0000C2   254 _adcrl	=	0x00c2
+                           0000C3   255 _adcrh	=	0x00c3
+                           0000C4   256 _t3con	=	0x00c4
+                           0000C4   257 _pwm4h	=	0x00c4
+                           0000C5   258 _rl3	=	0x00c5
+                           0000C5   259 _pwm5h	=	0x00c5
+                           0000C6   260 _rh3	=	0x00c6
+                           0000C6   261 _piocon1	=	0x00c6
+                           0000C7   262 _ta	=	0x00c7
+                           0000C8   263 _t2con	=	0x00c8
+                           0000C9   264 _t2mod	=	0x00c9
+                           0000CA   265 _rcmp2l	=	0x00ca
+                           0000CB   266 _rcmp2h	=	0x00cb
+                           0000CC   267 _tl2	=	0x00cc
+                           0000CC   268 _pwm4l	=	0x00cc
+                           0000CD   269 _th2	=	0x00cd
+                           0000CD   270 _pwm5l	=	0x00cd
+                           0000CE   271 _adcmpl	=	0x00ce
+                           0000CF   272 _adcmph	=	0x00cf
+                           0000D0   273 _psw	=	0x00d0
+                           0000D1   274 _pwmph	=	0x00d1
+                           0000D2   275 _pwm0h	=	0x00d2
+                           0000D3   276 _pwm1h	=	0x00d3
+                           0000D4   277 _pwm2h	=	0x00d4
+                           0000D5   278 _pwm3h	=	0x00d5
+                           0000D6   279 _pnp	=	0x00d6
+                           0000D7   280 _fbd	=	0x00d7
+                           0000D8   281 _pwmcon0	=	0x00d8
+                           0000D9   282 _pwmpl	=	0x00d9
+                           0000DA   283 _pwm0l	=	0x00da
+                           0000DB   284 _pwm1l	=	0x00db
+                           0000DC   285 _pwm2l	=	0x00dc
+                           0000DD   286 _pwm3l	=	0x00dd
+                           0000DE   287 _piocon0	=	0x00de
+                           0000DF   288 _pwmcon1	=	0x00df
+                           0000E0   289 _acc	=	0x00e0
+                           0000E1   290 _adccon1	=	0x00e1
+                           0000E2   291 _adccon2	=	0x00e2
+                           0000E3   292 _adcdly	=	0x00e3
+                           0000E4   293 _c0l	=	0x00e4
+                           0000E5   294 _c0h	=	0x00e5
+                           0000E6   295 _c1l	=	0x00e6
+                           0000E7   296 _c1h	=	0x00e7
+                           0000E8   297 _adccon0	=	0x00e8
+                           0000E9   298 _picon	=	0x00e9
+                           0000EA   299 _pinen	=	0x00ea
+                           0000EB   300 _pipen	=	0x00eb
+                           0000EC   301 _pif	=	0x00ec
+                           0000ED   302 _c2l	=	0x00ed
+                           0000EE   303 _c2h	=	0x00ee
+                           0000EF   304 _eip	=	0x00ef
+                           0000F0   305 _b	=	0x00f0
+                           0000F1   306 _capcon3	=	0x00f1
+                           0000F2   307 _capcon4	=	0x00f2
+                           0000F3   308 _spcr	=	0x00f3
+                           0000F3   309 _spcr2	=	0x00f3
+                           0000F4   310 _spsr	=	0x00f4
+                           0000F5   311 _spdr	=	0x00f5
+                           0000F6   312 _aindids	=	0x00f6
+                           0000F7   313 _eiph	=	0x00f7
+                           0000F8   314 _scon_1	=	0x00f8
+                           0000F9   315 _pdten	=	0x00f9
+                           0000FA   316 _pdtcnt	=	0x00fa
+                           0000FB   317 _pmen	=	0x00fb
+                           0000FC   318 _pmd	=	0x00fc
+                           0000FE   319 _eip1	=	0x00fe
+                           0000FF   320 _eiph1	=	0x00ff
+                                    321 ;--------------------------------------------------------
+                                    322 ; special function bits
+                                    323 ;--------------------------------------------------------
+                                    324 	.area RSEG    (ABS,DATA)
+      000000                        325 	.org 0x0000
+                                    326 ;--------------------------------------------------------
+                                    327 ; overlayable register banks
+                                    328 ;--------------------------------------------------------
+                                    329 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        330 	.ds 8
+                                    331 ;--------------------------------------------------------
+                                    332 ; internal ram data
+                                    333 ;--------------------------------------------------------
+                                    334 	.area DSEG    (DATA)
+      000008                        335 _second::
+      000008                        336 	.ds 2
+      00000A                        337 _minute::
+      00000A                        338 	.ds 2
+      00000C                        339 _hour::
+      00000C                        340 	.ds 2
+      00000E                        341 _day::
+      00000E                        342 	.ds 2
+      000010                        343 _wday::
+      000010                        344 	.ds 2
+      000012                        345 _month::
+      000012                        346 	.ds 2
+      000014                        347 _year::
+      000014                        348 	.ds 2
+      000016                        349 _setTime_PARM_2:
+      000016                        350 	.ds 1
+      000017                        351 _setTime_PARM_3:
+      000017                        352 	.ds 1
+      000018                        353 _setTime_PARM_4:
+      000018                        354 	.ds 1
+      000019                        355 _setTime_PARM_5:
+      000019                        356 	.ds 1
+      00001A                        357 _setTime_PARM_6:
+      00001A                        358 	.ds 1
+      00001B                        359 _setTime_PARM_7:
+      00001B                        360 	.ds 1
+                                    361 ;--------------------------------------------------------
+                                    362 ; overlayable items in internal ram 
+                                    363 ;--------------------------------------------------------
+                                    364 ;--------------------------------------------------------
+                                    365 ; Stack segment in internal ram 
+                                    366 ;--------------------------------------------------------
+                                    367 	.area	SSEG
+      00007F                        368 __start__stack:
+      00007F                        369 	.ds	1
+                                    370 
+                                    371 ;--------------------------------------------------------
+                                    372 ; indirectly addressable internal ram data
+                                    373 ;--------------------------------------------------------
+                                    374 	.area ISEG    (DATA)
+                                    375 ;--------------------------------------------------------
+                                    376 ; absolute internal ram data
+                                    377 ;--------------------------------------------------------
+                                    378 	.area IABS    (ABS,DATA)
+                                    379 	.area IABS    (ABS,DATA)
+                                    380 ;--------------------------------------------------------
+                                    381 ; bit data
+                                    382 ;--------------------------------------------------------
+                                    383 	.area BSEG    (BIT)
+                                    384 ;--------------------------------------------------------
+                                    385 ; paged external ram data
+                                    386 ;--------------------------------------------------------
+                                    387 	.area PSEG    (PAG,XDATA)
+                                    388 ;--------------------------------------------------------
+                                    389 ; external ram data
+                                    390 ;--------------------------------------------------------
+                                    391 	.area XSEG    (XDATA)
+                                    392 ;--------------------------------------------------------
+                                    393 ; absolute external ram data
+                                    394 ;--------------------------------------------------------
+                                    395 	.area XABS    (ABS,XDATA)
+                                    396 ;--------------------------------------------------------
+                                    397 ; external initialized ram data
+                                    398 ;--------------------------------------------------------
+                                    399 	.area XISEG   (XDATA)
+                                    400 	.area HOME    (CODE)
+                                    401 	.area GSINIT0 (CODE)
+                                    402 	.area GSINIT1 (CODE)
+                                    403 	.area GSINIT2 (CODE)
+                                    404 	.area GSINIT3 (CODE)
+                                    405 	.area GSINIT4 (CODE)
+                                    406 	.area GSINIT5 (CODE)
+                                    407 	.area GSINIT  (CODE)
+                                    408 	.area GSFINAL (CODE)
+                                    409 	.area CSEG    (CODE)
+                                    410 ;--------------------------------------------------------
+                                    411 ; interrupt vector 
+                                    412 ;--------------------------------------------------------
+                                    413 	.area HOME    (CODE)
+      000000                        414 __interrupt_vect:
+      000000 02 00 06         [24]  415 	ljmp	__sdcc_gsinit_startup
+                                    416 ;--------------------------------------------------------
+                                    417 ; global & static initialisations
+                                    418 ;--------------------------------------------------------
+                                    419 	.area HOME    (CODE)
+                                    420 	.area GSINIT  (CODE)
+                                    421 	.area GSFINAL (CODE)
+                                    422 	.area GSINIT  (CODE)
+                                    423 	.globl __sdcc_gsinit_startup
+                                    424 	.globl __sdcc_program_startup
+                                    425 	.globl __start__stack
+                                    426 	.globl __mcs51_genXINIT
+                                    427 	.globl __mcs51_genXRAMCLEAR
+                                    428 	.globl __mcs51_genRAMCLEAR
+                                    429 	.area GSFINAL (CODE)
+      000062 02 00 03         [24]  430 	ljmp	__sdcc_program_startup
+                                    431 ;--------------------------------------------------------
+                                    432 ; Home
+                                    433 ;--------------------------------------------------------
+                                    434 	.area HOME    (CODE)
+                                    435 	.area HOME    (CODE)
+      000003                        436 __sdcc_program_startup:
+      000003 02 00 65         [24]  437 	ljmp	_main
+                                    438 ;	return from main will return to caller
+                                    439 ;--------------------------------------------------------
+                                    440 ; code
+                                    441 ;--------------------------------------------------------
+                                    442 	.area CSEG    (CODE)
+                                    443 ;------------------------------------------------------------
+                                    444 ;Allocation info for local variables in function 'main'
+                                    445 ;------------------------------------------------------------
+                                    446 ;	./Test_I2C.c:30: void main(void)
+                                    447 ;	-----------------------------------------
+                                    448 ;	 function main
+                                    449 ;	-----------------------------------------
+      000065                        450 _main:
+                           000007   451 	ar7 = 0x07
+                           000006   452 	ar6 = 0x06
+                           000005   453 	ar5 = 0x05
+                           000004   454 	ar4 = 0x04
+                           000003   455 	ar3 = 0x03
+                           000002   456 	ar2 = 0x02
+                           000001   457 	ar1 = 0x01
+                           000000   458 	ar0 = 0x00
+                                    459 ;	./Test_I2C.c:33: I2C_begin();
+      000065 12 03 B5         [24]  460 	lcall	_I2C_begin
+                                    461 ;	./Test_I2C.c:35: setTime(12, 30, 45, 1, 8, 2, 15); // 12:30:45 CN 08-02-2015
+      000068 75 16 1E         [24]  462 	mov	_setTime_PARM_2,#0x1e
+      00006B 75 17 2D         [24]  463 	mov	_setTime_PARM_3,#0x2d
+      00006E 75 18 01         [24]  464 	mov	_setTime_PARM_4,#0x01
+      000071 75 19 08         [24]  465 	mov	_setTime_PARM_5,#0x08
+      000074 75 1A 02         [24]  466 	mov	_setTime_PARM_6,#0x02
+      000077 75 1B 0F         [24]  467 	mov	_setTime_PARM_7,#0x0f
+      00007A 75 82 0C         [24]  468 	mov	dpl,#0x0c
+      00007D 12 02 7C         [24]  469 	lcall	_setTime
+                                    470 ;	./Test_I2C.c:36: UART0_begin(BAUD_115200);
+      000080 75 82 F7         [24]  471 	mov	dpl,#0xf7
+      000083 12 02 D3         [24]  472 	lcall	_UART0_begin
+                                    473 ;	./Test_I2C.c:37: while (1)
+      000086                        474 00102$:
+                                    475 ;	./Test_I2C.c:41: readDS1307();
+      000086 12 00 97         [24]  476 	lcall	_readDS1307
+                                    477 ;	./Test_I2C.c:43: digitalClockDisplay();
+      000089 12 01 BF         [24]  478 	lcall	_digitalClockDisplay
+                                    479 ;	./Test_I2C.c:44: _delay_ms(600);
+      00008C 90 02 58         [24]  480 	mov	dptr,#0x0258
+      00008F E4               [12]  481 	clr	a
+      000090 F5 F0            [12]  482 	mov	b,a
+      000092 12 05 CB         [24]  483 	lcall	__delay_ms
+                                    484 ;	./Test_I2C.c:46: }
+      000095 80 EF            [24]  485 	sjmp	00102$
+                                    486 ;------------------------------------------------------------
+                                    487 ;Allocation info for local variables in function 'readDS1307'
+                                    488 ;------------------------------------------------------------
+                                    489 ;	./Test_I2C.c:48: void readDS1307()
+                                    490 ;	-----------------------------------------
+                                    491 ;	 function readDS1307
+                                    492 ;	-----------------------------------------
+      000097                        493 _readDS1307:
+                                    494 ;	./Test_I2C.c:50: I2C_beginTransmission(DS1307);
+      000097 90 10 7D         [24]  495 	mov	dptr,#_DS1307
+      00009A E4               [12]  496 	clr	a
+      00009B 93               [24]  497 	movc	a,@a+dptr
+      00009C F5 82            [12]  498 	mov	dpl,a
+      00009E 12 03 C8         [24]  499 	lcall	_I2C_beginTransmission
+                                    500 ;	./Test_I2C.c:51: I2C_write((uint8_t)0x00);
+      0000A1 75 82 00         [24]  501 	mov	dpl,#0x00
+      0000A4 12 04 1D         [24]  502 	lcall	_I2C_write
+                                    503 ;	./Test_I2C.c:52: I2C_endTransmission();
+      0000A7 12 04 65         [24]  504 	lcall	_I2C_endTransmission
+                                    505 ;	./Test_I2C.c:53: I2C_requestFrom(DS1307, NumberOfFields);
+      0000AA 90 10 7D         [24]  506 	mov	dptr,#_DS1307
+      0000AD E4               [12]  507 	clr	a
+      0000AE 93               [24]  508 	movc	a,@a+dptr
+      0000AF FF               [12]  509 	mov	r7,a
+      0000B0 90 10 7E         [24]  510 	mov	dptr,#_NumberOfFields
+      0000B3 E4               [12]  511 	clr	a
+      0000B4 93               [24]  512 	movc	a,@a+dptr
+      0000B5 F5 44            [12]  513 	mov	_I2C_requestFrom_PARM_2,a
+      0000B7 8F 82            [24]  514 	mov	dpl,r7
+      0000B9 12 04 BC         [24]  515 	lcall	_I2C_requestFrom
+                                    516 ;	./Test_I2C.c:55: second = bcd2dec(I2C_read() & 0x7f);
+      0000BC 12 05 A4         [24]  517 	lcall	_I2C_read
+      0000BF E5 82            [12]  518 	mov	a,dpl
+      0000C1 54 7F            [12]  519 	anl	a,#0x7f
+      0000C3 F5 82            [12]  520 	mov	dpl,a
+      0000C5 12 01 29         [24]  521 	lcall	_bcd2dec
+      0000C8 85 82 08         [24]  522 	mov	_second,dpl
+      0000CB 85 83 09         [24]  523 	mov	(_second + 1),dph
+                                    524 ;	./Test_I2C.c:56: minute = bcd2dec(I2C_read());
+      0000CE 12 05 A4         [24]  525 	lcall	_I2C_read
+      0000D1 12 01 29         [24]  526 	lcall	_bcd2dec
+      0000D4 85 82 0A         [24]  527 	mov	_minute,dpl
+      0000D7 85 83 0B         [24]  528 	mov	(_minute + 1),dph
+                                    529 ;	./Test_I2C.c:57: hour = bcd2dec(I2C_read() & 0x3f); // chế độ 24h.
+      0000DA 12 05 A4         [24]  530 	lcall	_I2C_read
+      0000DD E5 82            [12]  531 	mov	a,dpl
+      0000DF 54 3F            [12]  532 	anl	a,#0x3f
+      0000E1 F5 82            [12]  533 	mov	dpl,a
+      0000E3 12 01 29         [24]  534 	lcall	_bcd2dec
+      0000E6 85 82 0C         [24]  535 	mov	_hour,dpl
+      0000E9 85 83 0D         [24]  536 	mov	(_hour + 1),dph
+                                    537 ;	./Test_I2C.c:58: wday = bcd2dec(I2C_read());
+      0000EC 12 05 A4         [24]  538 	lcall	_I2C_read
+      0000EF 12 01 29         [24]  539 	lcall	_bcd2dec
+      0000F2 85 82 10         [24]  540 	mov	_wday,dpl
+      0000F5 85 83 11         [24]  541 	mov	(_wday + 1),dph
+                                    542 ;	./Test_I2C.c:59: day = bcd2dec(I2C_read());
+      0000F8 12 05 A4         [24]  543 	lcall	_I2C_read
+      0000FB 12 01 29         [24]  544 	lcall	_bcd2dec
+      0000FE 85 82 0E         [24]  545 	mov	_day,dpl
+      000101 85 83 0F         [24]  546 	mov	(_day + 1),dph
+                                    547 ;	./Test_I2C.c:60: month = bcd2dec(I2C_read());
+      000104 12 05 A4         [24]  548 	lcall	_I2C_read
+      000107 12 01 29         [24]  549 	lcall	_bcd2dec
+      00010A 85 82 12         [24]  550 	mov	_month,dpl
+      00010D 85 83 13         [24]  551 	mov	(_month + 1),dph
+                                    552 ;	./Test_I2C.c:61: year = bcd2dec(I2C_read());
+      000110 12 05 A4         [24]  553 	lcall	_I2C_read
+      000113 12 01 29         [24]  554 	lcall	_bcd2dec
+      000116 85 82 14         [24]  555 	mov	_year,dpl
+      000119 85 83 15         [24]  556 	mov	(_year + 1),dph
+                                    557 ;	./Test_I2C.c:62: year += 2000;
+      00011C 74 D0            [12]  558 	mov	a,#0xd0
+      00011E 25 14            [12]  559 	add	a,_year
+      000120 F5 14            [12]  560 	mov	_year,a
+      000122 74 07            [12]  561 	mov	a,#0x07
+      000124 35 15            [12]  562 	addc	a,(_year + 1)
+      000126 F5 15            [12]  563 	mov	(_year + 1),a
+                                    564 ;	./Test_I2C.c:63: }
+      000128 22               [24]  565 	ret
+                                    566 ;------------------------------------------------------------
+                                    567 ;Allocation info for local variables in function 'bcd2dec'
+                                    568 ;------------------------------------------------------------
+                                    569 ;num                       Allocated to registers r7 
+                                    570 ;------------------------------------------------------------
+                                    571 ;	./Test_I2C.c:65: int bcd2dec(uint8_t num)
+                                    572 ;	-----------------------------------------
+                                    573 ;	 function bcd2dec
+                                    574 ;	-----------------------------------------
+      000129                        575 _bcd2dec:
+      000129 AF 82            [24]  576 	mov	r7,dpl
+                                    577 ;	./Test_I2C.c:67: return ((num / 16 * 10) + (num % 16));
+      00012B 7E 00            [12]  578 	mov	r6,#0x00
+      00012D 75 75 10         [24]  579 	mov	__divsint_PARM_2,#0x10
+                                    580 ;	1-genFromRTrack replaced	mov	(__divsint_PARM_2 + 1),#0x00
+      000130 8E 76            [24]  581 	mov	(__divsint_PARM_2 + 1),r6
+      000132 8F 82            [24]  582 	mov	dpl,r7
+      000134 8E 83            [24]  583 	mov	dph,r6
+      000136 C0 07            [24]  584 	push	ar7
+      000138 C0 06            [24]  585 	push	ar6
+      00013A 12 10 26         [24]  586 	lcall	__divsint
+      00013D 85 82 75         [24]  587 	mov	__mulint_PARM_2,dpl
+      000140 85 83 76         [24]  588 	mov	(__mulint_PARM_2 + 1),dph
+      000143 90 00 0A         [24]  589 	mov	dptr,#0x000a
+      000146 12 06 5F         [24]  590 	lcall	__mulint
+      000149 AC 82            [24]  591 	mov	r4,dpl
+      00014B AD 83            [24]  592 	mov	r5,dph
+      00014D D0 06            [24]  593 	pop	ar6
+      00014F D0 07            [24]  594 	pop	ar7
+      000151 75 75 10         [24]  595 	mov	__modsint_PARM_2,#0x10
+      000154 75 76 00         [24]  596 	mov	(__modsint_PARM_2 + 1),#0x00
+      000157 8F 82            [24]  597 	mov	dpl,r7
+      000159 8E 83            [24]  598 	mov	dph,r6
+      00015B C0 05            [24]  599 	push	ar5
+      00015D C0 04            [24]  600 	push	ar4
+      00015F 12 0F F0         [24]  601 	lcall	__modsint
+      000162 AE 82            [24]  602 	mov	r6,dpl
+      000164 AF 83            [24]  603 	mov	r7,dph
+      000166 D0 04            [24]  604 	pop	ar4
+      000168 D0 05            [24]  605 	pop	ar5
+      00016A EE               [12]  606 	mov	a,r6
+      00016B 2C               [12]  607 	add	a,r4
+      00016C F5 82            [12]  608 	mov	dpl,a
+      00016E EF               [12]  609 	mov	a,r7
+      00016F 3D               [12]  610 	addc	a,r5
+      000170 F5 83            [12]  611 	mov	dph,a
+                                    612 ;	./Test_I2C.c:68: }
+      000172 22               [24]  613 	ret
+                                    614 ;------------------------------------------------------------
+                                    615 ;Allocation info for local variables in function 'dec2bcd'
+                                    616 ;------------------------------------------------------------
+                                    617 ;num                       Allocated to registers r7 
+                                    618 ;------------------------------------------------------------
+                                    619 ;	./Test_I2C.c:70: int dec2bcd(uint8_t num)
+                                    620 ;	-----------------------------------------
+                                    621 ;	 function dec2bcd
+                                    622 ;	-----------------------------------------
+      000173                        623 _dec2bcd:
+      000173 AF 82            [24]  624 	mov	r7,dpl
+                                    625 ;	./Test_I2C.c:72: return ((num / 10 * 16) + (num % 10));
+      000175 7E 00            [12]  626 	mov	r6,#0x00
+      000177 75 75 0A         [24]  627 	mov	__divsint_PARM_2,#0x0a
+                                    628 ;	1-genFromRTrack replaced	mov	(__divsint_PARM_2 + 1),#0x00
+      00017A 8E 76            [24]  629 	mov	(__divsint_PARM_2 + 1),r6
+      00017C 8F 82            [24]  630 	mov	dpl,r7
+      00017E 8E 83            [24]  631 	mov	dph,r6
+      000180 C0 07            [24]  632 	push	ar7
+      000182 C0 06            [24]  633 	push	ar6
+      000184 12 10 26         [24]  634 	lcall	__divsint
+      000187 AC 82            [24]  635 	mov	r4,dpl
+      000189 AD 83            [24]  636 	mov	r5,dph
+      00018B D0 06            [24]  637 	pop	ar6
+      00018D D0 07            [24]  638 	pop	ar7
+      00018F ED               [12]  639 	mov	a,r5
+      000190 C4               [12]  640 	swap	a
+      000191 54 F0            [12]  641 	anl	a,#0xf0
+      000193 CC               [12]  642 	xch	a,r4
+      000194 C4               [12]  643 	swap	a
+      000195 CC               [12]  644 	xch	a,r4
+      000196 6C               [12]  645 	xrl	a,r4
+      000197 CC               [12]  646 	xch	a,r4
+      000198 54 F0            [12]  647 	anl	a,#0xf0
+      00019A CC               [12]  648 	xch	a,r4
+      00019B 6C               [12]  649 	xrl	a,r4
+      00019C FD               [12]  650 	mov	r5,a
+      00019D 75 75 0A         [24]  651 	mov	__modsint_PARM_2,#0x0a
+      0001A0 75 76 00         [24]  652 	mov	(__modsint_PARM_2 + 1),#0x00
+      0001A3 8F 82            [24]  653 	mov	dpl,r7
+      0001A5 8E 83            [24]  654 	mov	dph,r6
+      0001A7 C0 05            [24]  655 	push	ar5
+      0001A9 C0 04            [24]  656 	push	ar4
+      0001AB 12 0F F0         [24]  657 	lcall	__modsint
+      0001AE AE 82            [24]  658 	mov	r6,dpl
+      0001B0 AF 83            [24]  659 	mov	r7,dph
+      0001B2 D0 04            [24]  660 	pop	ar4
+      0001B4 D0 05            [24]  661 	pop	ar5
+      0001B6 EE               [12]  662 	mov	a,r6
+      0001B7 2C               [12]  663 	add	a,r4
+      0001B8 F5 82            [12]  664 	mov	dpl,a
+      0001BA EF               [12]  665 	mov	a,r7
+      0001BB 3D               [12]  666 	addc	a,r5
+      0001BC F5 83            [12]  667 	mov	dph,a
+                                    668 ;	./Test_I2C.c:73: }
+      0001BE 22               [24]  669 	ret
+                                    670 ;------------------------------------------------------------
+                                    671 ;Allocation info for local variables in function 'digitalClockDisplay'
+                                    672 ;------------------------------------------------------------
+                                    673 ;	./Test_I2C.c:75: void digitalClockDisplay()
+                                    674 ;	-----------------------------------------
+                                    675 ;	 function digitalClockDisplay
+                                    676 ;	-----------------------------------------
+      0001BF                        677 _digitalClockDisplay:
+                                    678 ;	./Test_I2C.c:78: UART0_printNum(hour);
+      0001BF AC 0C            [24]  679 	mov	r4,_hour
+      0001C1 E5 0D            [12]  680 	mov	a,(_hour + 1)
+      0001C3 FD               [12]  681 	mov	r5,a
+      0001C4 33               [12]  682 	rlc	a
+      0001C5 95 E0            [12]  683 	subb	a,acc
+      0001C7 FE               [12]  684 	mov	r6,a
+      0001C8 8C 82            [24]  685 	mov	dpl,r4
+      0001CA 8D 83            [24]  686 	mov	dph,r5
+      0001CC 8E F0            [24]  687 	mov	b,r6
+      0001CE 12 03 63         [24]  688 	lcall	_UART0_printNum
+                                    689 ;	./Test_I2C.c:79: printDigits(minute);
+      0001D1 85 0A 82         [24]  690 	mov	dpl,_minute
+      0001D4 85 0B 83         [24]  691 	mov	dph,(_minute + 1)
+      0001D7 12 02 3D         [24]  692 	lcall	_printDigits
+                                    693 ;	./Test_I2C.c:80: printDigits(second);
+      0001DA 85 08 82         [24]  694 	mov	dpl,_second
+      0001DD 85 09 83         [24]  695 	mov	dph,(_second + 1)
+      0001E0 12 02 3D         [24]  696 	lcall	_printDigits
+                                    697 ;	./Test_I2C.c:81: UART0_print(" ");
+      0001E3 90 10 7F         [24]  698 	mov	dptr,#___str_0
+      0001E6 75 F0 80         [24]  699 	mov	b,#0x80
+      0001E9 12 03 10         [24]  700 	lcall	_UART0_print
+                                    701 ;	./Test_I2C.c:82: UART0_printNum(day);
+      0001EC AC 0E            [24]  702 	mov	r4,_day
+      0001EE E5 0F            [12]  703 	mov	a,(_day + 1)
+      0001F0 FD               [12]  704 	mov	r5,a
+      0001F1 33               [12]  705 	rlc	a
+      0001F2 95 E0            [12]  706 	subb	a,acc
+      0001F4 FE               [12]  707 	mov	r6,a
+      0001F5 8C 82            [24]  708 	mov	dpl,r4
+      0001F7 8D 83            [24]  709 	mov	dph,r5
+      0001F9 8E F0            [24]  710 	mov	b,r6
+      0001FB 12 03 63         [24]  711 	lcall	_UART0_printNum
+                                    712 ;	./Test_I2C.c:83: UART0_print(" ");
+      0001FE 90 10 7F         [24]  713 	mov	dptr,#___str_0
+      000201 75 F0 80         [24]  714 	mov	b,#0x80
+      000204 12 03 10         [24]  715 	lcall	_UART0_print
+                                    716 ;	./Test_I2C.c:84: UART0_printNum(month);
+      000207 AC 12            [24]  717 	mov	r4,_month
+      000209 E5 13            [12]  718 	mov	a,(_month + 1)
+      00020B FD               [12]  719 	mov	r5,a
+      00020C 33               [12]  720 	rlc	a
+      00020D 95 E0            [12]  721 	subb	a,acc
+      00020F FE               [12]  722 	mov	r6,a
+      000210 8C 82            [24]  723 	mov	dpl,r4
+      000212 8D 83            [24]  724 	mov	dph,r5
+      000214 8E F0            [24]  725 	mov	b,r6
+      000216 12 03 63         [24]  726 	lcall	_UART0_printNum
+                                    727 ;	./Test_I2C.c:85: UART0_print(" ");
+      000219 90 10 7F         [24]  728 	mov	dptr,#___str_0
+      00021C 75 F0 80         [24]  729 	mov	b,#0x80
+      00021F 12 03 10         [24]  730 	lcall	_UART0_print
+                                    731 ;	./Test_I2C.c:86: UART0_printNum(year);
+      000222 AC 14            [24]  732 	mov	r4,_year
+      000224 E5 15            [12]  733 	mov	a,(_year + 1)
+      000226 FD               [12]  734 	mov	r5,a
+      000227 33               [12]  735 	rlc	a
+      000228 95 E0            [12]  736 	subb	a,acc
+      00022A FE               [12]  737 	mov	r6,a
+      00022B 8C 82            [24]  738 	mov	dpl,r4
+      00022D 8D 83            [24]  739 	mov	dph,r5
+      00022F 8E F0            [24]  740 	mov	b,r6
+      000231 12 03 63         [24]  741 	lcall	_UART0_printNum
+                                    742 ;	./Test_I2C.c:87: UART0_println("");
+      000234 90 10 81         [24]  743 	mov	dptr,#___str_1
+      000237 75 F0 80         [24]  744 	mov	b,#0x80
+                                    745 ;	./Test_I2C.c:88: }
+      00023A 02 03 57         [24]  746 	ljmp	_UART0_println
+                                    747 ;------------------------------------------------------------
+                                    748 ;Allocation info for local variables in function 'printDigits'
+                                    749 ;------------------------------------------------------------
+                                    750 ;digits                    Allocated to registers r6 r7 
+                                    751 ;------------------------------------------------------------
+                                    752 ;	./Test_I2C.c:90: void printDigits(int digits)
+                                    753 ;	-----------------------------------------
+                                    754 ;	 function printDigits
+                                    755 ;	-----------------------------------------
+      00023D                        756 _printDigits:
+      00023D AE 82            [24]  757 	mov	r6,dpl
+      00023F AF 83            [24]  758 	mov	r7,dph
+                                    759 ;	./Test_I2C.c:93: UART0_print(":");
+      000241 90 10 82         [24]  760 	mov	dptr,#___str_2
+      000244 75 F0 80         [24]  761 	mov	b,#0x80
+      000247 C0 07            [24]  762 	push	ar7
+      000249 C0 06            [24]  763 	push	ar6
+      00024B 12 03 10         [24]  764 	lcall	_UART0_print
+      00024E D0 06            [24]  765 	pop	ar6
+      000250 D0 07            [24]  766 	pop	ar7
+                                    767 ;	./Test_I2C.c:95: if (digits < 10)
+      000252 C3               [12]  768 	clr	c
+      000253 EE               [12]  769 	mov	a,r6
+      000254 94 0A            [12]  770 	subb	a,#0x0a
+      000256 EF               [12]  771 	mov	a,r7
+      000257 64 80            [12]  772 	xrl	a,#0x80
+      000259 94 80            [12]  773 	subb	a,#0x80
+      00025B 50 11            [24]  774 	jnc	00102$
+                                    775 ;	./Test_I2C.c:96: UART0_print("0");
+      00025D 90 10 84         [24]  776 	mov	dptr,#___str_3
+      000260 75 F0 80         [24]  777 	mov	b,#0x80
+      000263 C0 07            [24]  778 	push	ar7
+      000265 C0 06            [24]  779 	push	ar6
+      000267 12 03 10         [24]  780 	lcall	_UART0_print
+      00026A D0 06            [24]  781 	pop	ar6
+      00026C D0 07            [24]  782 	pop	ar7
+      00026E                        783 00102$:
+                                    784 ;	./Test_I2C.c:97: UART0_printNum(digits);
+      00026E EF               [12]  785 	mov	a,r7
+      00026F 33               [12]  786 	rlc	a
+      000270 95 E0            [12]  787 	subb	a,acc
+      000272 FD               [12]  788 	mov	r5,a
+      000273 8E 82            [24]  789 	mov	dpl,r6
+      000275 8F 83            [24]  790 	mov	dph,r7
+      000277 8D F0            [24]  791 	mov	b,r5
+                                    792 ;	./Test_I2C.c:98: }
+      000279 02 03 63         [24]  793 	ljmp	_UART0_printNum
+                                    794 ;------------------------------------------------------------
+                                    795 ;Allocation info for local variables in function 'setTime'
+                                    796 ;------------------------------------------------------------
+                                    797 ;min                       Allocated with name '_setTime_PARM_2'
+                                    798 ;sec                       Allocated with name '_setTime_PARM_3'
+                                    799 ;wd                        Allocated with name '_setTime_PARM_4'
+                                    800 ;d                         Allocated with name '_setTime_PARM_5'
+                                    801 ;mth                       Allocated with name '_setTime_PARM_6'
+                                    802 ;yr                        Allocated with name '_setTime_PARM_7'
+                                    803 ;hr                        Allocated to registers r7 
+                                    804 ;------------------------------------------------------------
+                                    805 ;	./Test_I2C.c:101: void setTime(uint8_t hr, uint8_t min, uint8_t sec, uint8_t wd, uint8_t d, uint8_t mth, uint8_t yr)
+                                    806 ;	-----------------------------------------
+                                    807 ;	 function setTime
+                                    808 ;	-----------------------------------------
+      00027C                        809 _setTime:
+      00027C AF 82            [24]  810 	mov	r7,dpl
+                                    811 ;	./Test_I2C.c:103: I2C_beginTransmission(DS1307);
+      00027E 90 10 7D         [24]  812 	mov	dptr,#_DS1307
+      000281 E4               [12]  813 	clr	a
+      000282 93               [24]  814 	movc	a,@a+dptr
+      000283 F5 82            [12]  815 	mov	dpl,a
+      000285 C0 07            [24]  816 	push	ar7
+      000287 12 03 C8         [24]  817 	lcall	_I2C_beginTransmission
+                                    818 ;	./Test_I2C.c:104: I2C_write(0x00); // đặt lại pointer
+      00028A 75 82 00         [24]  819 	mov	dpl,#0x00
+      00028D 12 04 1D         [24]  820 	lcall	_I2C_write
+                                    821 ;	./Test_I2C.c:105: I2C_write(dec2bcd(sec));
+      000290 85 17 82         [24]  822 	mov	dpl,_setTime_PARM_3
+      000293 12 01 73         [24]  823 	lcall	_dec2bcd
+      000296 12 04 1D         [24]  824 	lcall	_I2C_write
+                                    825 ;	./Test_I2C.c:106: I2C_write(dec2bcd(min));
+      000299 85 16 82         [24]  826 	mov	dpl,_setTime_PARM_2
+      00029C 12 01 73         [24]  827 	lcall	_dec2bcd
+      00029F 12 04 1D         [24]  828 	lcall	_I2C_write
+      0002A2 D0 07            [24]  829 	pop	ar7
+                                    830 ;	./Test_I2C.c:107: I2C_write(dec2bcd(hr));
+      0002A4 8F 82            [24]  831 	mov	dpl,r7
+      0002A6 12 01 73         [24]  832 	lcall	_dec2bcd
+      0002A9 12 04 1D         [24]  833 	lcall	_I2C_write
+                                    834 ;	./Test_I2C.c:108: I2C_write(dec2bcd(wd)); // day of week: Sunday = 1, Saturday = 7
+      0002AC 85 18 82         [24]  835 	mov	dpl,_setTime_PARM_4
+      0002AF 12 01 73         [24]  836 	lcall	_dec2bcd
+      0002B2 12 04 1D         [24]  837 	lcall	_I2C_write
+                                    838 ;	./Test_I2C.c:109: I2C_write(dec2bcd(d));
+      0002B5 85 19 82         [24]  839 	mov	dpl,_setTime_PARM_5
+      0002B8 12 01 73         [24]  840 	lcall	_dec2bcd
+      0002BB 12 04 1D         [24]  841 	lcall	_I2C_write
+                                    842 ;	./Test_I2C.c:110: I2C_write(dec2bcd(mth));
+      0002BE 85 1A 82         [24]  843 	mov	dpl,_setTime_PARM_6
+      0002C1 12 01 73         [24]  844 	lcall	_dec2bcd
+      0002C4 12 04 1D         [24]  845 	lcall	_I2C_write
+                                    846 ;	./Test_I2C.c:111: I2C_write(dec2bcd(yr));
+      0002C7 85 1B 82         [24]  847 	mov	dpl,_setTime_PARM_7
+      0002CA 12 01 73         [24]  848 	lcall	_dec2bcd
+      0002CD 12 04 1D         [24]  849 	lcall	_I2C_write
+                                    850 ;	./Test_I2C.c:112: I2C_endTransmission();
+                                    851 ;	./Test_I2C.c:113: }
+      0002D0 02 04 65         [24]  852 	ljmp	_I2C_endTransmission
+                                    853 	.area CSEG    (CODE)
+                                    854 	.area CONST   (CODE)
+      00107D                        855 _DS1307:
+      00107D 68                     856 	.db #0x68	; 104	'h'
+      00107E                        857 _NumberOfFields:
+      00107E 07                     858 	.db #0x07	; 7
+      00107F                        859 ___str_0:
+      00107F 20                     860 	.ascii " "
+      001080 00                     861 	.db 0x00
+      001081                        862 ___str_1:
+      001081 00                     863 	.db 0x00
+      001082                        864 ___str_2:
+      001082 3A                     865 	.ascii ":"
+      001083 00                     866 	.db 0x00
+      001084                        867 ___str_3:
+      001084 30                     868 	.ascii "0"
+      001085 00                     869 	.db 0x00
+                                    870 	.area XINIT   (CODE)
+                                    871 	.area CABS    (ABS,CODE)
