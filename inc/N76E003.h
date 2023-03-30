@@ -293,14 +293,14 @@ Header file for Nuvoton N76E003
 // 0X99	SBUF
 // 0X9A	SBUF_1
 // 0X9B	EIE
-#define ET2			7
-#define ESPI		6
-#define EFB			5
-#define EWDT		4
-#define EPWM		3
-#define ECAP		2
-#define EPI			1
-#define EI2C		0
+#define ET2			7 // Enable Timer 2 interrupt
+#define ESPI		6 // Enable SPI interrupt
+#define EFB			5 // Enable Fault Brake interrupt
+#define EWDT		4 // Enable WDT interrupt
+#define EPWM		3 // Enable PWM interrupt
+#define ECAP		2 // Enable input capture interrupt
+#define EPI			1 // Enable pin interrupt
+#define EI2C		0 // Enable I2C interrupt
 // 0X9C	EIE1
 #define EWKT		2
 #define ET3			1

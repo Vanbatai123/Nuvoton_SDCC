@@ -1,5 +1,5 @@
 /*
- * test UART0 project
+ * test I2C project
  * Created: 2021/10/23
  * Author: taivb
  */
