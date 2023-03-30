@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.8.0 #10562 (Linux)
+; Version 4.2.0 #13081 (MINGW64)
 ;--------------------------------------------------------
 	.module include
 	.optsdcc -mmcs51 --model-small
@@ -8,6 +8,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _xRamWrite_PARM_2
 	.globl _eiph1
 	.globl _eip1
 	.globl _pmd
@@ -146,6 +147,10 @@
 	.globl _p0
 	.globl __delay_ms
 	.globl __delay_us
+	.globl _xRamRead
+	.globl _xRamWrite
+	.globl _xRamInc
+	.globl _xRamDec
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -302,8 +307,14 @@ _eiph1	=	0x00ff
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
 ;--------------------------------------------------------
-; overlayable items in internal ram 
+; overlayable items in internal ram
 ;--------------------------------------------------------
+	.area	OSEG    (OVR,DATA)
+	.area	OSEG    (OVR,DATA)
+	.area	OSEG    (OVR,DATA)
+_xRamWrite_PARM_2:
+	.ds 1
+	.area	OSEG    (OVR,DATA)
 	.area	OSEG    (OVR,DATA)
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
@@ -383,10 +394,7 @@ __delay_ms:
 	mov	r6,b
 	mov	r7,a
 ;	./src/include.c:12: T3CON |= 0x07;                           		//Timer3 Clock = Fsys/128
-	mov	r2,_t3con
-	mov	r3,#0x00
-	orl	ar2,#0x07
-	mov	_t3con,r2
+	orl	_t3con,#0x07
 ;	./src/include.c:13: setb(T3CON, TR3);                                		//Trigger Timer3 start run
 	orl	_t3con,#0x08
 ;	./src/include.c:14: while (__ms != 0)
@@ -496,6 +504,79 @@ __delay_us:
 	orl	a,r7
 	jnz	00101$
 ;	./src/include.c:35: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'xRamRead'
+;------------------------------------------------------------
+;addr                      Allocated to registers 
+;------------------------------------------------------------
+;	./src/include.c:37: uint8_t xRamRead(uint16_t addr)
+;	-----------------------------------------
+;	 function xRamRead
+;	-----------------------------------------
+_xRamRead:
+;	./src/include.c:39: __asm__("MOVX A,@DPTR");
+	MOVX	A,@DPTR
+;	./src/include.c:40: __asm__("MOV DPL,A");
+	MOV	DPL,A
+;	./src/include.c:41: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'xRamWrite'
+;------------------------------------------------------------
+;value                     Allocated with name '_xRamWrite_PARM_2'
+;addr                      Allocated to registers 
+;------------------------------------------------------------
+;	./src/include.c:43: void xRamWrite(uint16_t addr, uint8_t value)
+;	-----------------------------------------
+;	 function xRamWrite
+;	-----------------------------------------
+_xRamWrite:
+;	./src/include.c:45: __asm__("MOV A,_xRamWrite_PARM_2");
+	MOV	A,_xRamWrite_PARM_2
+;	./src/include.c:46: __asm__("MOVX @DPTR,A");
+	MOVX	@DPTR,A
+;	./src/include.c:47: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'xRamInc'
+;------------------------------------------------------------
+;addr                      Allocated to registers 
+;------------------------------------------------------------
+;	./src/include.c:49: uint8_t xRamInc(uint16_t addr)
+;	-----------------------------------------
+;	 function xRamInc
+;	-----------------------------------------
+_xRamInc:
+;	./src/include.c:51: __asm__("MOVX A,@DPTR");
+	MOVX	A,@DPTR
+;	./src/include.c:52: __asm__("INC A");
+	INC	A
+;	./src/include.c:53: __asm__("MOVX @DPTR,A");
+	MOVX	@DPTR,A
+;	./src/include.c:54: __asm__("MOV DPL,A");
+	MOV	DPL,A
+;	./src/include.c:55: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'xRamDec'
+;------------------------------------------------------------
+;addr                      Allocated to registers 
+;------------------------------------------------------------
+;	./src/include.c:56: uint8_t xRamDec(uint16_t addr)
+;	-----------------------------------------
+;	 function xRamDec
+;	-----------------------------------------
+_xRamDec:
+;	./src/include.c:58: __asm__("MOVX A,@DPTR");
+	MOVX	A,@DPTR
+;	./src/include.c:59: __asm__("DEC A");
+	DEC	A
+;	./src/include.c:60: __asm__("MOVX @DPTR,A");
+	MOVX	@DPTR,A
+;	./src/include.c:61: __asm__("MOV DPL,A");
+	MOV	DPL,A
+;	./src/include.c:62: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

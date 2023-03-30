@@ -1,6 +1,6 @@
                                       1 ;--------------------------------------------------------
                                       2 ; File Created by SDCC : free open source ANSI-C Compiler
-                                      3 ; Version 3.8.0 #10562 (Linux)
+                                      3 ; Version 4.2.0 #13081 (MINGW64)
                                       4 ;--------------------------------------------------------
                                       5 	.module N76_uart0
                                       6 	.optsdcc -mmcs51 --model-small
@@ -305,10 +305,10 @@
                                     305 ; internal ram data
                                     306 ;--------------------------------------------------------
                                     307 	.area DSEG    (DATA)
-      000000                        308 _UART0_printNum_dis_65536_30:
+      000000                        308 _UART0_printNum_dis_65536_34:
       000000                        309 	.ds 20
                                     310 ;--------------------------------------------------------
-                                    311 ; overlayable items in internal ram 
+                                    311 ; overlayable items in internal ram
                                     312 ;--------------------------------------------------------
                                     313 	.area	OSEG    (OVR,DATA)
                                     314 	.area	OSEG    (OVR,DATA)
@@ -401,168 +401,169 @@
                                     401 ;	./src/N76_uart0.c:20: setb(SCON, REN); // UART0 Mode1,REN=1,TI=1
       000013 43 98 10         [24]  402 	orl	_scon,#0x10
                                     403 ;	./src/N76_uart0.c:21: TMOD |= 0x20;	 // Timer1 Mode1
-      000016 AE 89            [24]  404 	mov	r6,_tmod
-      000018 43 06 20         [24]  405 	orl	ar6,#0x20
-      00001B 8E 89            [24]  406 	mov	_tmod,r6
-                                    407 ;	./src/N76_uart0.c:22: setb(PCON, SMOD);
-      00001D 43 87 80         [24]  408 	orl	_pcon,#0x80
-                                    409 ;	./src/N76_uart0.c:23: setb(CKCON, T1M);
-      000020 43 8E 10         [24]  410 	orl	_ckcon,#0x10
-                                    411 ;	./src/N76_uart0.c:24: clrb(T3CON, BRCK);
-      000023 53 C4 DF         [24]  412 	anl	_t3con,#0xdf
-                                    413 ;	./src/N76_uart0.c:25: setb(TCON, TR1);
-      000026 43 88 40         [24]  414 	orl	_tcon,#0x40
-                                    415 ;	./src/N76_uart0.c:26: clrb(SCON, TI);
-      000029 53 98 FD         [24]  416 	anl	_scon,#0xfd
-                                    417 ;	./src/N76_uart0.c:27: }
-      00002C 22               [24]  418 	ret
+      000016 43 89 20         [24]  404 	orl	_tmod,#0x20
+                                    405 ;	./src/N76_uart0.c:22: setb(PCON, SMOD);
+      000019 43 87 80         [24]  406 	orl	_pcon,#0x80
+                                    407 ;	./src/N76_uart0.c:23: setb(CKCON, T1M);
+      00001C 43 8E 10         [24]  408 	orl	_ckcon,#0x10
+                                    409 ;	./src/N76_uart0.c:24: clrb(T3CON, BRCK);
+      00001F 53 C4 DF         [24]  410 	anl	_t3con,#0xdf
+                                    411 ;	./src/N76_uart0.c:25: setb(TCON, TR1);
+      000022 43 88 40         [24]  412 	orl	_tcon,#0x40
+                                    413 ;	./src/N76_uart0.c:26: clrb(SCON, TI);
+      000025 53 98 FD         [24]  414 	anl	_scon,#0xfd
+                                    415 ;	./src/N76_uart0.c:27: }
+      000028 22               [24]  416 	ret
+                                    417 ;------------------------------------------------------------
+                                    418 ;Allocation info for local variables in function 'UART0_putChar'
                                     419 ;------------------------------------------------------------
-                                    420 ;Allocation info for local variables in function 'UART0_putChar'
+                                    420 ;val                       Allocated to registers r7 
                                     421 ;------------------------------------------------------------
-                                    422 ;val                       Allocated to registers r7 
-                                    423 ;------------------------------------------------------------
-                                    424 ;	./src/N76_uart0.c:28: void UART0_putChar(uint8_t val)
+                                    422 ;	./src/N76_uart0.c:28: void UART0_putChar(uint8_t val)
+                                    423 ;	-----------------------------------------
+                                    424 ;	 function UART0_putChar
                                     425 ;	-----------------------------------------
-                                    426 ;	 function UART0_putChar
-                                    427 ;	-----------------------------------------
-      00002D                        428 _UART0_putChar:
-      00002D AF 82            [24]  429 	mov	r7,dpl
-                                    430 ;	./src/N76_uart0.c:30: clrb(SCON, TI);
-      00002F 53 98 FD         [24]  431 	anl	_scon,#0xfd
-                                    432 ;	./src/N76_uart0.c:31: SBUF = val;
-      000032 8F 99            [24]  433 	mov	_sbuf,r7
-                                    434 ;	./src/N76_uart0.c:32: while (inbit(SCON, TI) == 0)
-      000034                        435 00101$:
-      000034 74 02            [12]  436 	mov	a,#0x02
-      000036 55 98            [12]  437 	anl	a,_scon
-      000038 C3               [12]  438 	clr	c
-      000039 13               [12]  439 	rrc	a
-      00003A 60 F8            [24]  440 	jz	00101$
-                                    441 ;	./src/N76_uart0.c:34: }
-      00003C 22               [24]  442 	ret
+      000029                        426 _UART0_putChar:
+      000029 AF 82            [24]  427 	mov	r7,dpl
+                                    428 ;	./src/N76_uart0.c:30: clrb(SCON, TI);
+      00002B 53 98 FD         [24]  429 	anl	_scon,#0xfd
+                                    430 ;	./src/N76_uart0.c:31: SBUF = val;
+      00002E 8F 99            [24]  431 	mov	_sbuf,r7
+                                    432 ;	./src/N76_uart0.c:32: while (inbit(SCON, TI) == 0)
+      000030                        433 00101$:
+      000030 74 02            [12]  434 	mov	a,#0x02
+      000032 55 98            [12]  435 	anl	a,_scon
+      000034 C3               [12]  436 	clr	c
+      000035 13               [12]  437 	rrc	a
+      000036 60 F8            [24]  438 	jz	00101$
+                                    439 ;	./src/N76_uart0.c:34: }
+      000038 22               [24]  440 	ret
+                                    441 ;------------------------------------------------------------
+                                    442 ;Allocation info for local variables in function 'UART0_print'
                                     443 ;------------------------------------------------------------
-                                    444 ;Allocation info for local variables in function 'UART0_print'
-                                    445 ;------------------------------------------------------------
-                                    446 ;str                       Allocated to registers r5 r6 r7 
-                                    447 ;i                         Allocated to registers r4 
-                                    448 ;------------------------------------------------------------
-                                    449 ;	./src/N76_uart0.c:36: void UART0_print(char *str)
+                                    444 ;str                       Allocated to registers r5 r6 r7 
+                                    445 ;i                         Allocated to registers r4 
+                                    446 ;------------------------------------------------------------
+                                    447 ;	./src/N76_uart0.c:36: void UART0_print(char *str)
+                                    448 ;	-----------------------------------------
+                                    449 ;	 function UART0_print
                                     450 ;	-----------------------------------------
-                                    451 ;	 function UART0_print
-                                    452 ;	-----------------------------------------
-      00003D                        453 _UART0_print:
-      00003D AD 82            [24]  454 	mov	r5,dpl
-      00003F AE 83            [24]  455 	mov	r6,dph
-      000041 AF F0            [24]  456 	mov	r7,b
-                                    457 ;	./src/N76_uart0.c:39: while (str[i] != '\0')
-      000043 7C 00            [12]  458 	mov	r4,#0x00
-      000045                        459 00101$:
-      000045 EC               [12]  460 	mov	a,r4
-      000046 2D               [12]  461 	add	a,r5
-      000047 F9               [12]  462 	mov	r1,a
-      000048 E4               [12]  463 	clr	a
-      000049 3E               [12]  464 	addc	a,r6
-      00004A FA               [12]  465 	mov	r2,a
-      00004B 8F 03            [24]  466 	mov	ar3,r7
-      00004D 89 82            [24]  467 	mov	dpl,r1
-      00004F 8A 83            [24]  468 	mov	dph,r2
-      000051 8B F0            [24]  469 	mov	b,r3
-      000053 12r00r00         [24]  470 	lcall	__gptrget
-      000056 60 2B            [24]  471 	jz	00104$
-                                    472 ;	./src/N76_uart0.c:40: UART0_putChar(str[i++]);
-      000058 8C 03            [24]  473 	mov	ar3,r4
-      00005A 0C               [12]  474 	inc	r4
-      00005B EB               [12]  475 	mov	a,r3
-      00005C 2D               [12]  476 	add	a,r5
-      00005D F9               [12]  477 	mov	r1,a
-      00005E E4               [12]  478 	clr	a
-      00005F 3E               [12]  479 	addc	a,r6
-      000060 FA               [12]  480 	mov	r2,a
-      000061 8F 03            [24]  481 	mov	ar3,r7
-      000063 89 82            [24]  482 	mov	dpl,r1
-      000065 8A 83            [24]  483 	mov	dph,r2
-      000067 8B F0            [24]  484 	mov	b,r3
-      000069 12r00r00         [24]  485 	lcall	__gptrget
-      00006C F5 82            [12]  486 	mov	dpl,a
-      00006E C0 07            [24]  487 	push	ar7
-      000070 C0 06            [24]  488 	push	ar6
-      000072 C0 05            [24]  489 	push	ar5
-      000074 C0 04            [24]  490 	push	ar4
-      000076 12r00r2D         [24]  491 	lcall	_UART0_putChar
-      000079 D0 04            [24]  492 	pop	ar4
-      00007B D0 05            [24]  493 	pop	ar5
-      00007D D0 06            [24]  494 	pop	ar6
-      00007F D0 07            [24]  495 	pop	ar7
-      000081 80 C2            [24]  496 	sjmp	00101$
-      000083                        497 00104$:
-                                    498 ;	./src/N76_uart0.c:41: }
-      000083 22               [24]  499 	ret
-                                    500 ;------------------------------------------------------------
-                                    501 ;Allocation info for local variables in function 'UART0_println'
-                                    502 ;------------------------------------------------------------
-                                    503 ;str                       Allocated to registers r5 r6 r7 
-                                    504 ;------------------------------------------------------------
-                                    505 ;	./src/N76_uart0.c:43: void UART0_println(char *str)
-                                    506 ;	-----------------------------------------
-                                    507 ;	 function UART0_println
-                                    508 ;	-----------------------------------------
-      000084                        509 _UART0_println:
-                                    510 ;	./src/N76_uart0.c:45: UART0_print(str);
-      000084 12r00r3D         [24]  511 	lcall	_UART0_print
-                                    512 ;	./src/N76_uart0.c:46: UART0_print("\r\n");
-      000087 90r00r00         [24]  513 	mov	dptr,#___str_0
-      00008A 75 F0 80         [24]  514 	mov	b,#0x80
-                                    515 ;	./src/N76_uart0.c:47: }
-      00008D 02r00r3D         [24]  516 	ljmp	_UART0_print
-                                    517 ;------------------------------------------------------------
-                                    518 ;Allocation info for local variables in function 'UART0_printNum'
+      000039                        451 _UART0_print:
+      000039 AD 82            [24]  452 	mov	r5,dpl
+      00003B AE 83            [24]  453 	mov	r6,dph
+      00003D AF F0            [24]  454 	mov	r7,b
+                                    455 ;	./src/N76_uart0.c:39: while (str[i] != '\0')
+      00003F 7C 00            [12]  456 	mov	r4,#0x00
+      000041                        457 00101$:
+      000041 EC               [12]  458 	mov	a,r4
+      000042 2D               [12]  459 	add	a,r5
+      000043 F9               [12]  460 	mov	r1,a
+      000044 E4               [12]  461 	clr	a
+      000045 3E               [12]  462 	addc	a,r6
+      000046 FA               [12]  463 	mov	r2,a
+      000047 8F 03            [24]  464 	mov	ar3,r7
+      000049 89 82            [24]  465 	mov	dpl,r1
+      00004B 8A 83            [24]  466 	mov	dph,r2
+      00004D 8B F0            [24]  467 	mov	b,r3
+      00004F 12r00r00         [24]  468 	lcall	__gptrget
+      000052 60 29            [24]  469 	jz	00104$
+                                    470 ;	./src/N76_uart0.c:40: UART0_putChar(str[i++]);
+      000054 EC               [12]  471 	mov	a,r4
+      000055 2D               [12]  472 	add	a,r5
+      000056 F9               [12]  473 	mov	r1,a
+      000057 E4               [12]  474 	clr	a
+      000058 3E               [12]  475 	addc	a,r6
+      000059 FA               [12]  476 	mov	r2,a
+      00005A 8F 03            [24]  477 	mov	ar3,r7
+      00005C 0C               [12]  478 	inc	r4
+      00005D 89 82            [24]  479 	mov	dpl,r1
+      00005F 8A 83            [24]  480 	mov	dph,r2
+      000061 8B F0            [24]  481 	mov	b,r3
+      000063 12r00r00         [24]  482 	lcall	__gptrget
+      000066 F5 82            [12]  483 	mov	dpl,a
+      000068 C0 07            [24]  484 	push	ar7
+      00006A C0 06            [24]  485 	push	ar6
+      00006C C0 05            [24]  486 	push	ar5
+      00006E C0 04            [24]  487 	push	ar4
+      000070 12r00r29         [24]  488 	lcall	_UART0_putChar
+      000073 D0 04            [24]  489 	pop	ar4
+      000075 D0 05            [24]  490 	pop	ar5
+      000077 D0 06            [24]  491 	pop	ar6
+      000079 D0 07            [24]  492 	pop	ar7
+      00007B 80 C4            [24]  493 	sjmp	00101$
+      00007D                        494 00104$:
+                                    495 ;	./src/N76_uart0.c:41: }
+      00007D 22               [24]  496 	ret
+                                    497 ;------------------------------------------------------------
+                                    498 ;Allocation info for local variables in function 'UART0_println'
+                                    499 ;------------------------------------------------------------
+                                    500 ;str                       Allocated to registers r5 r6 r7 
+                                    501 ;------------------------------------------------------------
+                                    502 ;	./src/N76_uart0.c:43: void UART0_println(char *str)
+                                    503 ;	-----------------------------------------
+                                    504 ;	 function UART0_println
+                                    505 ;	-----------------------------------------
+      00007E                        506 _UART0_println:
+                                    507 ;	./src/N76_uart0.c:45: UART0_print(str);
+      00007E 12r00r39         [24]  508 	lcall	_UART0_print
+                                    509 ;	./src/N76_uart0.c:46: UART0_print("\r\n");
+      000081 90r00r00         [24]  510 	mov	dptr,#___str_0
+      000084 75 F0 80         [24]  511 	mov	b,#0x80
+                                    512 ;	./src/N76_uart0.c:47: }
+      000087 02r00r39         [24]  513 	ljmp	_UART0_print
+                                    514 ;------------------------------------------------------------
+                                    515 ;Allocation info for local variables in function 'UART0_printNum'
+                                    516 ;------------------------------------------------------------
+                                    517 ;num                       Allocated to registers r4 r5 r6 r7 
+                                    518 ;dis                       Allocated with name '_UART0_printNum_dis_65536_34'
                                     519 ;------------------------------------------------------------
-                                    520 ;num                       Allocated to registers r4 r5 r6 r7 
-                                    521 ;dis                       Allocated with name '_UART0_printNum_dis_65536_30'
-                                    522 ;------------------------------------------------------------
-                                    523 ;	./src/N76_uart0.c:49: void UART0_printNum(long num)
-                                    524 ;	-----------------------------------------
-                                    525 ;	 function UART0_printNum
-                                    526 ;	-----------------------------------------
-      000090                        527 _UART0_printNum:
-      000090 AC 82            [24]  528 	mov	r4,dpl
-      000092 AD 83            [24]  529 	mov	r5,dph
-      000094 AE F0            [24]  530 	mov	r6,b
-      000096 FF               [12]  531 	mov	r7,a
-                                    532 ;	./src/N76_uart0.c:52: sprintf(dis, "%li", num);
-      000097 C0 04            [24]  533 	push	ar4
-      000099 C0 05            [24]  534 	push	ar5
-      00009B C0 06            [24]  535 	push	ar6
-      00009D C0 07            [24]  536 	push	ar7
-      00009F 74r03            [12]  537 	mov	a,#___str_1
-      0000A1 C0 E0            [24]  538 	push	acc
-      0000A3 74s00            [12]  539 	mov	a,#(___str_1 >> 8)
-      0000A5 C0 E0            [24]  540 	push	acc
-      0000A7 74 80            [12]  541 	mov	a,#0x80
-      0000A9 C0 E0            [24]  542 	push	acc
-      0000AB 74r00            [12]  543 	mov	a,#_UART0_printNum_dis_65536_30
-      0000AD C0 E0            [24]  544 	push	acc
-      0000AF 74s00            [12]  545 	mov	a,#(_UART0_printNum_dis_65536_30 >> 8)
-      0000B1 C0 E0            [24]  546 	push	acc
-      0000B3 74 40            [12]  547 	mov	a,#0x40
-      0000B5 C0 E0            [24]  548 	push	acc
-      0000B7 12r00r00         [24]  549 	lcall	_sprintf
-      0000BA E5 81            [12]  550 	mov	a,sp
-      0000BC 24 F6            [12]  551 	add	a,#0xf6
-      0000BE F5 81            [12]  552 	mov	sp,a
-                                    553 ;	./src/N76_uart0.c:53: UART0_print(dis);
-      0000C0 90r00r00         [24]  554 	mov	dptr,#_UART0_printNum_dis_65536_30
-      0000C3 75 F0 40         [24]  555 	mov	b,#0x40
-                                    556 ;	./src/N76_uart0.c:54: }
-      0000C6 02r00r3D         [24]  557 	ljmp	_UART0_print
-                                    558 	.area CSEG    (CODE)
-                                    559 	.area CONST   (CODE)
-      000000                        560 ___str_0:
-      000000 0D                     561 	.db 0x0d
-      000001 0A                     562 	.db 0x0a
-      000002 00                     563 	.db 0x00
+                                    520 ;	./src/N76_uart0.c:49: void UART0_printNum(long num)
+                                    521 ;	-----------------------------------------
+                                    522 ;	 function UART0_printNum
+                                    523 ;	-----------------------------------------
+      00008A                        524 _UART0_printNum:
+      00008A AC 82            [24]  525 	mov	r4,dpl
+      00008C AD 83            [24]  526 	mov	r5,dph
+      00008E AE F0            [24]  527 	mov	r6,b
+      000090 FF               [12]  528 	mov	r7,a
+                                    529 ;	./src/N76_uart0.c:52: sprintf(dis, "%li", num);
+      000091 C0 04            [24]  530 	push	ar4
+      000093 C0 05            [24]  531 	push	ar5
+      000095 C0 06            [24]  532 	push	ar6
+      000097 C0 07            [24]  533 	push	ar7
+      000099 74r03            [12]  534 	mov	a,#___str_1
+      00009B C0 E0            [24]  535 	push	acc
+      00009D 74s00            [12]  536 	mov	a,#(___str_1 >> 8)
+      00009F C0 E0            [24]  537 	push	acc
+      0000A1 74 80            [12]  538 	mov	a,#0x80
+      0000A3 C0 E0            [24]  539 	push	acc
+      0000A5 74r00            [12]  540 	mov	a,#_UART0_printNum_dis_65536_34
+      0000A7 C0 E0            [24]  541 	push	acc
+      0000A9 74s00            [12]  542 	mov	a,#(_UART0_printNum_dis_65536_34 >> 8)
+      0000AB C0 E0            [24]  543 	push	acc
+      0000AD 74 40            [12]  544 	mov	a,#0x40
+      0000AF C0 E0            [24]  545 	push	acc
+      0000B1 12r00r00         [24]  546 	lcall	_sprintf
+      0000B4 E5 81            [12]  547 	mov	a,sp
+      0000B6 24 F6            [12]  548 	add	a,#0xf6
+      0000B8 F5 81            [12]  549 	mov	sp,a
+                                    550 ;	./src/N76_uart0.c:53: UART0_print(dis);
+      0000BA 90r00r00         [24]  551 	mov	dptr,#_UART0_printNum_dis_65536_34
+      0000BD 75 F0 40         [24]  552 	mov	b,#0x40
+                                    553 ;	./src/N76_uart0.c:54: }
+      0000C0 02r00r39         [24]  554 	ljmp	_UART0_print
+                                    555 	.area CSEG    (CODE)
+                                    556 	.area CONST   (CODE)
+                                    557 	.area CONST   (CODE)
+      000000                        558 ___str_0:
+      000000 0D                     559 	.db 0x0d
+      000001 0A                     560 	.db 0x0a
+      000002 00                     561 	.db 0x00
+                                    562 	.area CSEG    (CODE)
+                                    563 	.area CONST   (CODE)
       000003                        564 ___str_1:
       000003 25 6C 69               565 	.ascii "%li"
       000006 00                     566 	.db 0x00
-                                    567 	.area XINIT   (CODE)
-                                    568 	.area CABS    (ABS,CODE)
+                                    567 	.area CSEG    (CODE)
+                                    568 	.area XINIT   (CODE)
+                                    569 	.area CABS    (ABS,CODE)

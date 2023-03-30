@@ -74,15 +74,15 @@ C:   0000005F  s_GSINIT
 C:   0000005F  s_GSINIT5                       
 C:   00000062  s_GSFINAL                       
 C:   00000065  s_CSEG                          
-C:   00000075  s_OSEG                          
-C:   00000079  s_ISEG                          
-C:   0000007F  s_SSEG                          
+C:   00000069  s_OSEG                          
+C:   0000006D  s_ISEG                          
+C:   00000073  s_SSEG                          
 C:   00000080  l_DSEG                          
-C:   00000081  l_SSEG                          
+C:   0000008D  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   00001018  l_CSEG                          
-C:   0000107D  s_CONST                         
-C:   00001098  s_XINIT                         
+C:   00001066  l_CSEG                          
+C:   000010CB  s_CONST                         
+C:   000010E6  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -283,45 +283,40 @@ DSEG                                00000000    00000080 =         128. bytes (R
      00000019  _setTime_PARM_5                    Test_I2C
      0000001A  _setTime_PARM_6                    Test_I2C
      0000001B  _setTime_PARM_7                    Test_I2C
-     00000030  _t                                 N76_I2C
-     00000031  _rxBufferIndex                     N76_I2C
-     00000032  _rxBufferLength                    N76_I2C
-     00000033  _rxBuffer                          N76_I2C
-     0000003A  _txBufferIndex                     N76_I2C
-     0000003B  _txBufferLength                    N76_I2C
-     0000003C  _txBuffer                          N76_I2C
-     00000043  _I2C_writeBuffer_PARM_2            N76_I2C
-     00000044  _I2C_requestFrom_PARM_2            N76_I2C
-     00000045  _vsprintf_PARM_2                   sprintf
-     00000048  _vsprintf_PARM_3                   sprintf
-     0000004C  _bp                                _bp
-     0000005A  __print_format_PARM_2              printf_large
-     0000005D  __print_format_PARM_3              printf_large
-     00000060  __print_format_PARM_4              printf_large
+     0000001C  _t                                 N76_I2C
+     0000001D  _I2C_writeBuffer_PARM_2            N76_I2C
+     0000001E  _I2C_requestFrom_PARM_2            N76_I2C
+     00000033  _vsprintf_PARM_2                   sprintf
+     00000036  _vsprintf_PARM_3                   sprintf
+     0000003A  _bp                                _bp
+     00000048  __print_format_PARM_2              printf_large
+     0000004B  __print_format_PARM_3              printf_large
+     0000004E  __print_format_PARM_4              printf_large
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-OSEG                                00000075    00000004 =           4. bytes (REL,OVR)
+OSEG                                00000069    00000004 =           4. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000075  __divsint_PARM_2                   _divuint
-     00000075  __divuint_PARM_2                   _divuint
-     00000075  __gptrput_PARM_2                   _gptrput
-     00000075  __modsint_PARM_2                   _moduint
-     00000075  __moduint_PARM_2                   _moduint
-     00000075  __mulint_PARM_2                    _mulint
-     00000075  __mullong_PARM_2                   _mullong
+     00000069  __divsint_PARM_2                   _divuint
+     00000069  __divuint_PARM_2                   _divuint
+     00000069  __gptrput_PARM_2                   _gptrput
+     00000069  __modsint_PARM_2                   _moduint
+     00000069  __moduint_PARM_2                   _moduint
+     00000069  __mulint_PARM_2                    _mulint
+     00000069  __mullong_PARM_2                   _mullong
+     00000069  _xRamWrite_PARM_2                  include
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-ISEG                                00000079    00000006 =           6. bytes (REL,CON)
+ISEG                                0000006D    00000006 =           6. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -330,11 +325,11 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-SSEG                                0000007F    00000081 =         129. bytes (REL,OVR)
+SSEG                                00000073    0000008D =         141. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000007F  __start__stack                     Test_I2C
+     00000073  __start__stack                     Test_I2C
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
 Hexadecimal  [32-Bits]
@@ -413,108 +408,111 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000065    00001018 =        4120. bytes (REL,CON,CODE)
+CSEG                                00000065    00001066 =        4198. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000065  _main                              Test_I2C
 C:   00000097  _readDS1307                        Test_I2C
 C:   00000129  _bcd2dec                           Test_I2C
-C:   00000173  _dec2bcd                           Test_I2C
-C:   000001BF  _digitalClockDisplay               Test_I2C
-C:   0000023D  _printDigits                       Test_I2C
-C:   0000027C  _setTime                           Test_I2C
-C:   000002D3  _UART0_begin                       N76_uart0
-C:   00000300  _UART0_putChar                     N76_uart0
-C:   00000310  _UART0_print                       N76_uart0
-C:   00000357  _UART0_println                     N76_uart0
-C:   00000363  _UART0_printNum                    N76_uart0
-C:   0000039C  _timeOut                           N76_I2C
-C:   000003B5  _I2C_begin                         N76_I2C
-C:   000003C8  _I2C_beginTransmission             N76_I2C
-C:   0000041D  _I2C_write                         N76_I2C
-C:   0000042D  _I2C_writeBuffer                   N76_I2C
-C:   00000465  _I2C_endTransmission               N76_I2C
-C:   000004BC  _I2C_requestFrom                   N76_I2C
-C:   000005A4  _I2C_read                          N76_I2C
-C:   000005B9  _I2C_available                     N76_I2C
-C:   000005CB  __delay_ms                         include
-C:   0000060B  __delay_us                         include
-C:   0000065F  __mulint                           _mulint
-C:   0000065F  __mulint_dummy                     _mulint
-C:   0000067C  __mullong                          _mullong
-C:   0000067C  __mullong_dummy                    _mullong
-C:   000006EA  __moduint                          _moduint
-C:   00000737  __divuint                          _divuint
-C:   000007D0  _vsprintf                          sprintf
-C:   0000080D  _sprintf                           sprintf
-C:   000008FF  __print_format                     printf_large
-C:   00000FBC  _strlen                            _strlen
-C:   00000FD4  __gptrget                          _gptrget
-C:   00000FF0  __modsint                          _modsint
-C:   00001026  __divsint                          _divsint
-C:   0000105E  __sdcc_external_startup            _startup
-C:   00001062  __gptrput                          _gptrput
-
+C:   0000015F  _dec2bcd                           Test_I2C
+C:   000001AB  _digitalClockDisplay               Test_I2C
+C:   00000229  _printDigits                       Test_I2C
+C:   00000268  _setTime                           Test_I2C
+C:   000002BF  _timeOut                           N76_I2C
+C:   000002D8  _I2C_begin                         N76_I2C
+C:   000002EB  _I2C_beginTransmission             N76_I2C
+C:   0000034C  _I2C_write                         N76_I2C
+C:   00000382  _I2C_writeBuffer                   N76_I2C
+C:   000003BA  _I2C_endTransmission               N76_I2C
+C:   00000430  _I2C_requestFrom                   N76_I2C
+C:   00000555  _I2C_read                          N76_I2C
+C:   0000059C  _I2C_available                     N76_I2C
+C:   000005C3  _UART0_begin                       N76_uart0
+C:   000005EC  _UART0_putChar                     N76_uart0
+C:   000005FC  _UART0_print                       N76_uart0
+C:   00000641  _UART0_println                     N76_uart0
+C:   0000064D  _UART0_printNum                    N76_uart0
+C:   00000686  __delay_ms                         include
+C:   000006C0  __delay_us                         include
+C:   00000714  _xRamRead                          include
+C:   00000718  _xRamWrite                         include
+C:   0000071C  _xRamInc                           include
+C:   00000722  _xRamDec                           include
+C:   00000728  __mulint                           _mulint
+C:   00000728  __mulint_dummy                     _mulint
+C:   00000745  __mullong                          _mullong
+C:   00000745  __mullong_dummy                    _mullong
+C:   000007B3  __moduint                          _moduint
+C:   00000800  __divuint                          _divuint
+C:   00000899  _vsprintf                          sprintf
+C:   000008D6  _sprintf                           sprintf
+C:   000009BC  __print_format                     printf_large
+C:   0000100A  _strlen                            _strlen
+C:   00001022  __gptrget                          _gptrget
+C:   0000103E  __modsint                          _modsint
+C:   00001074  __divsint                          _divsint
+C:   000010AC  __sdcc_external_startup            _startup
+C:   000010B0  __gptrput                          _gptrput
 ASxxxx Linker V03.00 + NoICE + sdld,  page 19.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               0000107D    0000001B =          27. bytes (REL,CON,CODE)
+CONST                               000010CB    0000001B =          27. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   0000107D  _DS1307                            Test_I2C
-C:   0000107E  _NumberOfFields                    Test_I2C
+C:   000010CB  _DS1307                            Test_I2C
+C:   000010CC  _NumberOfFields                    Test_I2C
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
 
 Files Linked                              [ module(s) ]
 
 ./output/Test_I2C.rel                     [  ]
-./output/N76_uart0.rel                    [  ]
 ./output/N76_I2C.rel                      [  ]
+./output/N76_uart0.rel                    [  ]
 ./output/include.rel                      [  ]
 
 
 Libraries Linked                          [ object file ]
 
-/usr/bin/../share/sdcc/lib/small/mcs51.lib
+C:\Program Files\SDCC\bin\..\lib\small/mcs51.lib
                                           [ crtclear.rel ]
-/usr/bin/../share/sdcc/lib/small/mcs51.lib
+C:\Program Files\SDCC\bin\..\lib\small/mcs51.lib
                                           [ crtxinit.rel ]
-/usr/bin/../share/sdcc/lib/small/libint.lib
+C:\Program Files\SDCC\bin\..\lib\small/libint.lib
                                           [ _mulint.rel ]
-/usr/bin/../share/sdcc/lib/small/liblong.lib
+C:\Program Files\SDCC\bin\..\lib\small/liblong.lib
                                           [ _mullong.rel ]
-/usr/bin/../share/sdcc/lib/small/libint.lib
+C:\Program Files\SDCC\bin\..\lib\small/libint.lib
                                           [ _moduint.rel ]
-/usr/bin/../share/sdcc/lib/small/mcs51.lib
+C:\Program Files\SDCC\bin\..\lib\small/mcs51.lib
                                           [ crtxclear.rel ]
-/usr/bin/../share/sdcc/lib/small/libint.lib
+C:\Program Files\SDCC\bin\..\lib\small/libint.lib
                                           [ _divuint.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ sprintf.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ _bp.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ printf_large.rel ]
-/usr/bin/../share/sdcc/lib/small/mcs51.lib
+C:\Program Files\SDCC\bin\..\lib\small/mcs51.lib
                                           [ crtpagesfr.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ _strlen.rel ]
-/usr/bin/../share/sdcc/lib/small/mcs51.lib
+C:\Program Files\SDCC\bin\..\lib\small/mcs51.lib
                                           [ crtstart.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ _gptrget.rel ]
-/usr/bin/../share/sdcc/lib/small/libint.lib
+C:\Program Files\SDCC\bin\..\lib\small/libint.lib
                                           [ _modsint.rel ]
-/usr/bin/../share/sdcc/lib/small/libint.lib
+C:\Program Files\SDCC\bin\..\lib\small/libint.lib
                                           [ _divsint.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ _startup.rel ]
-/usr/bin/../share/sdcc/lib/small/libsdcc.lib
+C:\Program Files\SDCC\bin\..\lib\small/libsdcc.lib
                                           [ _gptrput.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 21.

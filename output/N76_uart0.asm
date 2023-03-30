@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.8.0 #10562 (Linux)
+; Version 4.2.0 #13081 (MINGW64)
 ;--------------------------------------------------------
 	.module N76_uart0
 	.optsdcc -mmcs51 --model-small
@@ -305,10 +305,10 @@ _eiph1	=	0x00ff
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
-_UART0_printNum_dis_65536_30:
+_UART0_printNum_dis_65536_34:
 	.ds 20
 ;--------------------------------------------------------
-; overlayable items in internal ram 
+; overlayable items in internal ram
 ;--------------------------------------------------------
 	.area	OSEG    (OVR,DATA)
 	.area	OSEG    (OVR,DATA)
@@ -401,9 +401,7 @@ _UART0_begin:
 ;	./src/N76_uart0.c:20: setb(SCON, REN); // UART0 Mode1,REN=1,TI=1
 	orl	_scon,#0x10
 ;	./src/N76_uart0.c:21: TMOD |= 0x20;	 // Timer1 Mode1
-	mov	r6,_tmod
-	orl	ar6,#0x20
-	mov	_tmod,r6
+	orl	_tmod,#0x20
 ;	./src/N76_uart0.c:22: setb(PCON, SMOD);
 	orl	_pcon,#0x80
 ;	./src/N76_uart0.c:23: setb(CKCON, T1M);
@@ -470,15 +468,14 @@ _UART0_print:
 	lcall	__gptrget
 	jz	00104$
 ;	./src/N76_uart0.c:40: UART0_putChar(str[i++]);
-	mov	ar3,r4
-	inc	r4
-	mov	a,r3
+	mov	a,r4
 	add	a,r5
 	mov	r1,a
 	clr	a
 	addc	a,r6
 	mov	r2,a
 	mov	ar3,r7
+	inc	r4
 	mov	dpl,r1
 	mov	dph,r2
 	mov	b,r3
@@ -518,7 +515,7 @@ _UART0_println:
 ;Allocation info for local variables in function 'UART0_printNum'
 ;------------------------------------------------------------
 ;num                       Allocated to registers r4 r5 r6 r7 
-;dis                       Allocated with name '_UART0_printNum_dis_65536_30'
+;dis                       Allocated with name '_UART0_printNum_dis_65536_34'
 ;------------------------------------------------------------
 ;	./src/N76_uart0.c:49: void UART0_printNum(long num)
 ;	-----------------------------------------
@@ -540,9 +537,9 @@ _UART0_printNum:
 	push	acc
 	mov	a,#0x80
 	push	acc
-	mov	a,#_UART0_printNum_dis_65536_30
+	mov	a,#_UART0_printNum_dis_65536_34
 	push	acc
-	mov	a,#(_UART0_printNum_dis_65536_30 >> 8)
+	mov	a,#(_UART0_printNum_dis_65536_34 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
@@ -551,18 +548,22 @@ _UART0_printNum:
 	add	a,#0xf6
 	mov	sp,a
 ;	./src/N76_uart0.c:53: UART0_print(dis);
-	mov	dptr,#_UART0_printNum_dis_65536_30
+	mov	dptr,#_UART0_printNum_dis_65536_34
 	mov	b,#0x40
 ;	./src/N76_uart0.c:54: }
 	ljmp	_UART0_print
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
+	.area CONST   (CODE)
 ___str_0:
 	.db 0x0d
 	.db 0x0a
 	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
 ___str_1:
 	.ascii "%li"
 	.db 0x00
+	.area CSEG    (CODE)
 	.area XINIT   (CODE)
 	.area CABS    (ABS,CODE)

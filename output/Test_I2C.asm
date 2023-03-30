@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.8.0 #10562 (Linux)
+; Version 4.2.0 #13081 (MINGW64)
 ;--------------------------------------------------------
 	.module Test_I2C
 	.optsdcc -mmcs51 --model-small
@@ -359,10 +359,10 @@ _setTime_PARM_6:
 _setTime_PARM_7:
 	.ds 1
 ;--------------------------------------------------------
-; overlayable items in internal ram 
+; overlayable items in internal ram
 ;--------------------------------------------------------
 ;--------------------------------------------------------
-; Stack segment in internal ram 
+; Stack segment in internal ram
 ;--------------------------------------------------------
 	.area	SSEG
 __start__stack:
@@ -408,7 +408,7 @@ __start__stack:
 	.area GSFINAL (CODE)
 	.area CSEG    (CODE)
 ;--------------------------------------------------------
-; interrupt vector 
+; interrupt vector
 ;--------------------------------------------------------
 	.area HOME    (CODE)
 __interrupt_vect:
@@ -458,14 +458,14 @@ _main:
 	ar0 = 0x00
 ;	./Test_I2C.c:33: I2C_begin();
 	lcall	_I2C_begin
-;	./Test_I2C.c:35: setTime(12, 30, 45, 1, 8, 2, 15); // 12:30:45 CN 08-02-2015
-	mov	_setTime_PARM_2,#0x1e
+;	./Test_I2C.c:35: setTime(19, 37, 45, 5, 30, 3, 23); // 12:30:45 CN 08-02-2015
+	mov	_setTime_PARM_2,#0x25
 	mov	_setTime_PARM_3,#0x2d
-	mov	_setTime_PARM_4,#0x01
-	mov	_setTime_PARM_5,#0x08
-	mov	_setTime_PARM_6,#0x02
-	mov	_setTime_PARM_7,#0x0f
-	mov	dpl,#0x0c
+	mov	_setTime_PARM_4,#0x05
+	mov	_setTime_PARM_5,#0x1e
+	mov	_setTime_PARM_6,#0x03
+	mov	_setTime_PARM_7,#0x17
+	mov	dpl,#0x13
 	lcall	_setTime
 ;	./Test_I2C.c:36: UART0_begin(BAUD_115200);
 	mov	dpl,#0xf7
@@ -592,21 +592,12 @@ _bcd2dec:
 	mov	r5,dph
 	pop	ar6
 	pop	ar7
-	mov	__modsint_PARM_2,#0x10
-	mov	(__modsint_PARM_2 + 1),#0x00
-	mov	dpl,r7
-	mov	dph,r6
-	push	ar5
-	push	ar4
-	lcall	__modsint
-	mov	r6,dpl
-	mov	r7,dph
-	pop	ar4
-	pop	ar5
-	mov	a,r6
+	anl	ar7,#0x0f
+	mov	r6,#0x00
+	mov	a,r7
 	add	a,r4
 	mov	dpl,a
-	mov	a,r7
+	mov	a,r6
 	addc	a,r5
 	mov	dph,a
 ;	./Test_I2C.c:68: }
@@ -856,16 +847,24 @@ _DS1307:
 	.db #0x68	; 104	'h'
 _NumberOfFields:
 	.db #0x07	; 7
+	.area CONST   (CODE)
 ___str_0:
 	.ascii " "
 	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
 ___str_1:
 	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
 ___str_2:
 	.ascii ":"
 	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
 ___str_3:
 	.ascii "0"
 	.db 0x00
+	.area CSEG    (CODE)
 	.area XINIT   (CODE)
 	.area CABS    (ABS,CODE)
