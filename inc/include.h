@@ -39,15 +39,23 @@ typedef unsigned long 		uint32_t;
 	reg &= ~(1 << bit);  \
 	sei();
 
-#define BIN		2
-#define DEC		10
-#define HEX		16
+#define BIN						2
+#define DEC						10
+#define HEX						16
 
 // pin mode
-#define QUASI			0x00
-#define OUTPUT_PP		0x01
-#define INPUT			0x10
-#define OUTPUT_OD		0x11
+#define QUASI					0x00
+#define OUTPUT_PP				0x01
+#define INPUT					0x10
+#define OUTPUT_OD				0x11
+
+
+#define XRAM_I2C_TX_IDX			0x02BC
+#define XRAM_I2C_TX_LEN			0x02BD
+#define XRAM_I2C_RX_IDX			0x02BE
+#define XRAM_I2C_RX_LEN			0x02BF
+#define XRAM_I2C_TX_BUFF		0x02C0
+#define XRAM_I2C_RX_BUFF		0x02E0
 
 #define CONCAT2(a,b) a##b
 
@@ -58,3 +66,7 @@ typedef unsigned long 		uint32_t;
 
 void _delay_ms(uint32_t  __ms);
 void _delay_us(uint32_t _us);
+uint8_t xRamRead(uint16_t addr);
+void xRamWrite(uint16_t addr, uint8_t value);
+uint8_t xRamInc(uint16_t addr);
+uint8_t xRamDec(uint16_t addr);

@@ -9,13 +9,13 @@
 
 uint8_t t = 0;
 
-uint8_t rxBufferIndex;
-uint8_t rxBufferLength;
-uint8_t rxBuffer[7];
+// uint8_t XRAM_I2C_RX_IDX;
+// uint8_t XRAM_I2C_RX_LEN;
+// uint8_t rxBuffer[7];
 
-uint8_t txBufferIndex;
-uint8_t txBufferLength;
-uint8_t txBuffer[7];
+// uint8_t XRAM_I2C_TX_IDX;
+// uint8_t XRAM_I2C_TX_LEN;
+// uint8_t txBuffer[7];
 
 uint8_t timeOut(void)
 {
@@ -41,8 +41,8 @@ void I2C_begin()
 
 uint8_t I2C_beginTransmission(uint8_t addr)
 {
-	txBufferIndex = 0;
-	txBufferLength = 0;
+	xRamWrite(XRAM_I2C_TX_IDX, 0);
+	xRamWrite(XRAM_I2C_TX_LEN, 0);
 
 	// check I2C is free?
 	/*t = 0;
@@ -77,8 +77,10 @@ uint8_t I2C_beginTransmission(uint8_t addr)
 
 void I2C_write(uint8_t data)
 {
-	txBuffer[txBufferIndex++] = data;
-	txBufferLength = txBufferIndex;
+	// txBuffer[xRamRead(XRAM_I2C_TX_IDX)] = data;
+	xRamWrite(xRamRead(XRAM_I2C_TX_IDX)+XRAM_I2C_TX_BUFF,data);
+	xRamInc(XRAM_I2C_TX_IDX);
+	xRamWrite(XRAM_I2C_TX_LEN, xRamRead(XRAM_I2C_TX_IDX));
 }
 
 void I2C_writeBuffer(uint8_t *data, uint8_t len)
@@ -94,10 +96,11 @@ uint8_t I2C_endTransmission(void)
 {
 	uint8_t i;
 
-	for (i = 0; i < txBufferLength; ++i)
+	for (i = 0; i < xRamRead(XRAM_I2C_TX_LEN); ++i)
 	{
 		// send 1 byte data register address to read
-		I2DAT = txBuffer[i];
+		// I2DAT = txBuffer[i];
+		I2DAT = xRamRead(XRAM_I2C_TX_BUFF+i);
 
 		// wait until the transfer finished - EV 8_2
 		t = 0;
@@ -129,8 +132,8 @@ uint8_t I2C_endTransmission(void)
 uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 {
 	uint8_t i;
-	rxBufferLength = len;
-	rxBufferIndex = 0;
+	xRamWrite(XRAM_I2C_RX_LEN, len);
+	xRamWrite(XRAM_I2C_RX_IDX, 0);
 
 	// check I2C is free?
 	/*t = 0;
@@ -160,7 +163,7 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 			return 3;
 
 	// receive len - 1 byte
-	for (i = 0; i < rxBufferLength - 1; i++)
+	for (i = 0; i < xRamRead(XRAM_I2C_RX_LEN) - 1; i++)
 	{
 		// Poll RXNE
 
@@ -171,7 +174,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 		while (inbit(I2CON, SI) == 0)
 			if (timeOut())
 				return 4;
-		rxBuffer[i] = I2DAT;
+		// rxBuffer[i] = I2DAT;
+		xRamWrite(XRAM_I2C_RX_BUFF+i,I2DAT);
 	}
 
 	// clear ACK
@@ -182,7 +186,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 	while (inbit(I2CON, SI) == 0)
 		if (timeOut())
 			return 5;
-	rxBuffer[rxBufferLength - 1] = I2DAT;
+	// rxBuffer[xRamRead(XRAM_I2C_RX_LEN) - 1] = I2DAT;
+	xRamWrite(XRAM_I2C_RX_BUFF+xRamRead(XRAM_I2C_RX_LEN) - 1,I2DAT);
 
 	// set stop after ADDR is cleared
 	setb(I2CON, STO);
@@ -204,15 +209,16 @@ uint8_t I2C_read(void)
 {
 	int8_t value = -1;
 	// get each successive byte on each call
-	if (rxBufferIndex < rxBufferLength)
+	if (xRamRead(XRAM_I2C_RX_IDX) < xRamRead(XRAM_I2C_RX_LEN))
 	{
-		value = rxBuffer[rxBufferIndex];
-		++rxBufferIndex;
+		// value = rxBuffer[xRamRead(XRAM_I2C_RX_IDX)];
+		value = xRamRead(xRamRead(XRAM_I2C_RX_IDX)+XRAM_I2C_RX_BUFF);
+		xRamInc(XRAM_I2C_RX_IDX);
 	}
 	return value;
 }
 
 int16_t I2C_available()
 {
-	return rxBufferLength - rxBufferIndex;
+	return xRamRead(XRAM_I2C_RX_LEN) - xRamRead(XRAM_I2C_RX_IDX);
 }

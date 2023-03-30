@@ -32,7 +32,7 @@ void main(void)
 
 	I2C_begin();
 	/* cài đặt thời gian cho module */
-	setTime(12, 30, 45, 1, 8, 2, 15); // 12:30:45 CN 08-02-2015
+	setTime(19, 37, 45, 5, 30, 3, 23); // 12:30:45 CN 08-02-2015
 	UART0_begin(BAUD_115200);
 	while (1)
 	{

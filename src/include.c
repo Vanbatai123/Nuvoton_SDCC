@@ -33,3 +33,30 @@ void _delay_us(uint32_t _us)
 	}
 	
 }
+
+uint8_t xRamRead(uint16_t addr)
+{
+	__asm__("MOVX A,@DPTR");
+	__asm__("MOV DPL,A");
+}
+
+void xRamWrite(uint16_t addr, uint8_t value)
+{
+	__asm__("MOV A,_xRamWrite_PARM_2");
+	__asm__("MOVX @DPTR,A");
+}
+
+uint8_t xRamInc(uint16_t addr)
+{
+	__asm__("MOVX A,@DPTR");
+	__asm__("INC A");
+	__asm__("MOVX @DPTR,A");
+	__asm__("MOV DPL,A");
+}
+uint8_t xRamDec(uint16_t addr)
+{
+	__asm__("MOVX A,@DPTR");
+	__asm__("DEC A");
+	__asm__("MOVX @DPTR,A");
+	__asm__("MOV DPL,A");
+}
