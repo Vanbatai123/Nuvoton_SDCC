@@ -3,6 +3,8 @@
 		"*.html": "css",
 		"include.h": "c",
 		"n76_uart0.h": "c",
-		"Pin_Int.C": "cpp"
+		"Pin_Int.C": "cpp",
+		"n76_pinint.h": "c",
+		"ADC.C": "cpp"
 	}
 }

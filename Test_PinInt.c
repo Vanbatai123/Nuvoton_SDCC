@@ -1,5 +1,5 @@
 /*
- * test I2C project
+ * test Pin interrupt
  * Created: 2021/10/23
  * Author: taivb
  */
