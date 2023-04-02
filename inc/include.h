@@ -134,7 +134,3 @@ Enable each bit rasing edge trig mode
 
 void _delay_ms(uint32_t  __ms);
 void _delay_us(uint32_t _us);
-uint8_t xRamRead(uint16_t addr);
-void xRamWrite(uint16_t addr, uint8_t value);
-uint8_t xRamInc(uint16_t addr);
-uint8_t xRamDec(uint16_t addr);
