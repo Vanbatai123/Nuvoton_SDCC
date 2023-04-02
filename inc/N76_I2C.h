@@ -19,6 +19,8 @@
 // master
 #define I2C_MT_START	0x01
 
+#define I2C_BUFFER_LEN	32
+
 void I2C_begin();
 uint8_t I2C_beginTransmission(uint8_t addr);
 void I2C_write(uint8_t data);
