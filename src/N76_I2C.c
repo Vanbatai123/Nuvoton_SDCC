@@ -77,8 +77,8 @@ uint8_t I2C_beginTransmission(uint8_t addr)
 
 void I2C_write(uint8_t data)
 {
-    txBuffer[txBufferIndex++] = data;
-    txBufferLength = txBufferIndex;
+	txBuffer[txBufferIndex++] = data;
+	txBufferLength = txBufferIndex;
 }
 
 void I2C_writeBuffer(uint8_t *data, uint8_t len)
@@ -109,7 +109,6 @@ uint8_t I2C_endTransmission(void)
 	}
 
 	// set stop condition
-
 	setb(I2CON, STO);
 	clrb(I2CON, SI);
 
@@ -129,8 +128,8 @@ uint8_t I2C_endTransmission(void)
 uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 {
 	uint8_t i;
-    rxBufferLength = len;
-    rxBufferIndex = 0;
+	rxBufferLength = len;
+	rxBufferIndex = 0;
 
 	// check I2C is free?
 	/*t = 0;
@@ -160,7 +159,7 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 			return 3;
 
 	// receive len - 1 byte
-    for (i = 0; i < rxBufferLength - 1; i++)
+	for (i = 0; i < rxBufferLength - 1; i++)
 	{
 		// Poll RXNE
 		setb(I2CON, AA);
@@ -182,7 +181,7 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 	while (inbit(I2CON, SI) == 0)
 		if (timeOut())
 			return 5;
-    rxBuffer[rxBufferLength - 1] = I2DAT;
+	rxBuffer[rxBufferLength - 1] = I2DAT;
 
 	// set stop after ADDR is cleared
 	setb(I2CON, STO);
@@ -202,17 +201,17 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 
 uint8_t I2C_read(void)
 {
-    int8_t value = -1;
-    // get each successive byte on each call
-    if (rxBufferIndex < rxBufferLength)
-    {
-        value = rxBuffer[rxBufferIndex];
-        ++rxBufferIndex;
-    }
-    return value;
+	int8_t value = -1;
+	// get each successive byte on each call
+	if (rxBufferIndex < rxBufferLength)
+	{
+		value = rxBuffer[rxBufferIndex];
+		++rxBufferIndex;
+	}
+	return value;
 }
 
 int16_t I2C_available()
 {
-    return rxBufferLength - rxBufferIndex;
+	return rxBufferLength - rxBufferIndex;
 }
