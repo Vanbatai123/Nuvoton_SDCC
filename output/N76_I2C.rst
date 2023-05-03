@@ -318,10 +318,10 @@
                                     318 ; internal ram data
                                     319 ;--------------------------------------------------------
                                     320 	.area DSEG    (DATA)
-      00000A                        321 _I2C_writeBuffer_PARM_2:
-      00000A                        322 	.ds 1
-      00000B                        323 _I2C_requestFrom_PARM_2:
-      00000B                        324 	.ds 1
+      00001C                        321 _I2C_writeBuffer_PARM_2:
+      00001C                        322 	.ds 1
+      00001D                        323 _I2C_requestFrom_PARM_2:
+      00001D                        324 	.ds 1
                                     325 ;--------------------------------------------------------
                                     326 ; overlayable items in internal ram
                                     327 ;--------------------------------------------------------
@@ -403,7 +403,7 @@
                                     403 ;	-----------------------------------------
                                     404 ;	 function timeOut
                                     405 ;	-----------------------------------------
-      0002BD                        406 _timeOut:
+      00040E                        406 _timeOut:
                            000007   407 	ar7 = 0x07
                            000006   408 	ar6 = 0x06
                            000005   409 	ar5 = 0x05
@@ -413,26 +413,26 @@
                            000001   413 	ar1 = 0x01
                            000000   414 	ar0 = 0x00
                                     415 ;	./src/N76_I2C.c:22: _delay_us(100);
-      0002BD 90 00 64         [24]  416 	mov	dptr,#(0x64&0x00ff)
-      0002C0 E4               [12]  417 	clr	a
-      0002C1 F5 F0            [12]  418 	mov	b,a
-      0002C3 12 01 A5         [24]  419 	lcall	__delay_us
+      00040E 90 00 64         [24]  416 	mov	dptr,#(0x64&0x00ff)
+      000411 E4               [12]  417 	clr	a
+      000412 F5 F0            [12]  418 	mov	b,a
+      000414 12 02 F6         [24]  419 	lcall	__delay_us
                                     420 ;	./src/N76_I2C.c:23: if (++t > 10)
-      0002C6 90 00 45         [24]  421 	mov	dptr,#_t
-      0002C9 E0               [24]  422 	movx	a,@dptr
-      0002CA 24 01            [12]  423 	add	a,#0x01
-      0002CC F0               [24]  424 	movx	@dptr,a
-      0002CD E0               [24]  425 	movx	a,@dptr
-      0002CE 24 F5            [12]  426 	add	a,#0xff - 0x0a
-      0002D0 50 04            [24]  427 	jnc	00102$
+      000417 90 00 45         [24]  421 	mov	dptr,#_t
+      00041A E0               [24]  422 	movx	a,@dptr
+      00041B 24 01            [12]  423 	add	a,#0x01
+      00041D F0               [24]  424 	movx	@dptr,a
+      00041E E0               [24]  425 	movx	a,@dptr
+      00041F 24 F5            [12]  426 	add	a,#0xff - 0x0a
+      000421 50 04            [24]  427 	jnc	00102$
                                     428 ;	./src/N76_I2C.c:24: return 1;
-      0002D2 75 82 01         [24]  429 	mov	dpl,#0x01
-      0002D5 22               [24]  430 	ret
-      0002D6                        431 00102$:
+      000423 75 82 01         [24]  429 	mov	dpl,#0x01
+      000426 22               [24]  430 	ret
+      000427                        431 00102$:
                                     432 ;	./src/N76_I2C.c:25: return 0;
-      0002D6 75 82 00         [24]  433 	mov	dpl,#0x00
+      000427 75 82 00         [24]  433 	mov	dpl,#0x00
                                     434 ;	./src/N76_I2C.c:26: }
-      0002D9 22               [24]  435 	ret
+      00042A 22               [24]  435 	ret
                                     436 ;------------------------------------------------------------
                                     437 ;Allocation info for local variables in function 'I2C_begin'
                                     438 ;------------------------------------------------------------
@@ -440,21 +440,21 @@
                                     440 ;	-----------------------------------------
                                     441 ;	 function I2C_begin
                                     442 ;	-----------------------------------------
-      0002DA                        443 _I2C_begin:
+      00042B                        443 _I2C_begin:
                                     444 ;	./src/N76_I2C.c:30: setb(P1M1, 3); // set P1.3 as open drain
-      0002DA 43 B3 08         [24]  445 	orl	_p1m1,#0x08
+      00042B 43 B3 08         [24]  445 	orl	_p1m1,#0x08
                                     446 ;	./src/N76_I2C.c:31: setb(P1M2, 3);
-      0002DD 43 B4 08         [24]  447 	orl	_p1m2,#0x08
+      00042E 43 B4 08         [24]  447 	orl	_p1m2,#0x08
                                     448 ;	./src/N76_I2C.c:32: setb(P1M1, 4); // set P1.4 as open drain
-      0002E0 43 B3 10         [24]  449 	orl	_p1m1,#0x10
+      000431 43 B3 10         [24]  449 	orl	_p1m1,#0x10
                                     450 ;	./src/N76_I2C.c:33: setb(P1M2, 4);
-      0002E3 43 B4 10         [24]  451 	orl	_p1m2,#0x10
+      000434 43 B4 10         [24]  451 	orl	_p1m2,#0x10
                                     452 ;	./src/N76_I2C.c:36: I2CLK = I2C_CLOCK; // I2C clock = Fsys/(4*(I2CLK+1))
-      0002E6 75 BE 27         [24]  453 	mov	_i2clk,#0x27
+      000437 75 BE 27         [24]  453 	mov	_i2clk,#0x27
                                     454 ;	./src/N76_I2C.c:39: setb(I2CON, I2CEN); // set_I2CEN;
-      0002E9 43 C0 40         [24]  455 	orl	_i2con,#0x40
+      00043A 43 C0 40         [24]  455 	orl	_i2con,#0x40
                                     456 ;	./src/N76_I2C.c:40: }
-      0002EC 22               [24]  457 	ret
+      00043D 22               [24]  457 	ret
                                     458 ;------------------------------------------------------------
                                     459 ;Allocation info for local variables in function 'I2C_beginTransmission'
                                     460 ;------------------------------------------------------------
@@ -464,74 +464,74 @@
                                     464 ;	-----------------------------------------
                                     465 ;	 function I2C_beginTransmission
                                     466 ;	-----------------------------------------
-      0002ED                        467 _I2C_beginTransmission:
-      0002ED AF 82            [24]  468 	mov	r7,dpl
+      00043E                        467 _I2C_beginTransmission:
+      00043E AF 82            [24]  468 	mov	r7,dpl
                                     469 ;	./src/N76_I2C.c:44: txBufferIndex = 0;
-      0002EF 90 00 23         [24]  470 	mov	dptr,#_txBufferIndex
-      0002F2 E4               [12]  471 	clr	a
-      0002F3 F0               [24]  472 	movx	@dptr,a
+      000440 90 00 23         [24]  470 	mov	dptr,#_txBufferIndex
+      000443 E4               [12]  471 	clr	a
+      000444 F0               [24]  472 	movx	@dptr,a
                                     473 ;	./src/N76_I2C.c:45: txBufferLength = 0;
-      0002F4 90 00 24         [24]  474 	mov	dptr,#_txBufferLength
-      0002F7 F0               [24]  475 	movx	@dptr,a
+      000445 90 00 24         [24]  474 	mov	dptr,#_txBufferLength
+      000448 F0               [24]  475 	movx	@dptr,a
                                     476 ;	./src/N76_I2C.c:54: setb(I2CON, STA);
-      0002F8 43 C0 20         [24]  477 	orl	_i2con,#0x20
+      000449 43 C0 20         [24]  477 	orl	_i2con,#0x20
                                     478 ;	./src/N76_I2C.c:55: clrb(I2CON, SI);
-      0002FB 53 C0 F7         [24]  479 	anl	_i2con,#0xf7
+      00044C 53 C0 F7         [24]  479 	anl	_i2con,#0xf7
                                     480 ;	./src/N76_I2C.c:57: t = 0;
-      0002FE 90 00 45         [24]  481 	mov	dptr,#_t
-      000301 E4               [12]  482 	clr	a
-      000302 F0               [24]  483 	movx	@dptr,a
+      00044F 90 00 45         [24]  481 	mov	dptr,#_t
+      000452 E4               [12]  482 	clr	a
+      000453 F0               [24]  483 	movx	@dptr,a
                                     484 ;	./src/N76_I2C.c:59: while (inbit(I2CON, SI) == 0)
-      000303                        485 00103$:
-      000303 74 08            [12]  486 	mov	a,#0x08
-      000305 55 C0            [12]  487 	anl	a,_i2con
-      000307 C4               [12]  488 	swap	a
-      000308 23               [12]  489 	rl	a
-      000309 54 1F            [12]  490 	anl	a,#0x1f
-      00030B FE               [12]  491 	mov	r6,a
-      00030C 70 0F            [24]  492 	jnz	00105$
+      000454                        485 00103$:
+      000454 74 08            [12]  486 	mov	a,#0x08
+      000456 55 C0            [12]  487 	anl	a,_i2con
+      000458 C4               [12]  488 	swap	a
+      000459 23               [12]  489 	rl	a
+      00045A 54 1F            [12]  490 	anl	a,#0x1f
+      00045C FE               [12]  491 	mov	r6,a
+      00045D 70 0F            [24]  492 	jnz	00105$
                                     493 ;	./src/N76_I2C.c:60: if (timeOut())
-      00030E C0 07            [24]  494 	push	ar7
-      000310 12 02 BD         [24]  495 	lcall	_timeOut
-      000313 E5 82            [12]  496 	mov	a,dpl
-      000315 D0 07            [24]  497 	pop	ar7
-      000317 60 EA            [24]  498 	jz	00103$
+      00045F C0 07            [24]  494 	push	ar7
+      000461 12 04 0E         [24]  495 	lcall	_timeOut
+      000464 E5 82            [12]  496 	mov	a,dpl
+      000466 D0 07            [24]  497 	pop	ar7
+      000468 60 EA            [24]  498 	jz	00103$
                                     499 ;	./src/N76_I2C.c:61: return 2;
-      000319 75 82 02         [24]  500 	mov	dpl,#0x02
-      00031C 22               [24]  501 	ret
-      00031D                        502 00105$:
+      00046A 75 82 02         [24]  500 	mov	dpl,#0x02
+      00046D 22               [24]  501 	ret
+      00046E                        502 00105$:
                                     503 ;	./src/N76_I2C.c:65: I2DAT = (addr << 1) | I2C_WRITE;
-      00031D EF               [12]  504 	mov	a,r7
-      00031E 2F               [12]  505 	add	a,r7
-      00031F F5 BC            [12]  506 	mov	_i2dat,a
+      00046E EF               [12]  504 	mov	a,r7
+      00046F 2F               [12]  505 	add	a,r7
+      000470 F5 BC            [12]  506 	mov	_i2dat,a
                                     507 ;	./src/N76_I2C.c:67: t = 0;
-      000321 90 00 45         [24]  508 	mov	dptr,#_t
-      000324 E4               [12]  509 	clr	a
-      000325 F0               [24]  510 	movx	@dptr,a
+      000472 90 00 45         [24]  508 	mov	dptr,#_t
+      000475 E4               [12]  509 	clr	a
+      000476 F0               [24]  510 	movx	@dptr,a
                                     511 ;	./src/N76_I2C.c:69: clrb(I2CON, STA);
-      000326 53 C0 DF         [24]  512 	anl	_i2con,#0xdf
+      000477 53 C0 DF         [24]  512 	anl	_i2con,#0xdf
                                     513 ;	./src/N76_I2C.c:70: clrb(I2CON, SI);
-      000329 53 C0 F7         [24]  514 	anl	_i2con,#0xf7
+      00047A 53 C0 F7         [24]  514 	anl	_i2con,#0xf7
                                     515 ;	./src/N76_I2C.c:71: while (inbit(I2CON, SI) == 0)
-      00032C                        516 00108$:
-      00032C 74 08            [12]  517 	mov	a,#0x08
-      00032E 55 C0            [12]  518 	anl	a,_i2con
-      000330 C4               [12]  519 	swap	a
-      000331 23               [12]  520 	rl	a
-      000332 54 1F            [12]  521 	anl	a,#0x1f
-      000334 70 0B            [24]  522 	jnz	00110$
+      00047D                        516 00108$:
+      00047D 74 08            [12]  517 	mov	a,#0x08
+      00047F 55 C0            [12]  518 	anl	a,_i2con
+      000481 C4               [12]  519 	swap	a
+      000482 23               [12]  520 	rl	a
+      000483 54 1F            [12]  521 	anl	a,#0x1f
+      000485 70 0B            [24]  522 	jnz	00110$
                                     523 ;	./src/N76_I2C.c:72: if (timeOut())
-      000336 12 02 BD         [24]  524 	lcall	_timeOut
-      000339 E5 82            [12]  525 	mov	a,dpl
-      00033B 60 EF            [24]  526 	jz	00108$
+      000487 12 04 0E         [24]  524 	lcall	_timeOut
+      00048A E5 82            [12]  525 	mov	a,dpl
+      00048C 60 EF            [24]  526 	jz	00108$
                                     527 ;	./src/N76_I2C.c:73: return 3;
-      00033D 75 82 03         [24]  528 	mov	dpl,#0x03
-      000340 22               [24]  529 	ret
-      000341                        530 00110$:
+      00048E 75 82 03         [24]  528 	mov	dpl,#0x03
+      000491 22               [24]  529 	ret
+      000492                        530 00110$:
                                     531 ;	./src/N76_I2C.c:75: return 0;
-      000341 75 82 00         [24]  532 	mov	dpl,#0x00
+      000492 75 82 00         [24]  532 	mov	dpl,#0x00
                                     533 ;	./src/N76_I2C.c:76: }
-      000344 22               [24]  534 	ret
+      000495 22               [24]  534 	ret
                                     535 ;------------------------------------------------------------
                                     536 ;Allocation info for local variables in function 'I2C_write'
                                     537 ;------------------------------------------------------------
@@ -541,29 +541,29 @@
                                     541 ;	-----------------------------------------
                                     542 ;	 function I2C_write
                                     543 ;	-----------------------------------------
-      000345                        544 _I2C_write:
-      000345 AF 82            [24]  545 	mov	r7,dpl
+      000496                        544 _I2C_write:
+      000496 AF 82            [24]  545 	mov	r7,dpl
                                     546 ;	./src/N76_I2C.c:80: txBuffer[txBufferIndex++] = data;
-      000347 90 00 23         [24]  547 	mov	dptr,#_txBufferIndex
-      00034A E0               [24]  548 	movx	a,@dptr
-      00034B FE               [12]  549 	mov	r6,a
-      00034C 04               [12]  550 	inc	a
-      00034D F0               [24]  551 	movx	@dptr,a
-      00034E EE               [12]  552 	mov	a,r6
-      00034F 24 25            [12]  553 	add	a,#_txBuffer
-      000351 F5 82            [12]  554 	mov	dpl,a
-      000353 E4               [12]  555 	clr	a
-      000354 34 00            [12]  556 	addc	a,#(_txBuffer >> 8)
-      000356 F5 83            [12]  557 	mov	dph,a
-      000358 EF               [12]  558 	mov	a,r7
-      000359 F0               [24]  559 	movx	@dptr,a
+      000498 90 00 23         [24]  547 	mov	dptr,#_txBufferIndex
+      00049B E0               [24]  548 	movx	a,@dptr
+      00049C FE               [12]  549 	mov	r6,a
+      00049D 04               [12]  550 	inc	a
+      00049E F0               [24]  551 	movx	@dptr,a
+      00049F EE               [12]  552 	mov	a,r6
+      0004A0 24 25            [12]  553 	add	a,#_txBuffer
+      0004A2 F5 82            [12]  554 	mov	dpl,a
+      0004A4 E4               [12]  555 	clr	a
+      0004A5 34 00            [12]  556 	addc	a,#(_txBuffer >> 8)
+      0004A7 F5 83            [12]  557 	mov	dph,a
+      0004A9 EF               [12]  558 	mov	a,r7
+      0004AA F0               [24]  559 	movx	@dptr,a
                                     560 ;	./src/N76_I2C.c:81: txBufferLength = txBufferIndex;
-      00035A 90 00 23         [24]  561 	mov	dptr,#_txBufferIndex
-      00035D E0               [24]  562 	movx	a,@dptr
-      00035E 90 00 24         [24]  563 	mov	dptr,#_txBufferLength
-      000361 F0               [24]  564 	movx	@dptr,a
+      0004AB 90 00 23         [24]  561 	mov	dptr,#_txBufferIndex
+      0004AE E0               [24]  562 	movx	a,@dptr
+      0004AF 90 00 24         [24]  563 	mov	dptr,#_txBufferLength
+      0004B2 F0               [24]  564 	movx	@dptr,a
                                     565 ;	./src/N76_I2C.c:82: }
-      000362 22               [24]  566 	ret
+      0004B3 22               [24]  566 	ret
                                     567 ;------------------------------------------------------------
                                     568 ;Allocation info for local variables in function 'I2C_writeBuffer'
                                     569 ;------------------------------------------------------------
@@ -575,46 +575,46 @@
                                     575 ;	-----------------------------------------
                                     576 ;	 function I2C_writeBuffer
                                     577 ;	-----------------------------------------
-      000363                        578 _I2C_writeBuffer:
-      000363 AD 82            [24]  579 	mov	r5,dpl
-      000365 AE 83            [24]  580 	mov	r6,dph
-      000367 AF F0            [24]  581 	mov	r7,b
+      0004B4                        578 _I2C_writeBuffer:
+      0004B4 AD 82            [24]  579 	mov	r5,dpl
+      0004B6 AE 83            [24]  580 	mov	r6,dph
+      0004B8 AF F0            [24]  581 	mov	r7,b
                                     582 ;	./src/N76_I2C.c:86: uint8_t i = 0;
-      000369 7C 00            [12]  583 	mov	r4,#0x00
-      00036B                        584 00103$:
+      0004BA 7C 00            [12]  583 	mov	r4,#0x00
+      0004BC                        584 00103$:
                                     585 ;	./src/N76_I2C.c:87: for (; i < len; ++i)
-      00036B C3               [12]  586 	clr	c
-      00036C EC               [12]  587 	mov	a,r4
-      00036D 95 0A            [12]  588 	subb	a,_I2C_writeBuffer_PARM_2
-      00036F 50 29            [24]  589 	jnc	00105$
+      0004BC C3               [12]  586 	clr	c
+      0004BD EC               [12]  587 	mov	a,r4
+      0004BE 95 1C            [12]  588 	subb	a,_I2C_writeBuffer_PARM_2
+      0004C0 50 29            [24]  589 	jnc	00105$
                                     590 ;	./src/N76_I2C.c:89: I2C_write(data[i]);
-      000371 EC               [12]  591 	mov	a,r4
-      000372 2D               [12]  592 	add	a,r5
-      000373 F9               [12]  593 	mov	r1,a
-      000374 E4               [12]  594 	clr	a
-      000375 3E               [12]  595 	addc	a,r6
-      000376 FA               [12]  596 	mov	r2,a
-      000377 8F 03            [24]  597 	mov	ar3,r7
-      000379 89 82            [24]  598 	mov	dpl,r1
-      00037B 8A 83            [24]  599 	mov	dph,r2
-      00037D 8B F0            [24]  600 	mov	b,r3
-      00037F 12 0E CA         [24]  601 	lcall	__gptrget
-      000382 F5 82            [12]  602 	mov	dpl,a
-      000384 C0 07            [24]  603 	push	ar7
-      000386 C0 06            [24]  604 	push	ar6
-      000388 C0 05            [24]  605 	push	ar5
-      00038A C0 04            [24]  606 	push	ar4
-      00038C 12 03 45         [24]  607 	lcall	_I2C_write
-      00038F D0 04            [24]  608 	pop	ar4
-      000391 D0 05            [24]  609 	pop	ar5
-      000393 D0 06            [24]  610 	pop	ar6
-      000395 D0 07            [24]  611 	pop	ar7
+      0004C2 EC               [12]  591 	mov	a,r4
+      0004C3 2D               [12]  592 	add	a,r5
+      0004C4 F9               [12]  593 	mov	r1,a
+      0004C5 E4               [12]  594 	clr	a
+      0004C6 3E               [12]  595 	addc	a,r6
+      0004C7 FA               [12]  596 	mov	r2,a
+      0004C8 8F 03            [24]  597 	mov	ar3,r7
+      0004CA 89 82            [24]  598 	mov	dpl,r1
+      0004CC 8A 83            [24]  599 	mov	dph,r2
+      0004CE 8B F0            [24]  600 	mov	b,r3
+      0004D0 12 10 91         [24]  601 	lcall	__gptrget
+      0004D3 F5 82            [12]  602 	mov	dpl,a
+      0004D5 C0 07            [24]  603 	push	ar7
+      0004D7 C0 06            [24]  604 	push	ar6
+      0004D9 C0 05            [24]  605 	push	ar5
+      0004DB C0 04            [24]  606 	push	ar4
+      0004DD 12 04 96         [24]  607 	lcall	_I2C_write
+      0004E0 D0 04            [24]  608 	pop	ar4
+      0004E2 D0 05            [24]  609 	pop	ar5
+      0004E4 D0 06            [24]  610 	pop	ar6
+      0004E6 D0 07            [24]  611 	pop	ar7
                                     612 ;	./src/N76_I2C.c:87: for (; i < len; ++i)
-      000397 0C               [12]  613 	inc	r4
-      000398 80 D1            [24]  614 	sjmp	00103$
-      00039A                        615 00105$:
+      0004E8 0C               [12]  613 	inc	r4
+      0004E9 80 D1            [24]  614 	sjmp	00103$
+      0004EB                        615 00105$:
                                     616 ;	./src/N76_I2C.c:91: }
-      00039A 22               [24]  617 	ret
+      0004EB 22               [24]  617 	ret
                                     618 ;------------------------------------------------------------
                                     619 ;Allocation info for local variables in function 'I2C_endTransmission'
                                     620 ;------------------------------------------------------------
@@ -624,85 +624,85 @@
                                     624 ;	-----------------------------------------
                                     625 ;	 function I2C_endTransmission
                                     626 ;	-----------------------------------------
-      00039B                        627 _I2C_endTransmission:
+      0004EC                        627 _I2C_endTransmission:
                                     628 ;	./src/N76_I2C.c:97: for (i = 0; i < txBufferLength; ++i)
-      00039B 7F 00            [12]  629 	mov	r7,#0x00
-      00039D                        630 00113$:
-      00039D 90 00 24         [24]  631 	mov	dptr,#_txBufferLength
-      0003A0 E0               [24]  632 	movx	a,@dptr
-      0003A1 FE               [12]  633 	mov	r6,a
-      0003A2 C3               [12]  634 	clr	c
-      0003A3 EF               [12]  635 	mov	a,r7
-      0003A4 9E               [12]  636 	subb	a,r6
-      0003A5 50 35            [24]  637 	jnc	00106$
+      0004EC 7F 00            [12]  629 	mov	r7,#0x00
+      0004EE                        630 00113$:
+      0004EE 90 00 24         [24]  631 	mov	dptr,#_txBufferLength
+      0004F1 E0               [24]  632 	movx	a,@dptr
+      0004F2 FE               [12]  633 	mov	r6,a
+      0004F3 C3               [12]  634 	clr	c
+      0004F4 EF               [12]  635 	mov	a,r7
+      0004F5 9E               [12]  636 	subb	a,r6
+      0004F6 50 35            [24]  637 	jnc	00106$
                                     638 ;	./src/N76_I2C.c:100: I2DAT = txBuffer[i];
-      0003A7 EF               [12]  639 	mov	a,r7
-      0003A8 24 25            [12]  640 	add	a,#_txBuffer
-      0003AA F5 82            [12]  641 	mov	dpl,a
-      0003AC E4               [12]  642 	clr	a
-      0003AD 34 00            [12]  643 	addc	a,#(_txBuffer >> 8)
-      0003AF F5 83            [12]  644 	mov	dph,a
-      0003B1 E0               [24]  645 	movx	a,@dptr
-      0003B2 F5 BC            [12]  646 	mov	_i2dat,a
+      0004F8 EF               [12]  639 	mov	a,r7
+      0004F9 24 25            [12]  640 	add	a,#_txBuffer
+      0004FB F5 82            [12]  641 	mov	dpl,a
+      0004FD E4               [12]  642 	clr	a
+      0004FE 34 00            [12]  643 	addc	a,#(_txBuffer >> 8)
+      000500 F5 83            [12]  644 	mov	dph,a
+      000502 E0               [24]  645 	movx	a,@dptr
+      000503 F5 BC            [12]  646 	mov	_i2dat,a
                                     647 ;	./src/N76_I2C.c:103: t = 0;
-      0003B4 90 00 45         [24]  648 	mov	dptr,#_t
-      0003B7 E4               [12]  649 	clr	a
-      0003B8 F0               [24]  650 	movx	@dptr,a
+      000505 90 00 45         [24]  648 	mov	dptr,#_t
+      000508 E4               [12]  649 	clr	a
+      000509 F0               [24]  650 	movx	@dptr,a
                                     651 ;	./src/N76_I2C.c:104: clrb(I2CON, STA);
-      0003B9 53 C0 DF         [24]  652 	anl	_i2con,#0xdf
+      00050A 53 C0 DF         [24]  652 	anl	_i2con,#0xdf
                                     653 ;	./src/N76_I2C.c:105: clrb(I2CON, SI);
-      0003BC 53 C0 F7         [24]  654 	anl	_i2con,#0xf7
+      00050D 53 C0 F7         [24]  654 	anl	_i2con,#0xf7
                                     655 ;	./src/N76_I2C.c:106: while (inbit(I2CON, SI) == 0)
-      0003BF                        656 00103$:
-      0003BF 74 08            [12]  657 	mov	a,#0x08
-      0003C1 55 C0            [12]  658 	anl	a,_i2con
-      0003C3 C4               [12]  659 	swap	a
-      0003C4 23               [12]  660 	rl	a
-      0003C5 54 1F            [12]  661 	anl	a,#0x1f
-      0003C7 FE               [12]  662 	mov	r6,a
-      0003C8 70 0F            [24]  663 	jnz	00114$
+      000510                        656 00103$:
+      000510 74 08            [12]  657 	mov	a,#0x08
+      000512 55 C0            [12]  658 	anl	a,_i2con
+      000514 C4               [12]  659 	swap	a
+      000515 23               [12]  660 	rl	a
+      000516 54 1F            [12]  661 	anl	a,#0x1f
+      000518 FE               [12]  662 	mov	r6,a
+      000519 70 0F            [24]  663 	jnz	00114$
                                     664 ;	./src/N76_I2C.c:107: if (timeOut())
-      0003CA C0 07            [24]  665 	push	ar7
-      0003CC 12 02 BD         [24]  666 	lcall	_timeOut
-      0003CF E5 82            [12]  667 	mov	a,dpl
-      0003D1 D0 07            [24]  668 	pop	ar7
-      0003D3 60 EA            [24]  669 	jz	00103$
+      00051B C0 07            [24]  665 	push	ar7
+      00051D 12 04 0E         [24]  666 	lcall	_timeOut
+      000520 E5 82            [12]  667 	mov	a,dpl
+      000522 D0 07            [24]  668 	pop	ar7
+      000524 60 EA            [24]  669 	jz	00103$
                                     670 ;	./src/N76_I2C.c:108: return 1;
-      0003D5 75 82 01         [24]  671 	mov	dpl,#0x01
-      0003D8 22               [24]  672 	ret
-      0003D9                        673 00114$:
+      000526 75 82 01         [24]  671 	mov	dpl,#0x01
+      000529 22               [24]  672 	ret
+      00052A                        673 00114$:
                                     674 ;	./src/N76_I2C.c:97: for (i = 0; i < txBufferLength; ++i)
-      0003D9 0F               [12]  675 	inc	r7
-      0003DA 80 C1            [24]  676 	sjmp	00113$
-      0003DC                        677 00106$:
+      00052A 0F               [12]  675 	inc	r7
+      00052B 80 C1            [24]  676 	sjmp	00113$
+      00052D                        677 00106$:
                                     678 ;	./src/N76_I2C.c:112: setb(I2CON, STO);
-      0003DC 43 C0 10         [24]  679 	orl	_i2con,#0x10
+      00052D 43 C0 10         [24]  679 	orl	_i2con,#0x10
                                     680 ;	./src/N76_I2C.c:113: clrb(I2CON, SI);
-      0003DF 53 C0 F7         [24]  681 	anl	_i2con,#0xf7
+      000530 53 C0 F7         [24]  681 	anl	_i2con,#0xf7
                                     682 ;	./src/N76_I2C.c:116: t = 0;
-      0003E2 90 00 45         [24]  683 	mov	dptr,#_t
-      0003E5 E4               [12]  684 	clr	a
-      0003E6 F0               [24]  685 	movx	@dptr,a
+      000533 90 00 45         [24]  683 	mov	dptr,#_t
+      000536 E4               [12]  684 	clr	a
+      000537 F0               [24]  685 	movx	@dptr,a
                                     686 ;	./src/N76_I2C.c:117: while (inbit(I2CON, STO) == 1)
-      0003E7                        687 00109$:
-      0003E7 74 10            [12]  688 	mov	a,#0x10
-      0003E9 55 C0            [12]  689 	anl	a,_i2con
-      0003EB C4               [12]  690 	swap	a
-      0003EC 54 0F            [12]  691 	anl	a,#0x0f
-      0003EE FF               [12]  692 	mov	r7,a
-      0003EF BF 01 0B         [24]  693 	cjne	r7,#0x01,00111$
+      000538                        687 00109$:
+      000538 74 10            [12]  688 	mov	a,#0x10
+      00053A 55 C0            [12]  689 	anl	a,_i2con
+      00053C C4               [12]  690 	swap	a
+      00053D 54 0F            [12]  691 	anl	a,#0x0f
+      00053F FF               [12]  692 	mov	r7,a
+      000540 BF 01 0B         [24]  693 	cjne	r7,#0x01,00111$
                                     694 ;	./src/N76_I2C.c:118: if (timeOut())
-      0003F2 12 02 BD         [24]  695 	lcall	_timeOut
-      0003F5 E5 82            [12]  696 	mov	a,dpl
-      0003F7 60 EE            [24]  697 	jz	00109$
+      000543 12 04 0E         [24]  695 	lcall	_timeOut
+      000546 E5 82            [12]  696 	mov	a,dpl
+      000548 60 EE            [24]  697 	jz	00109$
                                     698 ;	./src/N76_I2C.c:119: return 3;
-      0003F9 75 82 03         [24]  699 	mov	dpl,#0x03
-      0003FC 22               [24]  700 	ret
-      0003FD                        701 00111$:
+      00054A 75 82 03         [24]  699 	mov	dpl,#0x03
+      00054D 22               [24]  700 	ret
+      00054E                        701 00111$:
                                     702 ;	./src/N76_I2C.c:125: return 0;
-      0003FD 75 82 00         [24]  703 	mov	dpl,#0x00
+      00054E 75 82 00         [24]  703 	mov	dpl,#0x00
                                     704 ;	./src/N76_I2C.c:126: }
-      000400 22               [24]  705 	ret
+      000551 22               [24]  705 	ret
                                     706 ;------------------------------------------------------------
                                     707 ;Allocation info for local variables in function 'I2C_requestFrom'
                                     708 ;------------------------------------------------------------
@@ -714,205 +714,205 @@
                                     714 ;	-----------------------------------------
                                     715 ;	 function I2C_requestFrom
                                     716 ;	-----------------------------------------
-      000401                        717 _I2C_requestFrom:
-      000401 AF 82            [24]  718 	mov	r7,dpl
+      000552                        717 _I2C_requestFrom:
+      000552 AF 82            [24]  718 	mov	r7,dpl
                                     719 ;	./src/N76_I2C.c:131: rxBufferLength = len;
-      000403 90 00 02         [24]  720 	mov	dptr,#_rxBufferLength
-      000406 E5 0B            [12]  721 	mov	a,_I2C_requestFrom_PARM_2
-      000408 F0               [24]  722 	movx	@dptr,a
+      000554 90 00 02         [24]  720 	mov	dptr,#_rxBufferLength
+      000557 E5 1D            [12]  721 	mov	a,_I2C_requestFrom_PARM_2
+      000559 F0               [24]  722 	movx	@dptr,a
                                     723 ;	./src/N76_I2C.c:132: rxBufferIndex = 0;
-      000409 90 00 01         [24]  724 	mov	dptr,#_rxBufferIndex
-      00040C E4               [12]  725 	clr	a
-      00040D F0               [24]  726 	movx	@dptr,a
+      00055A 90 00 01         [24]  724 	mov	dptr,#_rxBufferIndex
+      00055D E4               [12]  725 	clr	a
+      00055E F0               [24]  726 	movx	@dptr,a
                                     727 ;	./src/N76_I2C.c:141: setb(I2CON, STA);
-      00040E 43 C0 20         [24]  728 	orl	_i2con,#0x20
+      00055F 43 C0 20         [24]  728 	orl	_i2con,#0x20
                                     729 ;	./src/N76_I2C.c:142: clrb(I2CON, SI);
-      000411 53 C0 F7         [24]  730 	anl	_i2con,#0xf7
+      000562 53 C0 F7         [24]  730 	anl	_i2con,#0xf7
                                     731 ;	./src/N76_I2C.c:145: t = 0;
-      000414 90 00 45         [24]  732 	mov	dptr,#_t
-      000417 E4               [12]  733 	clr	a
-      000418 F0               [24]  734 	movx	@dptr,a
+      000565 90 00 45         [24]  732 	mov	dptr,#_t
+      000568 E4               [12]  733 	clr	a
+      000569 F0               [24]  734 	movx	@dptr,a
                                     735 ;	./src/N76_I2C.c:146: while (inbit(I2CON, SI) == 0)
-      000419                        736 00103$:
-      000419 74 08            [12]  737 	mov	a,#0x08
-      00041B 55 C0            [12]  738 	anl	a,_i2con
-      00041D C4               [12]  739 	swap	a
-      00041E 23               [12]  740 	rl	a
-      00041F 54 1F            [12]  741 	anl	a,#0x1f
-      000421 FE               [12]  742 	mov	r6,a
-      000422 70 0F            [24]  743 	jnz	00105$
+      00056A                        736 00103$:
+      00056A 74 08            [12]  737 	mov	a,#0x08
+      00056C 55 C0            [12]  738 	anl	a,_i2con
+      00056E C4               [12]  739 	swap	a
+      00056F 23               [12]  740 	rl	a
+      000570 54 1F            [12]  741 	anl	a,#0x1f
+      000572 FE               [12]  742 	mov	r6,a
+      000573 70 0F            [24]  743 	jnz	00105$
                                     744 ;	./src/N76_I2C.c:147: if (timeOut())
-      000424 C0 07            [24]  745 	push	ar7
-      000426 12 02 BD         [24]  746 	lcall	_timeOut
-      000429 E5 82            [12]  747 	mov	a,dpl
-      00042B D0 07            [24]  748 	pop	ar7
-      00042D 60 EA            [24]  749 	jz	00103$
+      000575 C0 07            [24]  745 	push	ar7
+      000577 12 04 0E         [24]  746 	lcall	_timeOut
+      00057A E5 82            [12]  747 	mov	a,dpl
+      00057C D0 07            [24]  748 	pop	ar7
+      00057E 60 EA            [24]  749 	jz	00103$
                                     750 ;	./src/N76_I2C.c:148: return 2;
-      00042F 75 82 02         [24]  751 	mov	dpl,#0x02
-      000432 22               [24]  752 	ret
-      000433                        753 00105$:
+      000580 75 82 02         [24]  751 	mov	dpl,#0x02
+      000583 22               [24]  752 	ret
+      000584                        753 00105$:
                                     754 ;	./src/N76_I2C.c:151: I2DAT = (addr << 1) | I2C_READ;
-      000433 EF               [12]  755 	mov	a,r7
-      000434 2F               [12]  756 	add	a,r7
-      000435 FF               [12]  757 	mov	r7,a
-      000436 74 01            [12]  758 	mov	a,#0x01
-      000438 4F               [12]  759 	orl	a,r7
-      000439 F5 BC            [12]  760 	mov	_i2dat,a
+      000584 EF               [12]  755 	mov	a,r7
+      000585 2F               [12]  756 	add	a,r7
+      000586 FF               [12]  757 	mov	r7,a
+      000587 74 01            [12]  758 	mov	a,#0x01
+      000589 4F               [12]  759 	orl	a,r7
+      00058A F5 BC            [12]  760 	mov	_i2dat,a
                                     761 ;	./src/N76_I2C.c:152: clrb(I2CON, STA);
-      00043B 53 C0 DF         [24]  762 	anl	_i2con,#0xdf
+      00058C 53 C0 DF         [24]  762 	anl	_i2con,#0xdf
                                     763 ;	./src/N76_I2C.c:153: clrb(I2CON, SI);
-      00043E 53 C0 F7         [24]  764 	anl	_i2con,#0xf7
+      00058F 53 C0 F7         [24]  764 	anl	_i2con,#0xf7
                                     765 ;	./src/N76_I2C.c:156: t = 0;
-      000441 90 00 45         [24]  766 	mov	dptr,#_t
-      000444 E4               [12]  767 	clr	a
-      000445 F0               [24]  768 	movx	@dptr,a
+      000592 90 00 45         [24]  766 	mov	dptr,#_t
+      000595 E4               [12]  767 	clr	a
+      000596 F0               [24]  768 	movx	@dptr,a
                                     769 ;	./src/N76_I2C.c:157: while (inbit(I2CON, SI) == 0)
-      000446                        770 00108$:
-      000446 74 08            [12]  771 	mov	a,#0x08
-      000448 55 C0            [12]  772 	anl	a,_i2con
-      00044A C4               [12]  773 	swap	a
-      00044B 23               [12]  774 	rl	a
-      00044C 54 1F            [12]  775 	anl	a,#0x1f
-      00044E 70 0B            [24]  776 	jnz	00142$
+      000597                        770 00108$:
+      000597 74 08            [12]  771 	mov	a,#0x08
+      000599 55 C0            [12]  772 	anl	a,_i2con
+      00059B C4               [12]  773 	swap	a
+      00059C 23               [12]  774 	rl	a
+      00059D 54 1F            [12]  775 	anl	a,#0x1f
+      00059F 70 0B            [24]  776 	jnz	00142$
                                     777 ;	./src/N76_I2C.c:158: if (timeOut())
-      000450 12 02 BD         [24]  778 	lcall	_timeOut
-      000453 E5 82            [12]  779 	mov	a,dpl
-      000455 60 EF            [24]  780 	jz	00108$
+      0005A1 12 04 0E         [24]  778 	lcall	_timeOut
+      0005A4 E5 82            [12]  779 	mov	a,dpl
+      0005A6 60 EF            [24]  780 	jz	00108$
                                     781 ;	./src/N76_I2C.c:159: return 3;
-      000457 75 82 03         [24]  782 	mov	dpl,#0x03
-      00045A 22               [24]  783 	ret
+      0005A8 75 82 03         [24]  782 	mov	dpl,#0x03
+      0005AB 22               [24]  783 	ret
                                     784 ;	./src/N76_I2C.c:162: for (i = 0; i < rxBufferLength - 1; i++)
-      00045B                        785 00142$:
-      00045B 7F 00            [12]  786 	mov	r7,#0x00
-      00045D                        787 00128$:
-      00045D 90 00 02         [24]  788 	mov	dptr,#_rxBufferLength
-      000460 E0               [24]  789 	movx	a,@dptr
-      000461 FE               [12]  790 	mov	r6,a
-      000462 7D 00            [12]  791 	mov	r5,#0x00
-      000464 1E               [12]  792 	dec	r6
-      000465 BE FF 01         [24]  793 	cjne	r6,#0xff,00204$
-      000468 1D               [12]  794 	dec	r5
-      000469                        795 00204$:
-      000469 8F 03            [24]  796 	mov	ar3,r7
-      00046B 7C 00            [12]  797 	mov	r4,#0x00
-      00046D C3               [12]  798 	clr	c
-      00046E EB               [12]  799 	mov	a,r3
-      00046F 9E               [12]  800 	subb	a,r6
-      000470 EC               [12]  801 	mov	a,r4
-      000471 64 80            [12]  802 	xrl	a,#0x80
-      000473 8D F0            [24]  803 	mov	b,r5
-      000475 63 F0 80         [24]  804 	xrl	b,#0x80
-      000478 95 F0            [12]  805 	subb	a,b
-      00047A 50 35            [24]  806 	jnc	00116$
+      0005AC                        785 00142$:
+      0005AC 7F 00            [12]  786 	mov	r7,#0x00
+      0005AE                        787 00128$:
+      0005AE 90 00 02         [24]  788 	mov	dptr,#_rxBufferLength
+      0005B1 E0               [24]  789 	movx	a,@dptr
+      0005B2 FE               [12]  790 	mov	r6,a
+      0005B3 7D 00            [12]  791 	mov	r5,#0x00
+      0005B5 1E               [12]  792 	dec	r6
+      0005B6 BE FF 01         [24]  793 	cjne	r6,#0xff,00204$
+      0005B9 1D               [12]  794 	dec	r5
+      0005BA                        795 00204$:
+      0005BA 8F 03            [24]  796 	mov	ar3,r7
+      0005BC 7C 00            [12]  797 	mov	r4,#0x00
+      0005BE C3               [12]  798 	clr	c
+      0005BF EB               [12]  799 	mov	a,r3
+      0005C0 9E               [12]  800 	subb	a,r6
+      0005C1 EC               [12]  801 	mov	a,r4
+      0005C2 64 80            [12]  802 	xrl	a,#0x80
+      0005C4 8D F0            [24]  803 	mov	b,r5
+      0005C6 63 F0 80         [24]  804 	xrl	b,#0x80
+      0005C9 95 F0            [12]  805 	subb	a,b
+      0005CB 50 35            [24]  806 	jnc	00116$
                                     807 ;	./src/N76_I2C.c:165: setb(I2CON, AA);
-      00047C 43 C0 04         [24]  808 	orl	_i2con,#0x04
+      0005CD 43 C0 04         [24]  808 	orl	_i2con,#0x04
                                     809 ;	./src/N76_I2C.c:166: clrb(I2CON, SI);
-      00047F 53 C0 F7         [24]  810 	anl	_i2con,#0xf7
+      0005D0 53 C0 F7         [24]  810 	anl	_i2con,#0xf7
                                     811 ;	./src/N76_I2C.c:168: t = 0;
-      000482 90 00 45         [24]  812 	mov	dptr,#_t
-      000485 E4               [12]  813 	clr	a
-      000486 F0               [24]  814 	movx	@dptr,a
+      0005D3 90 00 45         [24]  812 	mov	dptr,#_t
+      0005D6 E4               [12]  813 	clr	a
+      0005D7 F0               [24]  814 	movx	@dptr,a
                                     815 ;	./src/N76_I2C.c:169: while (inbit(I2CON, SI) == 0)
-      000487                        816 00113$:
-      000487 74 08            [12]  817 	mov	a,#0x08
-      000489 55 C0            [12]  818 	anl	a,_i2con
-      00048B C4               [12]  819 	swap	a
-      00048C 23               [12]  820 	rl	a
-      00048D 54 1F            [12]  821 	anl	a,#0x1f
-      00048F FE               [12]  822 	mov	r6,a
-      000490 70 0F            [24]  823 	jnz	00115$
+      0005D8                        816 00113$:
+      0005D8 74 08            [12]  817 	mov	a,#0x08
+      0005DA 55 C0            [12]  818 	anl	a,_i2con
+      0005DC C4               [12]  819 	swap	a
+      0005DD 23               [12]  820 	rl	a
+      0005DE 54 1F            [12]  821 	anl	a,#0x1f
+      0005E0 FE               [12]  822 	mov	r6,a
+      0005E1 70 0F            [24]  823 	jnz	00115$
                                     824 ;	./src/N76_I2C.c:170: if (timeOut())
-      000492 C0 07            [24]  825 	push	ar7
-      000494 12 02 BD         [24]  826 	lcall	_timeOut
-      000497 E5 82            [12]  827 	mov	a,dpl
-      000499 D0 07            [24]  828 	pop	ar7
-      00049B 60 EA            [24]  829 	jz	00113$
+      0005E3 C0 07            [24]  825 	push	ar7
+      0005E5 12 04 0E         [24]  826 	lcall	_timeOut
+      0005E8 E5 82            [12]  827 	mov	a,dpl
+      0005EA D0 07            [24]  828 	pop	ar7
+      0005EC 60 EA            [24]  829 	jz	00113$
                                     830 ;	./src/N76_I2C.c:171: return 4;
-      00049D 75 82 04         [24]  831 	mov	dpl,#0x04
-      0004A0 22               [24]  832 	ret
-      0004A1                        833 00115$:
+      0005EE 75 82 04         [24]  831 	mov	dpl,#0x04
+      0005F1 22               [24]  832 	ret
+      0005F2                        833 00115$:
                                     834 ;	./src/N76_I2C.c:173: rxBuffer[i] = I2DAT;
-      0004A1 EF               [12]  835 	mov	a,r7
-      0004A2 24 03            [12]  836 	add	a,#_rxBuffer
-      0004A4 F5 82            [12]  837 	mov	dpl,a
-      0004A6 E4               [12]  838 	clr	a
-      0004A7 34 00            [12]  839 	addc	a,#(_rxBuffer >> 8)
-      0004A9 F5 83            [12]  840 	mov	dph,a
-      0004AB E5 BC            [12]  841 	mov	a,_i2dat
-      0004AD F0               [24]  842 	movx	@dptr,a
+      0005F2 EF               [12]  835 	mov	a,r7
+      0005F3 24 03            [12]  836 	add	a,#_rxBuffer
+      0005F5 F5 82            [12]  837 	mov	dpl,a
+      0005F7 E4               [12]  838 	clr	a
+      0005F8 34 00            [12]  839 	addc	a,#(_rxBuffer >> 8)
+      0005FA F5 83            [12]  840 	mov	dph,a
+      0005FC E5 BC            [12]  841 	mov	a,_i2dat
+      0005FE F0               [24]  842 	movx	@dptr,a
                                     843 ;	./src/N76_I2C.c:162: for (i = 0; i < rxBufferLength - 1; i++)
-      0004AE 0F               [12]  844 	inc	r7
-      0004AF 80 AC            [24]  845 	sjmp	00128$
-      0004B1                        846 00116$:
+      0005FF 0F               [12]  844 	inc	r7
+      000600 80 AC            [24]  845 	sjmp	00128$
+      000602                        846 00116$:
                                     847 ;	./src/N76_I2C.c:177: clrb(I2CON, AA);
-      0004B1 53 C0 FB         [24]  848 	anl	_i2con,#0xfb
+      000602 53 C0 FB         [24]  848 	anl	_i2con,#0xfb
                                     849 ;	./src/N76_I2C.c:178: clrb(I2CON, SI);
-      0004B4 53 C0 F7         [24]  850 	anl	_i2con,#0xf7
+      000605 53 C0 F7         [24]  850 	anl	_i2con,#0xf7
                                     851 ;	./src/N76_I2C.c:180: t = 0;
-      0004B7 90 00 45         [24]  852 	mov	dptr,#_t
-      0004BA E4               [12]  853 	clr	a
-      0004BB F0               [24]  854 	movx	@dptr,a
+      000608 90 00 45         [24]  852 	mov	dptr,#_t
+      00060B E4               [12]  853 	clr	a
+      00060C F0               [24]  854 	movx	@dptr,a
                                     855 ;	./src/N76_I2C.c:181: while (inbit(I2CON, SI) == 0)
-      0004BC                        856 00119$:
-      0004BC 74 08            [12]  857 	mov	a,#0x08
-      0004BE 55 C0            [12]  858 	anl	a,_i2con
-      0004C0 C4               [12]  859 	swap	a
-      0004C1 23               [12]  860 	rl	a
-      0004C2 54 1F            [12]  861 	anl	a,#0x1f
-      0004C4 70 0B            [24]  862 	jnz	00121$
+      00060D                        856 00119$:
+      00060D 74 08            [12]  857 	mov	a,#0x08
+      00060F 55 C0            [12]  858 	anl	a,_i2con
+      000611 C4               [12]  859 	swap	a
+      000612 23               [12]  860 	rl	a
+      000613 54 1F            [12]  861 	anl	a,#0x1f
+      000615 70 0B            [24]  862 	jnz	00121$
                                     863 ;	./src/N76_I2C.c:182: if (timeOut())
-      0004C6 12 02 BD         [24]  864 	lcall	_timeOut
-      0004C9 E5 82            [12]  865 	mov	a,dpl
-      0004CB 60 EF            [24]  866 	jz	00119$
+      000617 12 04 0E         [24]  864 	lcall	_timeOut
+      00061A E5 82            [12]  865 	mov	a,dpl
+      00061C 60 EF            [24]  866 	jz	00119$
                                     867 ;	./src/N76_I2C.c:183: return 5;
-      0004CD 75 82 05         [24]  868 	mov	dpl,#0x05
-      0004D0 22               [24]  869 	ret
-      0004D1                        870 00121$:
+      00061E 75 82 05         [24]  868 	mov	dpl,#0x05
+      000621 22               [24]  869 	ret
+      000622                        870 00121$:
                                     871 ;	./src/N76_I2C.c:184: rxBuffer[rxBufferLength - 1] = I2DAT;
-      0004D1 90 00 02         [24]  872 	mov	dptr,#_rxBufferLength
-      0004D4 E0               [24]  873 	movx	a,@dptr
-      0004D5 FF               [12]  874 	mov	r7,a
-      0004D6 1F               [12]  875 	dec	r7
-      0004D7 EF               [12]  876 	mov	a,r7
-      0004D8 33               [12]  877 	rlc	a
-      0004D9 95 E0            [12]  878 	subb	a,acc
-      0004DB FE               [12]  879 	mov	r6,a
-      0004DC EF               [12]  880 	mov	a,r7
-      0004DD 24 03            [12]  881 	add	a,#_rxBuffer
-      0004DF F5 82            [12]  882 	mov	dpl,a
-      0004E1 EE               [12]  883 	mov	a,r6
-      0004E2 34 00            [12]  884 	addc	a,#(_rxBuffer >> 8)
-      0004E4 F5 83            [12]  885 	mov	dph,a
-      0004E6 E5 BC            [12]  886 	mov	a,_i2dat
-      0004E8 F0               [24]  887 	movx	@dptr,a
+      000622 90 00 02         [24]  872 	mov	dptr,#_rxBufferLength
+      000625 E0               [24]  873 	movx	a,@dptr
+      000626 FF               [12]  874 	mov	r7,a
+      000627 1F               [12]  875 	dec	r7
+      000628 EF               [12]  876 	mov	a,r7
+      000629 33               [12]  877 	rlc	a
+      00062A 95 E0            [12]  878 	subb	a,acc
+      00062C FE               [12]  879 	mov	r6,a
+      00062D EF               [12]  880 	mov	a,r7
+      00062E 24 03            [12]  881 	add	a,#_rxBuffer
+      000630 F5 82            [12]  882 	mov	dpl,a
+      000632 EE               [12]  883 	mov	a,r6
+      000633 34 00            [12]  884 	addc	a,#(_rxBuffer >> 8)
+      000635 F5 83            [12]  885 	mov	dph,a
+      000637 E5 BC            [12]  886 	mov	a,_i2dat
+      000639 F0               [24]  887 	movx	@dptr,a
                                     888 ;	./src/N76_I2C.c:187: setb(I2CON, STO);
-      0004E9 43 C0 10         [24]  889 	orl	_i2con,#0x10
+      00063A 43 C0 10         [24]  889 	orl	_i2con,#0x10
                                     890 ;	./src/N76_I2C.c:188: clrb(I2CON, SI);
-      0004EC 53 C0 F7         [24]  891 	anl	_i2con,#0xf7
+      00063D 53 C0 F7         [24]  891 	anl	_i2con,#0xf7
                                     892 ;	./src/N76_I2C.c:191: t = 0;
-      0004EF 90 00 45         [24]  893 	mov	dptr,#_t
-      0004F2 E4               [12]  894 	clr	a
-      0004F3 F0               [24]  895 	movx	@dptr,a
+      000640 90 00 45         [24]  893 	mov	dptr,#_t
+      000643 E4               [12]  894 	clr	a
+      000644 F0               [24]  895 	movx	@dptr,a
                                     896 ;	./src/N76_I2C.c:192: while (inbit(I2CON, STO) == 1)
-      0004F4                        897 00124$:
-      0004F4 74 10            [12]  898 	mov	a,#0x10
-      0004F6 55 C0            [12]  899 	anl	a,_i2con
-      0004F8 C4               [12]  900 	swap	a
-      0004F9 54 0F            [12]  901 	anl	a,#0x0f
-      0004FB FF               [12]  902 	mov	r7,a
-      0004FC BF 01 0B         [24]  903 	cjne	r7,#0x01,00126$
+      000645                        897 00124$:
+      000645 74 10            [12]  898 	mov	a,#0x10
+      000647 55 C0            [12]  899 	anl	a,_i2con
+      000649 C4               [12]  900 	swap	a
+      00064A 54 0F            [12]  901 	anl	a,#0x0f
+      00064C FF               [12]  902 	mov	r7,a
+      00064D BF 01 0B         [24]  903 	cjne	r7,#0x01,00126$
                                     904 ;	./src/N76_I2C.c:193: if (timeOut())
-      0004FF 12 02 BD         [24]  905 	lcall	_timeOut
-      000502 E5 82            [12]  906 	mov	a,dpl
-      000504 60 EE            [24]  907 	jz	00124$
+      000650 12 04 0E         [24]  905 	lcall	_timeOut
+      000653 E5 82            [12]  906 	mov	a,dpl
+      000655 60 EE            [24]  907 	jz	00124$
                                     908 ;	./src/N76_I2C.c:194: return 6;
-      000506 75 82 06         [24]  909 	mov	dpl,#0x06
-      000509 22               [24]  910 	ret
-      00050A                        911 00126$:
+      000657 75 82 06         [24]  909 	mov	dpl,#0x06
+      00065A 22               [24]  910 	ret
+      00065B                        911 00126$:
                                     912 ;	./src/N76_I2C.c:199: return 0;
-      00050A 75 82 00         [24]  913 	mov	dpl,#0x00
+      00065B 75 82 00         [24]  913 	mov	dpl,#0x00
                                     914 ;	./src/N76_I2C.c:200: }
-      00050D 22               [24]  915 	ret
+      00065E 22               [24]  915 	ret
                                     916 ;------------------------------------------------------------
                                     917 ;Allocation info for local variables in function 'I2C_read'
                                     918 ;------------------------------------------------------------
@@ -922,39 +922,39 @@
                                     922 ;	-----------------------------------------
                                     923 ;	 function I2C_read
                                     924 ;	-----------------------------------------
-      00050E                        925 _I2C_read:
+      00065F                        925 _I2C_read:
                                     926 ;	./src/N76_I2C.c:204: int8_t value = -1;
-      00050E 7F FF            [12]  927 	mov	r7,#0xff
+      00065F 7F FF            [12]  927 	mov	r7,#0xff
                                     928 ;	./src/N76_I2C.c:206: if (rxBufferIndex < rxBufferLength)
-      000510 90 00 01         [24]  929 	mov	dptr,#_rxBufferIndex
-      000513 E0               [24]  930 	movx	a,@dptr
-      000514 FE               [12]  931 	mov	r6,a
-      000515 90 00 02         [24]  932 	mov	dptr,#_rxBufferLength
-      000518 E0               [24]  933 	movx	a,@dptr
-      000519 FD               [12]  934 	mov	r5,a
-      00051A C3               [12]  935 	clr	c
-      00051B EE               [12]  936 	mov	a,r6
-      00051C 9D               [12]  937 	subb	a,r5
-      00051D 50 12            [24]  938 	jnc	00102$
+      000661 90 00 01         [24]  929 	mov	dptr,#_rxBufferIndex
+      000664 E0               [24]  930 	movx	a,@dptr
+      000665 FE               [12]  931 	mov	r6,a
+      000666 90 00 02         [24]  932 	mov	dptr,#_rxBufferLength
+      000669 E0               [24]  933 	movx	a,@dptr
+      00066A FD               [12]  934 	mov	r5,a
+      00066B C3               [12]  935 	clr	c
+      00066C EE               [12]  936 	mov	a,r6
+      00066D 9D               [12]  937 	subb	a,r5
+      00066E 50 12            [24]  938 	jnc	00102$
                                     939 ;	./src/N76_I2C.c:208: value = rxBuffer[rxBufferIndex];
-      00051F EE               [12]  940 	mov	a,r6
-      000520 24 03            [12]  941 	add	a,#_rxBuffer
-      000522 F5 82            [12]  942 	mov	dpl,a
-      000524 E4               [12]  943 	clr	a
-      000525 34 00            [12]  944 	addc	a,#(_rxBuffer >> 8)
-      000527 F5 83            [12]  945 	mov	dph,a
-      000529 E0               [24]  946 	movx	a,@dptr
-      00052A FF               [12]  947 	mov	r7,a
+      000670 EE               [12]  940 	mov	a,r6
+      000671 24 03            [12]  941 	add	a,#_rxBuffer
+      000673 F5 82            [12]  942 	mov	dpl,a
+      000675 E4               [12]  943 	clr	a
+      000676 34 00            [12]  944 	addc	a,#(_rxBuffer >> 8)
+      000678 F5 83            [12]  945 	mov	dph,a
+      00067A E0               [24]  946 	movx	a,@dptr
+      00067B FF               [12]  947 	mov	r7,a
                                     948 ;	./src/N76_I2C.c:209: ++rxBufferIndex;
-      00052B 90 00 01         [24]  949 	mov	dptr,#_rxBufferIndex
-      00052E EE               [12]  950 	mov	a,r6
-      00052F 04               [12]  951 	inc	a
-      000530 F0               [24]  952 	movx	@dptr,a
-      000531                        953 00102$:
+      00067C 90 00 01         [24]  949 	mov	dptr,#_rxBufferIndex
+      00067F EE               [12]  950 	mov	a,r6
+      000680 04               [12]  951 	inc	a
+      000681 F0               [24]  952 	movx	@dptr,a
+      000682                        953 00102$:
                                     954 ;	./src/N76_I2C.c:211: return value;
-      000531 8F 82            [24]  955 	mov	dpl,r7
+      000682 8F 82            [24]  955 	mov	dpl,r7
                                     956 ;	./src/N76_I2C.c:212: }
-      000533 22               [24]  957 	ret
+      000684 22               [24]  957 	ret
                                     958 ;------------------------------------------------------------
                                     959 ;Allocation info for local variables in function 'I2C_available'
                                     960 ;------------------------------------------------------------
@@ -962,29 +962,29 @@
                                     962 ;	-----------------------------------------
                                     963 ;	 function I2C_available
                                     964 ;	-----------------------------------------
-      000534                        965 _I2C_available:
+      000685                        965 _I2C_available:
                                     966 ;	./src/N76_I2C.c:216: return rxBufferLength - rxBufferIndex;
-      000534 90 00 02         [24]  967 	mov	dptr,#_rxBufferLength
-      000537 E0               [24]  968 	movx	a,@dptr
-      000538 FF               [12]  969 	mov	r7,a
-      000539 7E 00            [12]  970 	mov	r6,#0x00
-      00053B 90 00 01         [24]  971 	mov	dptr,#_rxBufferIndex
-      00053E E0               [24]  972 	movx	a,@dptr
-      00053F FD               [12]  973 	mov	r5,a
-      000540 7C 00            [12]  974 	mov	r4,#0x00
-      000542 EF               [12]  975 	mov	a,r7
-      000543 C3               [12]  976 	clr	c
-      000544 9D               [12]  977 	subb	a,r5
-      000545 FF               [12]  978 	mov	r7,a
-      000546 EE               [12]  979 	mov	a,r6
-      000547 9C               [12]  980 	subb	a,r4
+      000685 90 00 02         [24]  967 	mov	dptr,#_rxBufferLength
+      000688 E0               [24]  968 	movx	a,@dptr
+      000689 FF               [12]  969 	mov	r7,a
+      00068A 7E 00            [12]  970 	mov	r6,#0x00
+      00068C 90 00 01         [24]  971 	mov	dptr,#_rxBufferIndex
+      00068F E0               [24]  972 	movx	a,@dptr
+      000690 FD               [12]  973 	mov	r5,a
+      000691 7C 00            [12]  974 	mov	r4,#0x00
+      000693 EF               [12]  975 	mov	a,r7
+      000694 C3               [12]  976 	clr	c
+      000695 9D               [12]  977 	subb	a,r5
+      000696 FF               [12]  978 	mov	r7,a
+      000697 EE               [12]  979 	mov	a,r6
+      000698 9C               [12]  980 	subb	a,r4
                                     981 ;	./src/N76_I2C.c:217: }
-      000548 8F 82            [24]  982 	mov	dpl,r7
-      00054A F5 83            [12]  983 	mov	dph,a
-      00054C 22               [24]  984 	ret
+      000699 8F 82            [24]  982 	mov	dpl,r7
+      00069B F5 83            [12]  983 	mov	dph,a
+      00069D 22               [24]  984 	ret
                                     985 	.area CSEG    (CODE)
                                     986 	.area CONST   (CODE)
                                     987 	.area XINIT   (CODE)
-      000F1A                        988 __xinit__t:
-      000F1A 00                     989 	.db #0x00	; 0
+      001155                        988 __xinit__t:
+      001155 00                     989 	.db #0x00	; 0
                                     990 	.area CABS    (ABS,CODE)

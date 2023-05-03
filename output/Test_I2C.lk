@@ -1,5 +1,5 @@
 -muwx
--i ./output/Test_ADC.hex
+-i ./output/Test_I2C.hex
 -M
 -b HOME = 0x0000
 -b XSEG = 0x0001
@@ -13,7 +13,7 @@
 -l libint
 -l liblong
 -l libfloat
-./output/Test_ADC.rel
+./output/Test_I2C.rel
 ./output/include.rel
 ./output/N76_Flash.rel
 ./output/N76_I2C.rel

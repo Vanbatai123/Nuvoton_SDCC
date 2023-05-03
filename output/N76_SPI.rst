@@ -367,7 +367,7 @@
                                     367 ;	-----------------------------------------
                                     368 ;	 function SPI_begin
                                     369 ;	-----------------------------------------
-      00054D                        370 _SPI_begin:
+      00069E                        370 _SPI_begin:
                            000007   371 	ar7 = 0x07
                            000006   372 	ar6 = 0x06
                            000005   373 	ar5 = 0x05
@@ -377,31 +377,31 @@
                            000001   377 	ar1 = 0x01
                            000000   378 	ar0 = 0x00
                                     379 ;	./src/N76_SPI.c:12: setb(SPSR, DISMODF); // SS pin user define
-      00054D 43 F4 08         [24]  380 	orl	_spsr,#0x08
+      00069E 43 F4 08         [24]  380 	orl	_spsr,#0x08
                                     381 ;	./src/N76_SPI.c:13: clrb(SPCR, SSOE);	 // SS pin user define
-      000550 53 F3 7F         [24]  382 	anl	_spcr,#0x7f
+      0006A1 53 F3 7F         [24]  382 	anl	_spcr,#0x7f
                                     383 ;	./src/N76_SPI.c:14: SPCR |= (1 << SPIEN) | (1 << MSTR) | (1 << SPR1) | (1 << SPR0);
-      000553 43 F3 53         [24]  384 	orl	_spcr,#0x53
+      0006A4 43 F3 53         [24]  384 	orl	_spcr,#0x53
                                     385 ;	./src/N76_SPI.c:16: clrb(SPI_PxM1_CLK, SPI_PIN_CLK);
-      000556 53 B3 FE         [24]  386 	anl	_p1m1,#0xfe
+      0006A7 53 B3 FE         [24]  386 	anl	_p1m1,#0xfe
                                     387 ;	./src/N76_SPI.c:17: clrb(SPI_PxM1_MOSI, SPI_PIN_MOSI);
-      000559 53 B1 FE         [24]  388 	anl	_p0m1,#0xfe
+      0006AA 53 B1 FE         [24]  388 	anl	_p0m1,#0xfe
                                     389 ;	./src/N76_SPI.c:18: setb(SPI_PxM1_MISO, SPI_PIN_MISO);
-      00055C 43 B1 02         [24]  390 	orl	_p0m1,#0x02
+      0006AD 43 B1 02         [24]  390 	orl	_p0m1,#0x02
                                     391 ;	./src/N76_SPI.c:19: clrb(SPI_PxM1_SS, SPI_PIN_SS);
-      00055F 53 B3 FD         [24]  392 	anl	_p1m1,#0xfd
+      0006B0 53 B3 FD         [24]  392 	anl	_p1m1,#0xfd
                                     393 ;	./src/N76_SPI.c:21: setb(SPI_PxM2_CLK, SPI_PIN_CLK);
-      000562 43 B4 01         [24]  394 	orl	_p1m2,#0x01
+      0006B3 43 B4 01         [24]  394 	orl	_p1m2,#0x01
                                     395 ;	./src/N76_SPI.c:22: setb(SPI_PxM2_MOSI, SPI_PIN_MOSI);
-      000565 43 B2 01         [24]  396 	orl	_p0m2,#0x01
+      0006B6 43 B2 01         [24]  396 	orl	_p0m2,#0x01
                                     397 ;	./src/N76_SPI.c:23: setb(SPI_PxM2_MISO, SPI_PIN_MISO);
-      000568 43 B2 02         [24]  398 	orl	_p0m2,#0x02
+      0006B9 43 B2 02         [24]  398 	orl	_p0m2,#0x02
                                     399 ;	./src/N76_SPI.c:24: setb(SPI_PxM2_SS, SPI_PIN_SS);
-      00056B 43 B4 02         [24]  400 	orl	_p1m2,#0x02
+      0006BC 43 B4 02         [24]  400 	orl	_p1m2,#0x02
                                     401 ;	./src/N76_SPI.c:26: setb(SPI_Px_SS, SPI_PIN_SS);
-      00056E 43 90 02         [24]  402 	orl	_p1,#0x02
+      0006BF 43 90 02         [24]  402 	orl	_p1,#0x02
                                     403 ;	./src/N76_SPI.c:27: }
-      000571 22               [24]  404 	ret
+      0006C2 22               [24]  404 	ret
                                     405 ;------------------------------------------------------------
                                     406 ;Allocation info for local variables in function 'SPI_transfer'
                                     407 ;------------------------------------------------------------
@@ -411,21 +411,21 @@
                                     411 ;	-----------------------------------------
                                     412 ;	 function SPI_transfer
                                     413 ;	-----------------------------------------
-      000572                        414 _SPI_transfer:
-      000572 85 82 F5         [24]  415 	mov	_spdr,dpl
+      0006C3                        414 _SPI_transfer:
+      0006C3 85 82 F5         [24]  415 	mov	_spdr,dpl
                                     416 ;	./src/N76_SPI.c:32: __asm__("nop");
-      000575 00               [12]  417 	nop
+      0006C6 00               [12]  417 	nop
                                     418 ;	./src/N76_SPI.c:33: while (inbit(SPSR, SPIF) == 0)
-      000576                        419 00101$:
-      000576 74 80            [12]  420 	mov	a,#0x80
-      000578 55 F4            [12]  421 	anl	a,_spsr
-      00057A 23               [12]  422 	rl	a
-      00057B 54 01            [12]  423 	anl	a,#0x01
-      00057D 60 F7            [24]  424 	jz	00101$
+      0006C7                        419 00101$:
+      0006C7 74 80            [12]  420 	mov	a,#0x80
+      0006C9 55 F4            [12]  421 	anl	a,_spsr
+      0006CB 23               [12]  422 	rl	a
+      0006CC 54 01            [12]  423 	anl	a,#0x01
+      0006CE 60 F7            [24]  424 	jz	00101$
                                     425 ;	./src/N76_SPI.c:35: clrb(SPSR, SPIF);
-      00057F 53 F4 7F         [24]  426 	anl	_spsr,#0x7f
+      0006D0 53 F4 7F         [24]  426 	anl	_spsr,#0x7f
                                     427 ;	./src/N76_SPI.c:36: }
-      000582 22               [24]  428 	ret
+      0006D3 22               [24]  428 	ret
                                     429 	.area CSEG    (CODE)
                                     430 	.area CONST   (CODE)
                                     431 	.area XINIT   (CODE)
