@@ -443,18 +443,18 @@
                                     443 ;	./Test_ADC.c:19: sei(); // Enable global interrupt
       0000D8 43 A8 80         [24]  444 	orl	_ie,#0x80
                                     445 ;	./Test_ADC.c:21: while (1)
-      0000DB                        446 00111$:
+      0000DB                        446 00105$:
                                     447 ;	./Test_ADC.c:24: clrb(ADCCON0, ADCF); // clear ADC interrupt flag
       0000DB 53 E8 7F         [24]  448 	anl	_adccon0,#0x7f
                                     449 ;	./Test_ADC.c:25: setb(ADCCON0, ADCS); // start ADC convertion
       0000DE 43 E8 40         [24]  450 	orl	_adccon0,#0x40
                                     451 ;	./Test_ADC.c:26: while(inbit(ADCCON0, ADCF) == 0);
-      0000E1                        452 00107$:
+      0000E1                        452 00101$:
       0000E1 74 80            [12]  453 	mov	a,#0x80
       0000E3 55 E8            [12]  454 	anl	a,_adccon0
       0000E5 23               [12]  455 	rl	a
       0000E6 54 01            [12]  456 	anl	a,#0x01
-      0000E8 60 F7            [24]  457 	jz	00107$
+      0000E8 60 F7            [24]  457 	jz	00101$
                                     458 ;	./Test_ADC.c:27: value = (ADCRH << 4) | ADCRL;
       0000EA AE C3            [24]  459 	mov	r6,_adcrh
       0000EC E4               [12]  460 	clr	a
@@ -498,7 +498,7 @@
       000129 12 05 BC         [24]  498 	lcall	_UART0_print
                                     499 ;	./Test_ADC.c:38: UART0_print("\r\n");
                                     500 ;	./Test_ADC.c:40: }
-      00012C 80 AD            [24]  501 	sjmp	00111$
+      00012C 80 AD            [24]  501 	sjmp	00105$
                                     502 ;------------------------------------------------------------
                                     503 ;Allocation info for local variables in function 'ADC_INT_FUCTION'
                                     504 ;------------------------------------------------------------
