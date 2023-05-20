@@ -2,16 +2,14 @@
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 4.2.0 #13081 (Linux)
 ;--------------------------------------------------------
-	.module Test_ADC
+	.module Test_UART
 	.optsdcc -mmcs51 --model-small
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _ADC_INT_FUCTION
 	.globl _main
-	.globl _UART0_printNum
-	.globl _UART0_print
+	.globl _UART0_println
 	.globl _UART0_begin
 	.globl __delay_ms
 	.globl _eiph1
@@ -150,7 +148,6 @@
 	.globl _dpl
 	.globl _sp
 	.globl _p0
-	.globl _value
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -306,8 +303,6 @@ _eiph1	=	0x00ff
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
-_value::
-	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram
 ;--------------------------------------------------------
@@ -363,29 +358,6 @@ __start__stack:
 	.area HOME    (CODE)
 __interrupt_vect:
 	ljmp	__sdcc_gsinit_startup
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	ljmp	_ADC_INT_FUCTION
 ;--------------------------------------------------------
 ; global & static initialisations
 ;--------------------------------------------------------
@@ -416,7 +388,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	./Test_ADC.c:12: void main(void)
+;	./Test_UART.c:10: void main(void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
@@ -429,130 +401,31 @@ _main:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	./Test_ADC.c:15: Enable_ADC_AIN7;
-	anl	_adccon0,#0xf0
-	orl	_adccon0,#0x07
-	orl	_p1m1,#0x02
-	anl	_p1m2,#0xfd
-	mov	_aindids,#0x00
-	orl	_aindids,#0x80
-	orl	_adccon1,#0x01
-;	./Test_ADC.c:18: UART0_begin(BAUD_115200);
-	mov	dpl,#0xf7
+;	./Test_UART.c:12: UART0_begin(BAUD_38400);
+	mov	dpl,#0xe6
 	lcall	_UART0_begin
-;	./Test_ADC.c:19: sei(); // Enable global interrupt
-	orl	_ie,#0x80
-;	./Test_ADC.c:21: while (1)
-00105$:
-;	./Test_ADC.c:24: clrb(ADCCON0, ADCF); // clear ADC interrupt flag
-	anl	_adccon0,#0x7f
-;	./Test_ADC.c:25: setb(ADCCON0, ADCS); // start ADC convertion
-	orl	_adccon0,#0x40
-;	./Test_ADC.c:26: while(inbit(ADCCON0, ADCF) == 0);
-00101$:
-	mov	a,#0x80
-	anl	a,_adccon0
-	rl	a
-	anl	a,#0x01
-	jz	00101$
-;	./Test_ADC.c:27: value = (ADCRH << 4) | ADCRL;
-	mov	r6,_adcrh
-	clr	a
-	swap	a
-	anl	a,#0xf0
-	xch	a,r6
-	swap	a
-	xch	a,r6
-	xrl	a,r6
-	xch	a,r6
-	anl	a,#0xf0
-	xch	a,r6
-	xrl	a,r6
-	mov	r7,a
-	mov	r4,_adcrl
-	mov	r5,#0x00
-	mov	a,r4
-	orl	ar6,a
-	mov	a,r5
-	orl	ar7,a
-	mov	_value,r6
-	mov	(_value + 1),r7
-;	./Test_ADC.c:28: _delay_ms(500);
-	mov	dptr,#0x01f4
+;	./Test_UART.c:13: UART0_println("START\r\n");
+	mov	dptr,#___str_0
+	mov	b,#0x80
+	lcall	_UART0_println
+;	./Test_UART.c:15: while (1)
+00102$:
+;	./Test_UART.c:17: UART0_println("START\r\n");
+	mov	dptr,#___str_0
+	mov	b,#0x80
+	lcall	_UART0_println
+;	./Test_UART.c:18: _delay_ms(800);
+	mov	dptr,#0x0320
 	clr	a
 	mov	b,a
 	lcall	__delay_ms
-;	./Test_ADC.c:29: UART0_printNum(value);
-	mov	r4,_value
-	mov	r5,(_value + 1)
-	mov	r6,#0x00
-	mov	r7,#0x00
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r6
-	mov	a,r7
-	lcall	_UART0_printNum
-;	./Test_ADC.c:30: UART0_print("\r\n");
-	mov	dptr,#___str_0
-	mov	b,#0x80
-	lcall	_UART0_print
-;	./Test_ADC.c:38: UART0_print("\r\n");
-;	./Test_ADC.c:40: }
-	sjmp	00105$
-;------------------------------------------------------------
-;Allocation info for local variables in function 'ADC_INT_FUCTION'
-;------------------------------------------------------------
-;	./Test_ADC.c:42: ISR(ADC_INT_FUCTION, INTERRUPT_ADC)
-;	-----------------------------------------
-;	 function ADC_INT_FUCTION
-;	-----------------------------------------
-_ADC_INT_FUCTION:
-	push	acc
-	push	ar7
-	push	ar6
-	push	ar5
-	push	ar4
-	push	psw
-	mov	psw,#0x00
-;	./Test_ADC.c:44: value = (ADCRH << 4) | ADCRL;
-	mov	r6,_adcrh
-	clr	a
-	swap	a
-	anl	a,#0xf0
-	xch	a,r6
-	swap	a
-	xch	a,r6
-	xrl	a,r6
-	xch	a,r6
-	anl	a,#0xf0
-	xch	a,r6
-	xrl	a,r6
-	mov	r7,a
-	mov	r4,_adcrl
-	mov	r5,#0x00
-	mov	a,r4
-	orl	ar6,a
-	mov	a,r5
-	orl	ar7,a
-	mov	_value,r6
-	mov	(_value + 1),r7
-;	./Test_ADC.c:45: clrb(ADCCON0, ADCF); // clear ADC interrupt flag
-	anl	_adccon0,#0x7f
-;	./Test_ADC.c:46: }
-	pop	psw
-	pop	ar4
-	pop	ar5
-	pop	ar6
-	pop	ar7
-	pop	acc
-	reti
-;	eliminated unneeded push/pop dpl
-;	eliminated unneeded push/pop dph
-;	eliminated unneeded push/pop b
+;	./Test_UART.c:20: }
+	sjmp	00102$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
 ___str_0:
+	.ascii "START"
 	.db 0x0d
 	.db 0x0a
 	.db 0x00

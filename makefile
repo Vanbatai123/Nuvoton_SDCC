@@ -1,5 +1,5 @@
 DIR_PRJ := .
-NAME_PRJ := Test_ADC
+NAME_PRJ := Test_UART
 
 DIR_INC := $(DIR_PRJ)/inc
 DIR_SRC := $(DIR_PRJ)/src

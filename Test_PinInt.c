@@ -5,7 +5,7 @@
  */
 
 #include <include.h>
-#include <N76_PinInt.h>
+// #include <N76_PinInt.h>
 
 #define LED_PIN 6
 #define LED_PORT P0
@@ -28,7 +28,7 @@ void main(void)
 
 
     // setb(EIE , EPI); // set external interrupt 0 at falling edge
-	Enable_PinInt;
+	set_EPI;
 	sei(); // Enable global interrupt
 
 	while (1)

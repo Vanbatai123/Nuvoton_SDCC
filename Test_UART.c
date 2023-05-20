@@ -9,7 +9,7 @@
 
 void main(void)
 {
-    UART0_config(BAUD_38400);
+    UART0_begin(BAUD_38400);
     UART0_println("START\r\n");
 
     while (1)
