@@ -27,16 +27,14 @@ uint8_t timeOut(void)
 
 void I2C_begin()
 {
-	setb(P1M1, 3); // set P1.3 as open drain
-	setb(P1M2, 3);
-	setb(P1M1, 4); // set P1.4 as open drain
-	setb(P1M2, 4);
+	P13_OpenDrain_Mode;
+	P14_OpenDrain_Mode;
 
 	/* Set I2C clock rate */
 	I2CLK = I2C_CLOCK; // I2C clock = Fsys/(4*(I2CLK+1))
 
 	/* Enable I2C */
-	setb(I2CON, I2CEN); // set_I2CEN;
+	set_I2CEN;
 }
 
 uint8_t I2C_beginTransmission(uint8_t addr)
@@ -51,8 +49,8 @@ uint8_t I2C_beginTransmission(uint8_t addr)
 			return 1;
 */
 	// start condittion - S
-	setb(I2CON, STA);
-	clrb(I2CON, SI);
+	set_STA;
+	clr_SI;
 
 	t = 0;
 	// wait start condittion is sent - EV5
@@ -66,8 +64,8 @@ uint8_t I2C_beginTransmission(uint8_t addr)
 
 	t = 0;
 	// wait slave address is sent - EV6
-	clrb(I2CON, STA);
-	clrb(I2CON, SI);
+	clr_STA;
+	clr_SI;
 	while (inbit(I2CON, SI) == 0)
 		if (timeOut())
 			return 3;
@@ -101,16 +99,16 @@ uint8_t I2C_endTransmission(void)
 
 		// wait until the transfer finished - EV 8_2
 		t = 0;
-		clrb(I2CON, STA);
-		clrb(I2CON, SI);
+		clr_STA;
+		clr_SI;
 		while (inbit(I2CON, SI) == 0)
 			if (timeOut())
 				return 1;
 	}
 
 	// set stop condition
-	setb(I2CON, STO);
-	clrb(I2CON, SI);
+	set_STO;
+	set_SI;
 
 	// Wait to make sure that STOP control bit has been cleared
 	t = 0;
@@ -138,8 +136,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 			return 1;
 */
 	// start condittion - S
-	setb(I2CON, STA);
-	clrb(I2CON, SI);
+	set_STA;
+	clr_SI;
 
 	// wait start condittion is sent - EV5
 	t = 0;
@@ -149,8 +147,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 
 	// send slave address
 	I2DAT = (addr << 1) | I2C_READ;
-	clrb(I2CON, STA);
-	clrb(I2CON, SI);
+	clr_STA;
+	clr_SI;
 
 	// Wait on ADDR flag to be set EV 6_3 (ADDR is still not cleared at this level
 	t = 0;
@@ -162,8 +160,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 	for (i = 0; i < rxBufferLength - 1; i++)
 	{
 		// Poll RXNE
-		setb(I2CON, AA);
-		clrb(I2CON, SI);
+		set_AA;
+		clr_SI;
 
 		t = 0;
 		while (inbit(I2CON, SI) == 0)
@@ -174,8 +172,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 	}
 
 	// clear ACK
-	clrb(I2CON, AA);
-	clrb(I2CON, SI);
+	clr_AA;
+	clr_SI;
 	// Poll RXNE
 	t = 0;
 	while (inbit(I2CON, SI) == 0)
@@ -184,8 +182,8 @@ uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 	rxBuffer[rxBufferLength - 1] = I2DAT;
 
 	// set stop after ADDR is cleared
-	setb(I2CON, STO);
-	clrb(I2CON, SI);
+	set_STO;
+	clr_SI;
 
 	// Wait to make sure that STOP control bit has been cleared
 	t = 0;

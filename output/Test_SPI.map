@@ -50,10 +50,10 @@ C:   00000009  s_GSINIT1
 C:   00000009  s_GSINIT2                       
 C:   0000000A  l_GSINIT2                       
 C:   00000010  s_REG_BANK_2                    
+C:   00000012  l_CONST                         
 C:   00000013  s_GSINIT3                       
 C:   00000018  s_BIT_BANK                      
 C:   00000018  s_REG_BANK_3                    
-C:   0000001A  l_CONST                         
 C:   00000020  s_BSEG_BYTES                    
 C:   00000020  s__CODE                         
 C:   00000022  l_GSINIT3                       
@@ -70,19 +70,19 @@ C:   0000002A  l_GSINIT4
 C:   00000035  s_GSINIT4                       
 C:   00000044  l_XSEG                          
 C:   00000045  s_XISEG                         
-C:   00000054  s_OSEG                          
-C:   00000058  s_ISEG                          
-C:   0000005E  s_SSEG                          
+C:   0000005A  s_OSEG                          
+C:   0000005E  s_ISEG                          
 C:   0000005F  s_GSFINAL                       
 C:   0000005F  s_GSINIT                        
 C:   0000005F  s_GSINIT5                       
 C:   00000062  s_CSEG                          
+C:   00000064  s_SSEG                          
 C:   00000080  l_DSEG                          
-C:   000000A2  l_SSEG                          
+C:   0000009C  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   00000DBD  l_CSEG                          
-C:   00000E1F  s_CONST                         
-C:   00000E39  s_XINIT                         
+C:   00000EB2  l_CSEG                          
+C:   00000F14  s_CONST                         
+C:   00000F26  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -270,35 +270,40 @@ DSEG                                00000000    00000080 =         128. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000008  _I2C_writeBuffer_PARM_2            N76_I2C
-     00000009  _I2C_requestFrom_PARM_2            N76_I2C
-     0000001E  _vsprintf_PARM_2                   sprintf
-     00000021  _vsprintf_PARM_3                   sprintf
-     00000025  _bp                                _bp
-     00000033  __print_format_PARM_2              printf_large
-     00000036  __print_format_PARM_3              printf_large
-     00000039  __print_format_PARM_4              printf_large
+     00000008  _value                             Test_SPI
+     0000000A  _MAX7219_transferAll_PARM_2        Test_SPI
+     0000000B  _MAX7219_transferAll_PARM_3        Test_SPI
+     0000000C  _MAX7219_transfer_PARM_2           Test_SPI
+     0000000D  _MAX7219_transfer_PARM_3           Test_SPI
+     0000000E  _I2C_writeBuffer_PARM_2            N76_I2C
+     0000000F  _I2C_requestFrom_PARM_2            N76_I2C
+     00000024  _vsprintf_PARM_2                   sprintf
+     00000027  _vsprintf_PARM_3                   sprintf
+     0000002B  _bp                                _bp
+     00000039  __print_format_PARM_2              printf_large
+     0000003C  __print_format_PARM_3              printf_large
+     0000003F  __print_format_PARM_4              printf_large
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-OSEG                                00000054    00000004 =           4. bytes (REL,OVR)
+OSEG                                0000005A    00000004 =           4. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000054  _APROM_write_byte_PARM_2           N76_Flash
-     00000054  __gptrput_PARM_2                   _gptrput
-     00000054  __mulint_PARM_2                    _mulint
-     00000054  __mullong_PARM_2                   _mullong
+     0000005A  _APROM_write_byte_PARM_2           N76_Flash
+     0000005A  __gptrput_PARM_2                   _gptrput
+     0000005A  __mulint_PARM_2                    _mulint
+     0000005A  __mullong_PARM_2                   _mullong
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-ISEG                                00000058    00000006 =           6. bytes (REL,CON)
+ISEG                                0000005E    00000006 =           6. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -307,11 +312,11 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-SSEG                                0000005E    000000A2 =         162. bytes (REL,OVR)
+SSEG                                00000064    0000009C =         156. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000005E  __start__stack                     Test_UART
+     00000064  __start__stack                     Test_SPI
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
 Hexadecimal  [32-Bits]
@@ -348,7 +353,7 @@ HOME                                00000000    00000006 =           6. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   00000003  __sdcc_program_startup             Test_UART
+C:   00000003  __sdcc_program_startup             Test_SPI
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
 Hexadecimal  [32-Bits]
@@ -407,51 +412,54 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000062    00000DBD =        3517. bytes (REL,CON,CODE)
+CSEG                                00000062    00000EB2 =        3762. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   00000062  _main                              Test_UART
-C:   00000085  __delay_ms                         include
-C:   000000BF  __delay_us                         include
-C:   00000113  _APROM_read_byte                   N76_Flash
-C:   00000118  _APROM_read_2byte                  N76_Flash
-C:   00000123  _APROM_write_byte                  N76_Flash
-C:   0000017D  _Erase_APROM                       N76_Flash
-C:   000001D7  _timeOut                           N76_I2C
-C:   000001F4  _I2C_begin                         N76_I2C
-C:   00000207  _I2C_beginTransmission             N76_I2C
-C:   0000025F  _I2C_write                         N76_I2C
-C:   0000027D  _I2C_writeBuffer                   N76_I2C
-C:   000002B5  _I2C_endTransmission               N76_I2C
-C:   0000031B  _I2C_requestFrom                   N76_I2C
-C:   00000428  _I2C_read                          N76_I2C
-C:   0000044E  _I2C_available                     N76_I2C
-C:   00000467  _SPI_begin                         N76_SPI
-C:   0000048C  _SPI_transfer                      N76_SPI
-C:   0000049D  _UART0_begin                       N76_uart0
-C:   000004C6  _UART0_putChar                     N76_uart0
-C:   000004D6  _UART0_print                       N76_uart0
-C:   0000051B  _UART0_println                     N76_uart0
-C:   00000527  _UART0_printNum                    N76_uart0
-C:   00000560  __mullong                          _mullong
-C:   00000560  __mullong_dummy                    _mullong
-C:   0000063E  _vsprintf                          sprintf
-C:   0000067B  _sprintf                           sprintf
-C:   00000761  __print_format                     printf_large
-C:   00000DAF  _strlen                            _strlen
-C:   00000DC7  __mulint                           _mulint
-C:   00000DC7  __mulint_dummy                     _mulint
-C:   00000DE4  __gptrget                          _gptrget
-C:   00000E00  __sdcc_external_startup            _startup
-C:   00000E04  __gptrput                          _gptrput
+C:   00000062  _MAX7219_begin                     Test_SPI
+C:   000000A1  _MAX7219_transferAll               Test_SPI
+C:   000000C2  _MAX7219_transfer                  Test_SPI
+C:   00000118  _main                              Test_SPI
+C:   0000017D  __delay_ms                         include
+C:   000001B7  __delay_us                         include
+C:   0000020B  _APROM_read_byte                   N76_Flash
+C:   00000210  _APROM_read_2byte                  N76_Flash
+C:   0000021B  _APROM_write_byte                  N76_Flash
+C:   00000275  _Erase_APROM                       N76_Flash
+C:   000002CF  _timeOut                           N76_I2C
+C:   000002EC  _I2C_begin                         N76_I2C
+C:   000002FF  _I2C_beginTransmission             N76_I2C
+C:   00000357  _I2C_write                         N76_I2C
+C:   00000375  _I2C_writeBuffer                   N76_I2C
+C:   000003AD  _I2C_endTransmission               N76_I2C
+C:   00000413  _I2C_requestFrom                   N76_I2C
+C:   00000520  _I2C_read                          N76_I2C
+C:   00000546  _I2C_available                     N76_I2C
+C:   0000055F  _SPI_begin                         N76_SPI
+C:   00000584  _SPI_transfer                      N76_SPI
+C:   00000595  _UART0_begin                       N76_uart0
+C:   000005BB  _UART0_putChar                     N76_uart0
+C:   000005CB  _UART0_print                       N76_uart0
+C:   00000610  _UART0_println                     N76_uart0
+C:   0000061C  _UART0_printNum                    N76_uart0
+C:   00000655  __mullong                          _mullong
+C:   00000655  __mullong_dummy                    _mullong
+C:   00000733  _vsprintf                          sprintf
+C:   00000770  _sprintf                           sprintf
+C:   00000856  __print_format                     printf_large
+C:   00000EA4  _strlen                            _strlen
+C:   00000EBC  __mulint                           _mulint
+C:   00000EBC  __mulint_dummy                     _mulint
+C:   00000ED9  __gptrget                          _gptrget
+C:   00000EF5  __sdcc_external_startup            _startup
+C:   00000EF9  __gptrput                          _gptrput
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               00000E1F    0000001A =          26. bytes (REL,CON,CODE)
+CONST                               00000F14    00000012 =          18. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -460,7 +468,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-XINIT                               00000E39    00000001 =           1. bytes (REL,CON,CODE)
+XINIT                               00000F26    00000001 =           1. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -468,7 +476,7 @@ XINIT                               00000E39    00000001 =           1. bytes (R
 
 Files Linked                              [ module(s) ]
 
-./output/Test_UART.rel                    [  ]
+./output/Test_SPI.rel                     [  ]
 ./output/include.rel                      [  ]
 ./output/N76_Flash.rel                    [  ]
 ./output/N76_I2C.rel                      [  ]

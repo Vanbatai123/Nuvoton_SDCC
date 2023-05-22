@@ -310,8 +310,8 @@
                                     310 	.area	OSEG    (OVR,DATA)
                                     311 	.area	OSEG    (OVR,DATA)
                                     312 	.area	OSEG    (OVR,DATA)
-      000054                        313 _APROM_write_byte_PARM_2:
-      000054                        314 	.ds 1
+      00005A                        313 _APROM_write_byte_PARM_2:
+      00005A                        314 	.ds 1
                                     315 	.area	OSEG    (OVR,DATA)
                                     316 ;--------------------------------------------------------
                                     317 ; indirectly addressable internal ram data
@@ -378,7 +378,7 @@
                                     378 ;	-----------------------------------------
                                     379 ;	 function APROM_read_byte
                                     380 ;	-----------------------------------------
-      000113                        381 _APROM_read_byte:
+      00020B                        381 _APROM_read_byte:
                            000007   382 	ar7 = 0x07
                            000006   383 	ar6 = 0x06
                            000005   384 	ar5 = 0x05
@@ -388,12 +388,12 @@
                            000001   388 	ar1 = 0x01
                            000000   389 	ar0 = 0x00
                                     390 ;	./src/N76_Flash.c:14: rdata = *((uint16_t __code *)u16_addr);
-      000113 E4               [12]  391 	clr	a
-      000114 93               [24]  392 	movc	a,@a+dptr
+      00020B E4               [12]  391 	clr	a
+      00020C 93               [24]  392 	movc	a,@a+dptr
                                     393 ;	./src/N76_Flash.c:15: return rdata;
                                     394 ;	./src/N76_Flash.c:16: }
-      000115 F5 82            [12]  395 	mov	dpl,a
-      000117 22               [24]  396 	ret
+      00020D F5 82            [12]  395 	mov	dpl,a
+      00020F 22               [24]  396 	ret
                                     397 ;------------------------------------------------------------
                                     398 ;Allocation info for local variables in function 'APROM_read_2byte'
                                     399 ;------------------------------------------------------------
@@ -404,19 +404,19 @@
                                     404 ;	-----------------------------------------
                                     405 ;	 function APROM_read_2byte
                                     406 ;	-----------------------------------------
-      000118                        407 _APROM_read_2byte:
+      000210                        407 _APROM_read_2byte:
                                     408 ;	./src/N76_Flash.c:20: rdata = *((uint16_t __code *)u16_addr);
-      000118 E4               [12]  409 	clr	a
-      000119 93               [24]  410 	movc	a,@a+dptr
-      00011A FE               [12]  411 	mov	r6,a
-      00011B A3               [24]  412 	inc	dptr
-      00011C E4               [12]  413 	clr	a
-      00011D 93               [24]  414 	movc	a,@a+dptr
+      000210 E4               [12]  409 	clr	a
+      000211 93               [24]  410 	movc	a,@a+dptr
+      000212 FE               [12]  411 	mov	r6,a
+      000213 A3               [24]  412 	inc	dptr
+      000214 E4               [12]  413 	clr	a
+      000215 93               [24]  414 	movc	a,@a+dptr
                                     415 ;	./src/N76_Flash.c:21: return rdata;
                                     416 ;	./src/N76_Flash.c:22: }
-      00011E 8E 82            [24]  417 	mov	dpl,r6
-      000120 F5 83            [12]  418 	mov	dph,a
-      000122 22               [24]  419 	ret
+      000216 8E 82            [24]  417 	mov	dpl,r6
+      000218 F5 83            [12]  418 	mov	dph,a
+      00021A 22               [24]  419 	ret
                                     420 ;------------------------------------------------------------
                                     421 ;Allocation info for local variables in function 'APROM_write_byte'
                                     422 ;------------------------------------------------------------
@@ -427,49 +427,49 @@
                                     427 ;	-----------------------------------------
                                     428 ;	 function APROM_write_byte
                                     429 ;	-----------------------------------------
-      000123                        430 _APROM_write_byte:
-      000123 AE 82            [24]  431 	mov	r6,dpl
-      000125 AF 83            [24]  432 	mov	r7,dph
-                                    433 ;	./src/N76_Flash.c:30: setbAP(CHPCON, IAPEN); // enable IAP
-      000127 53 A8 7F         [24]  434 	anl	_ie,#0x7f
-      00012A 75 C7 AA         [24]  435 	mov	_ta,#0xaa
-      00012D 75 C7 55         [24]  436 	mov	_ta,#0x55
-      000130 43 9F 01         [24]  437 	orl	_chpcon,#0x01
-      000133 43 A8 80         [24]  438 	orl	_ie,#0x80
-                                    439 ;	./src/N76_Flash.c:31: setbAP(IAPUEN, APUEN); // enable IAP updated
-      000136 53 A8 7F         [24]  440 	anl	_ie,#0x7f
-      000139 75 C7 AA         [24]  441 	mov	_ta,#0xaa
-      00013C 75 C7 55         [24]  442 	mov	_ta,#0x55
-      00013F 43 A5 01         [24]  443 	orl	_iapuen,#0x01
-      000142 43 A8 80         [24]  444 	orl	_ie,#0x80
+      00021B                        430 _APROM_write_byte:
+      00021B AE 82            [24]  431 	mov	r6,dpl
+      00021D AF 83            [24]  432 	mov	r7,dph
+                                    433 ;	./src/N76_Flash.c:30: set_IAPEN; // enable IAP
+      00021F 53 A8 7F         [24]  434 	anl	_ie,#0x7f
+      000222 75 C7 AA         [24]  435 	mov	_ta,#0xaa
+      000225 75 C7 55         [24]  436 	mov	_ta,#0x55
+      000228 43 9F 01         [24]  437 	orl	_chpcon,#0x01
+      00022B 43 A8 80         [24]  438 	orl	_ie,#0x80
+                                    439 ;	./src/N76_Flash.c:31: set_APUEN; // enable IAP updated
+      00022E 53 A8 7F         [24]  440 	anl	_ie,#0x7f
+      000231 75 C7 AA         [24]  441 	mov	_ta,#0xaa
+      000234 75 C7 55         [24]  442 	mov	_ta,#0x55
+      000237 43 A5 01         [24]  443 	orl	_iapuen,#0x01
+      00023A 43 A8 80         [24]  444 	orl	_ie,#0x80
                                     445 ;	./src/N76_Flash.c:32: IAPCN = BYTE_PROGRAM_AP;
-      000145 75 AF 21         [24]  446 	mov	_iapcn,#0x21
+      00023D 75 AF 21         [24]  446 	mov	_iapcn,#0x21
                                     447 ;	./src/N76_Flash.c:34: IAPAH = (uint8_t)((addr) >> 8);
-      000148 8F A7            [24]  448 	mov	_iapah,r7
+      000240 8F A7            [24]  448 	mov	_iapah,r7
                                     449 ;	./src/N76_Flash.c:35: IAPAL = (uint8_t)((addr)&0xFF);
-      00014A 8E A6            [24]  450 	mov	_iapal,r6
+      000242 8E A6            [24]  450 	mov	_iapal,r6
                                     451 ;	./src/N76_Flash.c:36: IAPFD = data;
-      00014C 85 54 AE         [24]  452 	mov	_iapfd,_APROM_write_byte_PARM_2
-                                    453 ;	./src/N76_Flash.c:38: setbAP(IAPTRG, IAPGO); // Trigger_IAP();
-      00014F 53 A8 7F         [24]  454 	anl	_ie,#0x7f
-      000152 75 C7 AA         [24]  455 	mov	_ta,#0xaa
-      000155 75 C7 55         [24]  456 	mov	_ta,#0x55
-      000158 43 A4 01         [24]  457 	orl	_iaptrg,#0x01
-      00015B 43 A8 80         [24]  458 	orl	_ie,#0x80
-                                    459 ;	./src/N76_Flash.c:40: clrbAP(IAPUEN, APUEN);
-      00015E 53 A8 7F         [24]  460 	anl	_ie,#0x7f
-      000161 75 C7 AA         [24]  461 	mov	_ta,#0xaa
-      000164 75 C7 55         [24]  462 	mov	_ta,#0x55
-      000167 53 A5 FE         [24]  463 	anl	_iapuen,#0xfe
-      00016A 43 A8 80         [24]  464 	orl	_ie,#0x80
-                                    465 ;	./src/N76_Flash.c:41: clrbAP(CHPCON, IAPEN);
-      00016D 53 A8 7F         [24]  466 	anl	_ie,#0x7f
-      000170 75 C7 AA         [24]  467 	mov	_ta,#0xaa
-      000173 75 C7 55         [24]  468 	mov	_ta,#0x55
-      000176 53 9F FE         [24]  469 	anl	_chpcon,#0xfe
-      000179 43 A8 80         [24]  470 	orl	_ie,#0x80
+      000244 85 5A AE         [24]  452 	mov	_iapfd,_APROM_write_byte_PARM_2
+                                    453 ;	./src/N76_Flash.c:38: set_IAPGO; // Trigger_IAP();
+      000247 53 A8 7F         [24]  454 	anl	_ie,#0x7f
+      00024A 75 C7 AA         [24]  455 	mov	_ta,#0xaa
+      00024D 75 C7 55         [24]  456 	mov	_ta,#0x55
+      000250 43 A4 01         [24]  457 	orl	_iaptrg,#0x01
+      000253 43 A8 80         [24]  458 	orl	_ie,#0x80
+                                    459 ;	./src/N76_Flash.c:40: clr_APUEN;
+      000256 53 A8 7F         [24]  460 	anl	_ie,#0x7f
+      000259 75 C7 AA         [24]  461 	mov	_ta,#0xaa
+      00025C 75 C7 55         [24]  462 	mov	_ta,#0x55
+      00025F 53 A5 FE         [24]  463 	anl	_iapuen,#0xfe
+      000262 43 A8 80         [24]  464 	orl	_ie,#0x80
+                                    465 ;	./src/N76_Flash.c:41: clr_IAPEN;
+      000265 53 A8 7F         [24]  466 	anl	_ie,#0x7f
+      000268 75 C7 AA         [24]  467 	mov	_ta,#0xaa
+      00026B 75 C7 55         [24]  468 	mov	_ta,#0x55
+      00026E 53 9F FE         [24]  469 	anl	_chpcon,#0xfe
+      000271 43 A8 80         [24]  470 	orl	_ie,#0x80
                                     471 ;	./src/N76_Flash.c:42: }
-      00017C 22               [24]  472 	ret
+      000274 22               [24]  472 	ret
                                     473 ;------------------------------------------------------------
                                     474 ;Allocation info for local variables in function 'Erase_APROM'
                                     475 ;------------------------------------------------------------
@@ -479,49 +479,49 @@
                                     479 ;	-----------------------------------------
                                     480 ;	 function Erase_APROM
                                     481 ;	-----------------------------------------
-      00017D                        482 _Erase_APROM:
-      00017D AE 82            [24]  483 	mov	r6,dpl
-      00017F AF 83            [24]  484 	mov	r7,dph
-                                    485 ;	./src/N76_Flash.c:47: setbAP(CHPCON, IAPEN); // enable IAP
-      000181 53 A8 7F         [24]  486 	anl	_ie,#0x7f
-      000184 75 C7 AA         [24]  487 	mov	_ta,#0xaa
-      000187 75 C7 55         [24]  488 	mov	_ta,#0x55
-      00018A 43 9F 01         [24]  489 	orl	_chpcon,#0x01
-      00018D 43 A8 80         [24]  490 	orl	_ie,#0x80
-                                    491 ;	./src/N76_Flash.c:48: IAPFD = 0xFF;												// IMPORTANT !! To erase function must setting IAPFD = 0xFF 
-      000190 75 AE FF         [24]  492 	mov	_iapfd,#0xff
+      000275                        482 _Erase_APROM:
+      000275 AE 82            [24]  483 	mov	r6,dpl
+      000277 AF 83            [24]  484 	mov	r7,dph
+                                    485 ;	./src/N76_Flash.c:47: set_IAPEN; 					// enable IAP
+      000279 53 A8 7F         [24]  486 	anl	_ie,#0x7f
+      00027C 75 C7 AA         [24]  487 	mov	_ta,#0xaa
+      00027F 75 C7 55         [24]  488 	mov	_ta,#0x55
+      000282 43 9F 01         [24]  489 	orl	_chpcon,#0x01
+      000285 43 A8 80         [24]  490 	orl	_ie,#0x80
+                                    491 ;	./src/N76_Flash.c:48: IAPFD = 0xFF;				// IMPORTANT !! To erase function must setting IAPFD = 0xFF 
+      000288 75 AE FF         [24]  492 	mov	_iapfd,#0xff
                                     493 ;	./src/N76_Flash.c:49: IAPCN = PAGE_ERASE_AP;
-      000193 75 AF 22         [24]  494 	mov	_iapcn,#0x22
-                                    495 ;	./src/N76_Flash.c:50: setbAP(IAPUEN, APUEN); // enable IAP updated
-      000196 53 A8 7F         [24]  496 	anl	_ie,#0x7f
-      000199 75 C7 AA         [24]  497 	mov	_ta,#0xaa
-      00019C 75 C7 55         [24]  498 	mov	_ta,#0x55
-      00019F 43 A5 01         [24]  499 	orl	_iapuen,#0x01
-      0001A2 43 A8 80         [24]  500 	orl	_ie,#0x80
-                                    501 ;	./src/N76_Flash.c:54: IAPAH = (uint8_t)((addr) >> 8);
-      0001A5 8F A7            [24]  502 	mov	_iapah,r7
-                                    503 ;	./src/N76_Flash.c:55: IAPAL = (uint8_t)((addr)&0xFF);
-      0001A7 8E A6            [24]  504 	mov	_iapal,r6
-                                    505 ;	./src/N76_Flash.c:56: setbAP(IAPTRG, IAPGO); // Trigger_IAP();
-      0001A9 53 A8 7F         [24]  506 	anl	_ie,#0x7f
-      0001AC 75 C7 AA         [24]  507 	mov	_ta,#0xaa
-      0001AF 75 C7 55         [24]  508 	mov	_ta,#0x55
-      0001B2 43 A4 01         [24]  509 	orl	_iaptrg,#0x01
-      0001B5 43 A8 80         [24]  510 	orl	_ie,#0x80
-                                    511 ;	./src/N76_Flash.c:58: clrbAP(IAPUEN, APUEN);
-      0001B8 53 A8 7F         [24]  512 	anl	_ie,#0x7f
-      0001BB 75 C7 AA         [24]  513 	mov	_ta,#0xaa
-      0001BE 75 C7 55         [24]  514 	mov	_ta,#0x55
-      0001C1 53 A5 FE         [24]  515 	anl	_iapuen,#0xfe
-      0001C4 43 A8 80         [24]  516 	orl	_ie,#0x80
-                                    517 ;	./src/N76_Flash.c:59: clrbAP(CHPCON, IAPEN);
-      0001C7 53 A8 7F         [24]  518 	anl	_ie,#0x7f
-      0001CA 75 C7 AA         [24]  519 	mov	_ta,#0xaa
-      0001CD 75 C7 55         [24]  520 	mov	_ta,#0x55
-      0001D0 53 9F FE         [24]  521 	anl	_chpcon,#0xfe
-      0001D3 43 A8 80         [24]  522 	orl	_ie,#0x80
-                                    523 ;	./src/N76_Flash.c:60: }
-      0001D6 22               [24]  524 	ret
+      00028B 75 AF 22         [24]  494 	mov	_iapcn,#0x22
+                                    495 ;	./src/N76_Flash.c:50: set_APUEN;			 		// enable IAP updated
+      00028E 53 A8 7F         [24]  496 	anl	_ie,#0x7f
+      000291 75 C7 AA         [24]  497 	mov	_ta,#0xaa
+      000294 75 C7 55         [24]  498 	mov	_ta,#0x55
+      000297 43 A5 01         [24]  499 	orl	_iapuen,#0x01
+      00029A 43 A8 80         [24]  500 	orl	_ie,#0x80
+                                    501 ;	./src/N76_Flash.c:52: IAPAH = (uint8_t)((addr) >> 8);
+      00029D 8F A7            [24]  502 	mov	_iapah,r7
+                                    503 ;	./src/N76_Flash.c:53: IAPAL = (uint8_t)((addr) & 0xFF);
+      00029F 8E A6            [24]  504 	mov	_iapal,r6
+                                    505 ;	./src/N76_Flash.c:55: set_IAPGO;					// Trigger_IAP();
+      0002A1 53 A8 7F         [24]  506 	anl	_ie,#0x7f
+      0002A4 75 C7 AA         [24]  507 	mov	_ta,#0xaa
+      0002A7 75 C7 55         [24]  508 	mov	_ta,#0x55
+      0002AA 43 A4 01         [24]  509 	orl	_iaptrg,#0x01
+      0002AD 43 A8 80         [24]  510 	orl	_ie,#0x80
+                                    511 ;	./src/N76_Flash.c:57: clr_APUEN;
+      0002B0 53 A8 7F         [24]  512 	anl	_ie,#0x7f
+      0002B3 75 C7 AA         [24]  513 	mov	_ta,#0xaa
+      0002B6 75 C7 55         [24]  514 	mov	_ta,#0x55
+      0002B9 53 A5 FE         [24]  515 	anl	_iapuen,#0xfe
+      0002BC 43 A8 80         [24]  516 	orl	_ie,#0x80
+                                    517 ;	./src/N76_Flash.c:58: clr_IAPEN;
+      0002BF 53 A8 7F         [24]  518 	anl	_ie,#0x7f
+      0002C2 75 C7 AA         [24]  519 	mov	_ta,#0xaa
+      0002C5 75 C7 55         [24]  520 	mov	_ta,#0x55
+      0002C8 53 9F FE         [24]  521 	anl	_chpcon,#0xfe
+      0002CB 43 A8 80         [24]  522 	orl	_ie,#0x80
+                                    523 ;	./src/N76_Flash.c:59: }
+      0002CE 22               [24]  524 	ret
                                     525 	.area CSEG    (CODE)
                                     526 	.area CONST   (CODE)
                                     527 	.area XINIT   (CODE)

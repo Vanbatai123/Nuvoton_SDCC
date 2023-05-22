@@ -10,19 +10,19 @@
 
 uint16_t value;
 
-#define CODEB_MINUS 0x0A
-#define CODEB_H 0x0B
-#define CODEB_E 0x0C
-#define CODEB_L 0x0D
-#define CODEB_P 0x0E
-#define CODEB_BLANK 0x0F
-#define CODEB_DP 0xF0
+#define CODEB_MINUS 	0x0A
+#define CODEB_H 		0x0B
+#define CODEB_E 		0x0C
+#define CODEB_L 		0x0D
+#define CODEB_P 		0x0E
+#define CODEB_BLANK 	0x0F
+#define CODEB_DP 		0xF0
 
-#define DECODE_MODE 0x09
-#define INTENSITY 0x0A
-#define SCAN_LIMIT 0x0B
-#define SHUTDOWN 0x0C
-#define DISPLAY_TEST 0x0F
+#define DECODE_MODE 	0x09
+#define INTENSITY 		0x0A
+#define SCAN_LIMIT 		0x0B
+#define SHUTDOWN 		0x0C
+#define DISPLAY_TEST 	0x0F
 
 void MAX7219_begin(void);
 void MAX7219_transferAll(int8_t chip, const uint8_t addr, const uint8_t data);

@@ -27,34 +27,33 @@ uint16_t APROM_read_2byte(uint16_t u16_addr)
 void APROM_write_byte(uint16_t addr, uint8_t data)
 {
 	// write new byte
-	setbAP(CHPCON, IAPEN); // enable IAP
-	setbAP(IAPUEN, APUEN); // enable IAP updated
+	set_IAPEN; // enable IAP
+	set_APUEN; // enable IAP updated
 	IAPCN = BYTE_PROGRAM_AP;
 
 	IAPAH = (uint8_t)((addr) >> 8);
 	IAPAL = (uint8_t)((addr)&0xFF);
 	IAPFD = data;
 
-	setbAP(IAPTRG, IAPGO); // Trigger_IAP();
+	set_IAPGO; // Trigger_IAP();
 
-	clrbAP(IAPUEN, APUEN);
-	clrbAP(CHPCON, IAPEN);
+	clr_APUEN;
+	clr_IAPEN;
 }
 
 // ******************************************************************************************************************/		
 void Erase_APROM(uint16_t addr)
-{   
-	setbAP(CHPCON, IAPEN); // enable IAP
-	IAPFD = 0xFF;												// IMPORTANT !! To erase function must setting IAPFD = 0xFF 
-    IAPCN = PAGE_ERASE_AP;
-	setbAP(IAPUEN, APUEN); // enable IAP updated
+{
+	set_IAPEN; 					// enable IAP
+	IAPFD = 0xFF;				// IMPORTANT !! To erase function must setting IAPFD = 0xFF 
+	IAPCN = PAGE_ERASE_AP;
+	set_APUEN;			 		// enable IAP updated
 
-    // for(u16Count=0x0000;u16Count<DATA_SIZE/PAGE_SIZE;u16Count++)		//
-    // {        
 	IAPAH = (uint8_t)((addr) >> 8);
-	IAPAL = (uint8_t)((addr)&0xFF);
-	setbAP(IAPTRG, IAPGO); // Trigger_IAP();
-    // } 
-	clrbAP(IAPUEN, APUEN);
-	clrbAP(CHPCON, IAPEN);
+	IAPAL = (uint8_t)((addr) & 0xFF);
+
+	set_IAPGO;					// Trigger_IAP();
+
+	clr_APUEN;
+	clr_IAPEN;
 }

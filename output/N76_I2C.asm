@@ -441,47 +441,45 @@ _timeOut:
 ;	 function I2C_begin
 ;	-----------------------------------------
 _I2C_begin:
-;	./src/N76_I2C.c:30: setb(P1M1, 3); // set P1.3 as open drain
+;	./src/N76_I2C.c:30: P13_OpenDrain_Mode;
 	orl	_p1m1,#0x08
-;	./src/N76_I2C.c:31: setb(P1M2, 3);
 	orl	_p1m2,#0x08
-;	./src/N76_I2C.c:32: setb(P1M1, 4); // set P1.4 as open drain
+;	./src/N76_I2C.c:31: P14_OpenDrain_Mode;
 	orl	_p1m1,#0x10
-;	./src/N76_I2C.c:33: setb(P1M2, 4);
 	orl	_p1m2,#0x10
-;	./src/N76_I2C.c:36: I2CLK = I2C_CLOCK; // I2C clock = Fsys/(4*(I2CLK+1))
+;	./src/N76_I2C.c:34: I2CLK = I2C_CLOCK; // I2C clock = Fsys/(4*(I2CLK+1))
 	mov	_i2clk,#0x27
-;	./src/N76_I2C.c:39: setb(I2CON, I2CEN); // set_I2CEN;
+;	./src/N76_I2C.c:37: set_I2CEN;
 	orl	_i2con,#0x40
-;	./src/N76_I2C.c:40: }
+;	./src/N76_I2C.c:38: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_beginTransmission'
 ;------------------------------------------------------------
 ;addr                      Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:42: uint8_t I2C_beginTransmission(uint8_t addr)
+;	./src/N76_I2C.c:40: uint8_t I2C_beginTransmission(uint8_t addr)
 ;	-----------------------------------------
 ;	 function I2C_beginTransmission
 ;	-----------------------------------------
 _I2C_beginTransmission:
 	mov	r7,dpl
-;	./src/N76_I2C.c:44: txBufferIndex = 0;
+;	./src/N76_I2C.c:42: txBufferIndex = 0;
 	mov	dptr,#_txBufferIndex
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:45: txBufferLength = 0;
+;	./src/N76_I2C.c:43: txBufferLength = 0;
 	mov	dptr,#_txBufferLength
 	movx	@dptr,a
-;	./src/N76_I2C.c:54: setb(I2CON, STA);
+;	./src/N76_I2C.c:52: set_STA;
 	orl	_i2con,#0x20
-;	./src/N76_I2C.c:55: clrb(I2CON, SI);
+;	./src/N76_I2C.c:53: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:57: t = 0;
+;	./src/N76_I2C.c:55: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:59: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:57: while (inbit(I2CON, SI) == 0)
 00103$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -490,29 +488,29 @@ _I2C_beginTransmission:
 	anl	a,#0x1f
 	mov	r6,a
 	jnz	00105$
-;	./src/N76_I2C.c:60: if (timeOut())
+;	./src/N76_I2C.c:58: if (timeOut())
 	push	ar7
 	lcall	_timeOut
 	mov	a,dpl
 	pop	ar7
 	jz	00103$
-;	./src/N76_I2C.c:61: return 2;
+;	./src/N76_I2C.c:59: return 2;
 	mov	dpl,#0x02
 	ret
 00105$:
-;	./src/N76_I2C.c:65: I2DAT = (addr << 1) | I2C_WRITE;
+;	./src/N76_I2C.c:63: I2DAT = (addr << 1) | I2C_WRITE;
 	mov	a,r7
 	add	a,r7
 	mov	_i2dat,a
-;	./src/N76_I2C.c:67: t = 0;
+;	./src/N76_I2C.c:65: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:69: clrb(I2CON, STA);
+;	./src/N76_I2C.c:67: clr_STA;
 	anl	_i2con,#0xdf
-;	./src/N76_I2C.c:70: clrb(I2CON, SI);
+;	./src/N76_I2C.c:68: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:71: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:69: while (inbit(I2CON, SI) == 0)
 00108$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -520,30 +518,30 @@ _I2C_beginTransmission:
 	rl	a
 	anl	a,#0x1f
 	jnz	00110$
-;	./src/N76_I2C.c:72: if (timeOut())
+;	./src/N76_I2C.c:70: if (timeOut())
 	lcall	_timeOut
 	mov	a,dpl
 	jz	00108$
-;	./src/N76_I2C.c:73: return 3;
+;	./src/N76_I2C.c:71: return 3;
 	mov	dpl,#0x03
 	ret
 00110$:
-;	./src/N76_I2C.c:75: return 0;
+;	./src/N76_I2C.c:73: return 0;
 	mov	dpl,#0x00
-;	./src/N76_I2C.c:76: }
+;	./src/N76_I2C.c:74: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_write'
 ;------------------------------------------------------------
 ;data                      Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:78: void I2C_write(uint8_t data)
+;	./src/N76_I2C.c:76: void I2C_write(uint8_t data)
 ;	-----------------------------------------
 ;	 function I2C_write
 ;	-----------------------------------------
 _I2C_write:
 	mov	r7,dpl
-;	./src/N76_I2C.c:80: txBuffer[txBufferIndex++] = data;
+;	./src/N76_I2C.c:78: txBuffer[txBufferIndex++] = data;
 	mov	dptr,#_txBufferIndex
 	movx	a,@dptr
 	mov	r6,a
@@ -557,12 +555,12 @@ _I2C_write:
 	mov	dph,a
 	mov	a,r7
 	movx	@dptr,a
-;	./src/N76_I2C.c:81: txBufferLength = txBufferIndex;
+;	./src/N76_I2C.c:79: txBufferLength = txBufferIndex;
 	mov	dptr,#_txBufferIndex
 	movx	a,@dptr
 	mov	dptr,#_txBufferLength
 	movx	@dptr,a
-;	./src/N76_I2C.c:82: }
+;	./src/N76_I2C.c:80: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_writeBuffer'
@@ -571,7 +569,7 @@ _I2C_write:
 ;data                      Allocated to registers r5 r6 r7 
 ;i                         Allocated to registers r4 
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:84: void I2C_writeBuffer(uint8_t *data, uint8_t len)
+;	./src/N76_I2C.c:82: void I2C_writeBuffer(uint8_t *data, uint8_t len)
 ;	-----------------------------------------
 ;	 function I2C_writeBuffer
 ;	-----------------------------------------
@@ -579,15 +577,15 @@ _I2C_writeBuffer:
 	mov	r5,dpl
 	mov	r6,dph
 	mov	r7,b
-;	./src/N76_I2C.c:86: uint8_t i = 0;
+;	./src/N76_I2C.c:84: uint8_t i = 0;
 	mov	r4,#0x00
 00103$:
-;	./src/N76_I2C.c:87: for (; i < len; ++i)
+;	./src/N76_I2C.c:85: for (; i < len; ++i)
 	clr	c
 	mov	a,r4
 	subb	a,_I2C_writeBuffer_PARM_2
 	jnc	00105$
-;	./src/N76_I2C.c:89: I2C_write(data[i]);
+;	./src/N76_I2C.c:87: I2C_write(data[i]);
 	mov	a,r4
 	add	a,r5
 	mov	r1,a
@@ -609,23 +607,23 @@ _I2C_writeBuffer:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	./src/N76_I2C.c:87: for (; i < len; ++i)
+;	./src/N76_I2C.c:85: for (; i < len; ++i)
 	inc	r4
 	sjmp	00103$
 00105$:
-;	./src/N76_I2C.c:91: }
+;	./src/N76_I2C.c:89: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_endTransmission'
 ;------------------------------------------------------------
 ;i                         Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:93: uint8_t I2C_endTransmission(void)
+;	./src/N76_I2C.c:91: uint8_t I2C_endTransmission(void)
 ;	-----------------------------------------
 ;	 function I2C_endTransmission
 ;	-----------------------------------------
 _I2C_endTransmission:
-;	./src/N76_I2C.c:97: for (i = 0; i < txBufferLength; ++i)
+;	./src/N76_I2C.c:95: for (i = 0; i < txBufferLength; ++i)
 	mov	r7,#0x00
 00113$:
 	mov	dptr,#_txBufferLength
@@ -635,7 +633,7 @@ _I2C_endTransmission:
 	mov	a,r7
 	subb	a,r6
 	jnc	00106$
-;	./src/N76_I2C.c:100: I2DAT = txBuffer[i];
+;	./src/N76_I2C.c:98: I2DAT = txBuffer[i];
 	mov	a,r7
 	add	a,#_txBuffer
 	mov	dpl,a
@@ -644,15 +642,15 @@ _I2C_endTransmission:
 	mov	dph,a
 	movx	a,@dptr
 	mov	_i2dat,a
-;	./src/N76_I2C.c:103: t = 0;
+;	./src/N76_I2C.c:101: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:104: clrb(I2CON, STA);
+;	./src/N76_I2C.c:102: clr_STA;
 	anl	_i2con,#0xdf
-;	./src/N76_I2C.c:105: clrb(I2CON, SI);
+;	./src/N76_I2C.c:103: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:106: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:104: while (inbit(I2CON, SI) == 0)
 00103$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -661,29 +659,29 @@ _I2C_endTransmission:
 	anl	a,#0x1f
 	mov	r6,a
 	jnz	00114$
-;	./src/N76_I2C.c:107: if (timeOut())
+;	./src/N76_I2C.c:105: if (timeOut())
 	push	ar7
 	lcall	_timeOut
 	mov	a,dpl
 	pop	ar7
 	jz	00103$
-;	./src/N76_I2C.c:108: return 1;
+;	./src/N76_I2C.c:106: return 1;
 	mov	dpl,#0x01
 	ret
 00114$:
-;	./src/N76_I2C.c:97: for (i = 0; i < txBufferLength; ++i)
+;	./src/N76_I2C.c:95: for (i = 0; i < txBufferLength; ++i)
 	inc	r7
 	sjmp	00113$
 00106$:
-;	./src/N76_I2C.c:112: setb(I2CON, STO);
+;	./src/N76_I2C.c:110: set_STO;
 	orl	_i2con,#0x10
-;	./src/N76_I2C.c:113: clrb(I2CON, SI);
-	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:116: t = 0;
+;	./src/N76_I2C.c:111: set_SI;
+	orl	_i2con,#0x08
+;	./src/N76_I2C.c:114: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:117: while (inbit(I2CON, STO) == 1)
+;	./src/N76_I2C.c:115: while (inbit(I2CON, STO) == 1)
 00109$:
 	mov	a,#0x10
 	anl	a,_i2con
@@ -691,17 +689,17 @@ _I2C_endTransmission:
 	anl	a,#0x0f
 	mov	r7,a
 	cjne	r7,#0x01,00111$
-;	./src/N76_I2C.c:118: if (timeOut())
+;	./src/N76_I2C.c:116: if (timeOut())
 	lcall	_timeOut
 	mov	a,dpl
 	jz	00109$
-;	./src/N76_I2C.c:119: return 3;
+;	./src/N76_I2C.c:117: return 3;
 	mov	dpl,#0x03
 	ret
 00111$:
-;	./src/N76_I2C.c:125: return 0;
+;	./src/N76_I2C.c:123: return 0;
 	mov	dpl,#0x00
-;	./src/N76_I2C.c:126: }
+;	./src/N76_I2C.c:124: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_requestFrom'
@@ -710,29 +708,29 @@ _I2C_endTransmission:
 ;addr                      Allocated to registers r7 
 ;i                         Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:128: uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
+;	./src/N76_I2C.c:126: uint8_t I2C_requestFrom(uint8_t addr, uint8_t len)
 ;	-----------------------------------------
 ;	 function I2C_requestFrom
 ;	-----------------------------------------
 _I2C_requestFrom:
 	mov	r7,dpl
-;	./src/N76_I2C.c:131: rxBufferLength = len;
+;	./src/N76_I2C.c:129: rxBufferLength = len;
 	mov	dptr,#_rxBufferLength
 	mov	a,_I2C_requestFrom_PARM_2
 	movx	@dptr,a
-;	./src/N76_I2C.c:132: rxBufferIndex = 0;
+;	./src/N76_I2C.c:130: rxBufferIndex = 0;
 	mov	dptr,#_rxBufferIndex
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:141: setb(I2CON, STA);
+;	./src/N76_I2C.c:139: set_STA;
 	orl	_i2con,#0x20
-;	./src/N76_I2C.c:142: clrb(I2CON, SI);
+;	./src/N76_I2C.c:140: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:145: t = 0;
+;	./src/N76_I2C.c:143: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:146: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:144: while (inbit(I2CON, SI) == 0)
 00103$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -741,32 +739,32 @@ _I2C_requestFrom:
 	anl	a,#0x1f
 	mov	r6,a
 	jnz	00105$
-;	./src/N76_I2C.c:147: if (timeOut())
+;	./src/N76_I2C.c:145: if (timeOut())
 	push	ar7
 	lcall	_timeOut
 	mov	a,dpl
 	pop	ar7
 	jz	00103$
-;	./src/N76_I2C.c:148: return 2;
+;	./src/N76_I2C.c:146: return 2;
 	mov	dpl,#0x02
 	ret
 00105$:
-;	./src/N76_I2C.c:151: I2DAT = (addr << 1) | I2C_READ;
+;	./src/N76_I2C.c:149: I2DAT = (addr << 1) | I2C_READ;
 	mov	a,r7
 	add	a,r7
 	mov	r7,a
 	mov	a,#0x01
 	orl	a,r7
 	mov	_i2dat,a
-;	./src/N76_I2C.c:152: clrb(I2CON, STA);
+;	./src/N76_I2C.c:150: clr_STA;
 	anl	_i2con,#0xdf
-;	./src/N76_I2C.c:153: clrb(I2CON, SI);
+;	./src/N76_I2C.c:151: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:156: t = 0;
+;	./src/N76_I2C.c:154: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:157: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:155: while (inbit(I2CON, SI) == 0)
 00108$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -774,14 +772,14 @@ _I2C_requestFrom:
 	rl	a
 	anl	a,#0x1f
 	jnz	00142$
-;	./src/N76_I2C.c:158: if (timeOut())
+;	./src/N76_I2C.c:156: if (timeOut())
 	lcall	_timeOut
 	mov	a,dpl
 	jz	00108$
-;	./src/N76_I2C.c:159: return 3;
+;	./src/N76_I2C.c:157: return 3;
 	mov	dpl,#0x03
 	ret
-;	./src/N76_I2C.c:162: for (i = 0; i < rxBufferLength - 1; i++)
+;	./src/N76_I2C.c:160: for (i = 0; i < rxBufferLength - 1; i++)
 00142$:
 	mov	r7,#0x00
 00128$:
@@ -804,15 +802,15 @@ _I2C_requestFrom:
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00116$
-;	./src/N76_I2C.c:165: setb(I2CON, AA);
+;	./src/N76_I2C.c:163: set_AA;
 	orl	_i2con,#0x04
-;	./src/N76_I2C.c:166: clrb(I2CON, SI);
+;	./src/N76_I2C.c:164: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:168: t = 0;
+;	./src/N76_I2C.c:166: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:169: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:167: while (inbit(I2CON, SI) == 0)
 00113$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -821,17 +819,17 @@ _I2C_requestFrom:
 	anl	a,#0x1f
 	mov	r6,a
 	jnz	00115$
-;	./src/N76_I2C.c:170: if (timeOut())
+;	./src/N76_I2C.c:168: if (timeOut())
 	push	ar7
 	lcall	_timeOut
 	mov	a,dpl
 	pop	ar7
 	jz	00113$
-;	./src/N76_I2C.c:171: return 4;
+;	./src/N76_I2C.c:169: return 4;
 	mov	dpl,#0x04
 	ret
 00115$:
-;	./src/N76_I2C.c:173: rxBuffer[i] = I2DAT;
+;	./src/N76_I2C.c:171: rxBuffer[i] = I2DAT;
 	mov	a,r7
 	add	a,#_rxBuffer
 	mov	dpl,a
@@ -840,19 +838,19 @@ _I2C_requestFrom:
 	mov	dph,a
 	mov	a,_i2dat
 	movx	@dptr,a
-;	./src/N76_I2C.c:162: for (i = 0; i < rxBufferLength - 1; i++)
+;	./src/N76_I2C.c:160: for (i = 0; i < rxBufferLength - 1; i++)
 	inc	r7
 	sjmp	00128$
 00116$:
-;	./src/N76_I2C.c:177: clrb(I2CON, AA);
+;	./src/N76_I2C.c:175: clr_AA;
 	anl	_i2con,#0xfb
-;	./src/N76_I2C.c:178: clrb(I2CON, SI);
+;	./src/N76_I2C.c:176: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:180: t = 0;
+;	./src/N76_I2C.c:178: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:181: while (inbit(I2CON, SI) == 0)
+;	./src/N76_I2C.c:179: while (inbit(I2CON, SI) == 0)
 00119$:
 	mov	a,#0x08
 	anl	a,_i2con
@@ -860,15 +858,15 @@ _I2C_requestFrom:
 	rl	a
 	anl	a,#0x1f
 	jnz	00121$
-;	./src/N76_I2C.c:182: if (timeOut())
+;	./src/N76_I2C.c:180: if (timeOut())
 	lcall	_timeOut
 	mov	a,dpl
 	jz	00119$
-;	./src/N76_I2C.c:183: return 5;
+;	./src/N76_I2C.c:181: return 5;
 	mov	dpl,#0x05
 	ret
 00121$:
-;	./src/N76_I2C.c:184: rxBuffer[rxBufferLength - 1] = I2DAT;
+;	./src/N76_I2C.c:182: rxBuffer[rxBufferLength - 1] = I2DAT;
 	mov	dptr,#_rxBufferLength
 	movx	a,@dptr
 	mov	r7,a
@@ -885,15 +883,15 @@ _I2C_requestFrom:
 	mov	dph,a
 	mov	a,_i2dat
 	movx	@dptr,a
-;	./src/N76_I2C.c:187: setb(I2CON, STO);
+;	./src/N76_I2C.c:185: set_STO;
 	orl	_i2con,#0x10
-;	./src/N76_I2C.c:188: clrb(I2CON, SI);
+;	./src/N76_I2C.c:186: clr_SI;
 	anl	_i2con,#0xf7
-;	./src/N76_I2C.c:191: t = 0;
+;	./src/N76_I2C.c:189: t = 0;
 	mov	dptr,#_t
 	clr	a
 	movx	@dptr,a
-;	./src/N76_I2C.c:192: while (inbit(I2CON, STO) == 1)
+;	./src/N76_I2C.c:190: while (inbit(I2CON, STO) == 1)
 00124$:
 	mov	a,#0x10
 	anl	a,_i2con
@@ -901,31 +899,31 @@ _I2C_requestFrom:
 	anl	a,#0x0f
 	mov	r7,a
 	cjne	r7,#0x01,00126$
-;	./src/N76_I2C.c:193: if (timeOut())
+;	./src/N76_I2C.c:191: if (timeOut())
 	lcall	_timeOut
 	mov	a,dpl
 	jz	00124$
-;	./src/N76_I2C.c:194: return 6;
+;	./src/N76_I2C.c:192: return 6;
 	mov	dpl,#0x06
 	ret
 00126$:
-;	./src/N76_I2C.c:199: return 0;
+;	./src/N76_I2C.c:197: return 0;
 	mov	dpl,#0x00
-;	./src/N76_I2C.c:200: }
+;	./src/N76_I2C.c:198: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_read'
 ;------------------------------------------------------------
 ;value                     Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:202: uint8_t I2C_read(void)
+;	./src/N76_I2C.c:200: uint8_t I2C_read(void)
 ;	-----------------------------------------
 ;	 function I2C_read
 ;	-----------------------------------------
 _I2C_read:
-;	./src/N76_I2C.c:204: int8_t value = -1;
+;	./src/N76_I2C.c:202: int8_t value = -1;
 	mov	r7,#0xff
-;	./src/N76_I2C.c:206: if (rxBufferIndex < rxBufferLength)
+;	./src/N76_I2C.c:204: if (rxBufferIndex < rxBufferLength)
 	mov	dptr,#_rxBufferIndex
 	movx	a,@dptr
 	mov	r6,a
@@ -936,7 +934,7 @@ _I2C_read:
 	mov	a,r6
 	subb	a,r5
 	jnc	00102$
-;	./src/N76_I2C.c:208: value = rxBuffer[rxBufferIndex];
+;	./src/N76_I2C.c:206: value = rxBuffer[rxBufferIndex];
 	mov	a,r6
 	add	a,#_rxBuffer
 	mov	dpl,a
@@ -945,25 +943,25 @@ _I2C_read:
 	mov	dph,a
 	movx	a,@dptr
 	mov	r7,a
-;	./src/N76_I2C.c:209: ++rxBufferIndex;
+;	./src/N76_I2C.c:207: ++rxBufferIndex;
 	mov	dptr,#_rxBufferIndex
 	mov	a,r6
 	inc	a
 	movx	@dptr,a
 00102$:
-;	./src/N76_I2C.c:211: return value;
+;	./src/N76_I2C.c:209: return value;
 	mov	dpl,r7
-;	./src/N76_I2C.c:212: }
+;	./src/N76_I2C.c:210: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'I2C_available'
 ;------------------------------------------------------------
-;	./src/N76_I2C.c:214: int16_t I2C_available()
+;	./src/N76_I2C.c:212: int16_t I2C_available()
 ;	-----------------------------------------
 ;	 function I2C_available
 ;	-----------------------------------------
 _I2C_available:
-;	./src/N76_I2C.c:216: return rxBufferLength - rxBufferIndex;
+;	./src/N76_I2C.c:214: return rxBufferLength - rxBufferIndex;
 	mov	dptr,#_rxBufferLength
 	movx	a,@dptr
 	mov	r7,a
@@ -978,7 +976,7 @@ _I2C_available:
 	mov	r7,a
 	mov	a,r6
 	subb	a,r4
-;	./src/N76_I2C.c:217: }
+;	./src/N76_I2C.c:215: }
 	mov	dpl,r7
 	mov	dph,a
 	ret

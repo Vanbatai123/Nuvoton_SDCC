@@ -430,13 +430,13 @@ _APROM_read_2byte:
 _APROM_write_byte:
 	mov	r6,dpl
 	mov	r7,dph
-;	./src/N76_Flash.c:30: setbAP(CHPCON, IAPEN); // enable IAP
+;	./src/N76_Flash.c:30: set_IAPEN; // enable IAP
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	orl	_chpcon,#0x01
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:31: setbAP(IAPUEN, APUEN); // enable IAP updated
+;	./src/N76_Flash.c:31: set_APUEN; // enable IAP updated
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
@@ -450,19 +450,19 @@ _APROM_write_byte:
 	mov	_iapal,r6
 ;	./src/N76_Flash.c:36: IAPFD = data;
 	mov	_iapfd,_APROM_write_byte_PARM_2
-;	./src/N76_Flash.c:38: setbAP(IAPTRG, IAPGO); // Trigger_IAP();
+;	./src/N76_Flash.c:38: set_IAPGO; // Trigger_IAP();
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	orl	_iaptrg,#0x01
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:40: clrbAP(IAPUEN, APUEN);
+;	./src/N76_Flash.c:40: clr_APUEN;
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	anl	_iapuen,#0xfe
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:41: clrbAP(CHPCON, IAPEN);
+;	./src/N76_Flash.c:41: clr_IAPEN;
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
@@ -482,45 +482,45 @@ _APROM_write_byte:
 _Erase_APROM:
 	mov	r6,dpl
 	mov	r7,dph
-;	./src/N76_Flash.c:47: setbAP(CHPCON, IAPEN); // enable IAP
+;	./src/N76_Flash.c:47: set_IAPEN; 					// enable IAP
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	orl	_chpcon,#0x01
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:48: IAPFD = 0xFF;												// IMPORTANT !! To erase function must setting IAPFD = 0xFF 
+;	./src/N76_Flash.c:48: IAPFD = 0xFF;				// IMPORTANT !! To erase function must setting IAPFD = 0xFF 
 	mov	_iapfd,#0xff
 ;	./src/N76_Flash.c:49: IAPCN = PAGE_ERASE_AP;
 	mov	_iapcn,#0x22
-;	./src/N76_Flash.c:50: setbAP(IAPUEN, APUEN); // enable IAP updated
+;	./src/N76_Flash.c:50: set_APUEN;			 		// enable IAP updated
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	orl	_iapuen,#0x01
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:54: IAPAH = (uint8_t)((addr) >> 8);
+;	./src/N76_Flash.c:52: IAPAH = (uint8_t)((addr) >> 8);
 	mov	_iapah,r7
-;	./src/N76_Flash.c:55: IAPAL = (uint8_t)((addr)&0xFF);
+;	./src/N76_Flash.c:53: IAPAL = (uint8_t)((addr) & 0xFF);
 	mov	_iapal,r6
-;	./src/N76_Flash.c:56: setbAP(IAPTRG, IAPGO); // Trigger_IAP();
+;	./src/N76_Flash.c:55: set_IAPGO;					// Trigger_IAP();
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	orl	_iaptrg,#0x01
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:58: clrbAP(IAPUEN, APUEN);
+;	./src/N76_Flash.c:57: clr_APUEN;
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	anl	_iapuen,#0xfe
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:59: clrbAP(CHPCON, IAPEN);
+;	./src/N76_Flash.c:58: clr_IAPEN;
 	anl	_ie,#0x7f
 	mov	_ta,#0xaa
 	mov	_ta,#0x55
 	anl	_chpcon,#0xfe
 	orl	_ie,#0x80
-;	./src/N76_Flash.c:60: }
+;	./src/N76_Flash.c:59: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

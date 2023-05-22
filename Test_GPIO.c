@@ -14,8 +14,10 @@
 
 void main(void)
 {
-    pinMode(LED_PORT, LED_PIN, OUTPUT_PP);
-    pinMode(BTN_PORT, BTN_PIN, INPUT);
+	P06_PushPull_Mode;
+	P05_Input_Mode;
+    // pinMode(LED_PORT, LED_PIN, OUTPUT_PP);
+    // pinMode(BTN_PORT, BTN_PIN, INPUT);
     while (1)
     {
         if (inbit(BTN_PORT, BTN_PIN))

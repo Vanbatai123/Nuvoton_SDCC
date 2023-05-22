@@ -42,7 +42,7 @@ ISR(PIN_INT_FUCTION, INTERRUPT_PIN)
 	if (inbit(PIF, PIF4))
 	{
 		daobit(LED_PORT,LED_PIN);
-		_delay_us(100000);
+		_delay_ms(100);
 	}
 	PIF = 0x00; // clear interrupt flag
 }

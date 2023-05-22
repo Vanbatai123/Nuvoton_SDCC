@@ -21,9 +21,11 @@ void main(void)
 	while (1)
 	{
 		// convert ADC manual
-		clrb(ADCCON0, ADCF); // clear ADC interrupt flag
-		setb(ADCCON0, ADCS); // start ADC convertion
-      	while(inbit(ADCCON0, ADCF) == 0);
+        clr_ADCF;
+		set_ADCS;									// ADC start trig signal
+		// clrb(ADCCON0, ADCF); // clear ADC interrupt flag
+		// setb(ADCCON0, ADCS); // start ADC convertion
+      	while(ADCF == 0);
 		value = (ADCRH << 4) | ADCRL;
 		_delay_ms(500);
 		UART0_printNum(value);
@@ -32,7 +34,7 @@ void main(void)
 	while (0)
 	{
 		// convert ADC using interrupt
-		setb(ADCCON0, ADCS); // start ADC convertion
+		set_ADCS; // start ADC convertion
 		_delay_ms(500);
 		UART0_printNum(value);
 		UART0_print("\r\n");
@@ -42,5 +44,5 @@ void main(void)
 ISR(ADC_INT_FUCTION, INTERRUPT_ADC)
 {
 	value = (ADCRH << 4) | ADCRL;
-	clrb(ADCCON0, ADCF); // clear ADC interrupt flag
+	clr_ADCF; // clear ADC interrupt flag
 }

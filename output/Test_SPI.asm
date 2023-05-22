@@ -2,16 +2,15 @@
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 4.2.0 #13081 (Linux)
 ;--------------------------------------------------------
-	.module Test_UART
+	.module Test_SPI
 	.optsdcc -mmcs51 --model-small
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
-	.globl _UART0_println
-	.globl _UART0_begin
-	.globl __delay_ms
+	.globl _SPI_transfer
+	.globl _SPI_begin
 	.globl _eiph1
 	.globl _eip1
 	.globl _pmd
@@ -148,6 +147,14 @@
 	.globl _dpl
 	.globl _sp
 	.globl _p0
+	.globl _MAX7219_transfer_PARM_3
+	.globl _MAX7219_transfer_PARM_2
+	.globl _MAX7219_transferAll_PARM_3
+	.globl _MAX7219_transferAll_PARM_2
+	.globl _value
+	.globl _MAX7219_begin
+	.globl _MAX7219_transferAll
+	.globl _MAX7219_transfer
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -303,6 +310,16 @@ _eiph1	=	0x00ff
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
+_value::
+	.ds 2
+_MAX7219_transferAll_PARM_2:
+	.ds 1
+_MAX7219_transferAll_PARM_3:
+	.ds 1
+_MAX7219_transfer_PARM_2:
+	.ds 1
+_MAX7219_transfer_PARM_3:
+	.ds 1
 ;--------------------------------------------------------
 ; overlayable items in internal ram
 ;--------------------------------------------------------
@@ -386,13 +403,13 @@ __sdcc_program_startup:
 ;--------------------------------------------------------
 	.area CSEG    (CODE)
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'main'
+;Allocation info for local variables in function 'MAX7219_begin'
 ;------------------------------------------------------------
-;	./Test_UART.c:10: void main(void)
+;	./Test_SPI.c:31: void MAX7219_begin(void)
 ;	-----------------------------------------
-;	 function main
+;	 function MAX7219_begin
 ;	-----------------------------------------
-_main:
+_MAX7219_begin:
 	ar7 = 0x07
 	ar6 = 0x06
 	ar5 = 0x05
@@ -401,34 +418,196 @@ _main:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	./Test_UART.c:12: UART0_begin(BAUD_38400);
-	mov	dpl,#0xe6
-	lcall	_UART0_begin
-;	./Test_UART.c:13: UART0_println("START\r\n");
-	mov	dptr,#___str_0
-	mov	b,#0x80
-	lcall	_UART0_println
-;	./Test_UART.c:15: while (1)
+;	./Test_SPI.c:33: SPI_begin();
+	lcall	_SPI_begin
+;	./Test_SPI.c:35: MAX7219_transferAll(3, SCAN_LIMIT, 0x07);
+	mov	_MAX7219_transferAll_PARM_2,#0x0b
+	mov	_MAX7219_transferAll_PARM_3,#0x07
+	mov	dpl,#0x03
+	lcall	_MAX7219_transferAll
+;	./Test_SPI.c:36: MAX7219_transferAll(3, DECODE_MODE, 0xFF);
+	mov	_MAX7219_transferAll_PARM_2,#0x09
+	mov	_MAX7219_transferAll_PARM_3,#0xff
+	mov	dpl,#0x03
+	lcall	_MAX7219_transferAll
+;	./Test_SPI.c:37: MAX7219_transferAll(3, SHUTDOWN, 0x01);
+	mov	_MAX7219_transferAll_PARM_2,#0x0c
+	mov	_MAX7219_transferAll_PARM_3,#0x01
+	mov	dpl,#0x03
+	lcall	_MAX7219_transferAll
+;	./Test_SPI.c:38: MAX7219_transferAll(3, DISPLAY_TEST, 0x00);
+	mov	_MAX7219_transferAll_PARM_2,#0x0f
+	mov	_MAX7219_transferAll_PARM_3,#0x00
+	mov	dpl,#0x03
+	lcall	_MAX7219_transferAll
+;	./Test_SPI.c:39: MAX7219_transferAll(3, INTENSITY, 0x01);
+	mov	_MAX7219_transferAll_PARM_2,#0x0a
+	mov	_MAX7219_transferAll_PARM_3,#0x01
+	mov	dpl,#0x03
+;	./Test_SPI.c:40: }
+	ljmp	_MAX7219_transferAll
+;------------------------------------------------------------
+;Allocation info for local variables in function 'MAX7219_transferAll'
+;------------------------------------------------------------
+;addr                      Allocated with name '_MAX7219_transferAll_PARM_2'
+;data                      Allocated with name '_MAX7219_transferAll_PARM_3'
+;chip                      Allocated to registers r7 
+;------------------------------------------------------------
+;	./Test_SPI.c:42: void MAX7219_transferAll(int8_t chip, const uint8_t addr, const uint8_t data)
+;	-----------------------------------------
+;	 function MAX7219_transferAll
+;	-----------------------------------------
+_MAX7219_transferAll:
+	mov	r7,dpl
+;	./Test_SPI.c:44: clrb(SPI_Px_SS, SPI_PIN_SS);
+	anl	_p1,#0xfd
+;	./Test_SPI.c:45: while (chip--)
+00101$:
+	mov	ar6,r7
+	dec	r7
+	mov	a,r6
+	jz	00103$
+;	./Test_SPI.c:47: SPI_transfer(addr);
+	mov	dpl,_MAX7219_transferAll_PARM_2
+	push	ar7
+	lcall	_SPI_transfer
+;	./Test_SPI.c:48: SPI_transfer(data);
+	mov	dpl,_MAX7219_transferAll_PARM_3
+	lcall	_SPI_transfer
+	pop	ar7
+	sjmp	00101$
+00103$:
+;	./Test_SPI.c:50: setb(SPI_Px_SS, SPI_PIN_SS);
+	orl	_p1,#0x02
+;	./Test_SPI.c:51: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'MAX7219_transfer'
+;------------------------------------------------------------
+;addr                      Allocated with name '_MAX7219_transfer_PARM_2'
+;data                      Allocated with name '_MAX7219_transfer_PARM_3'
+;chip                      Allocated to registers r7 
+;total                     Allocated to registers r6 
+;------------------------------------------------------------
+;	./Test_SPI.c:53: void MAX7219_transfer(uint8_t chip, const uint8_t addr, const uint8_t data)
+;	-----------------------------------------
+;	 function MAX7219_transfer
+;	-----------------------------------------
+_MAX7219_transfer:
+	mov	r7,dpl
+;	./Test_SPI.c:55: uint8_t total = chip & 0x0F; // 8
+	mov	a,#0x0f
+	anl	a,r7
+	mov	r6,a
+;	./Test_SPI.c:56: chip = chip >> 4;			 // 3
+	mov	a,r7
+	swap	a
+	anl	a,#0x0f
+	mov	r7,a
+;	./Test_SPI.c:58: clrb(SPI_Px_SS, SPI_PIN_SS);
+	anl	_p1,#0xfd
+;	./Test_SPI.c:60: while (--total >= chip)
+00101$:
+	dec	r6
+	clr	c
+	mov	a,r6
+	subb	a,r7
+	jc	00103$
+;	./Test_SPI.c:62: SPI_transfer(0x00);
+	mov	dpl,#0x00
+	push	ar7
+	push	ar6
+	lcall	_SPI_transfer
+;	./Test_SPI.c:63: SPI_transfer(0x00);
+	mov	dpl,#0x00
+	lcall	_SPI_transfer
+	pop	ar6
+	pop	ar7
+	sjmp	00101$
+00103$:
+;	./Test_SPI.c:67: SPI_transfer(addr);
+	mov	dpl,_MAX7219_transfer_PARM_2
+	push	ar7
+	lcall	_SPI_transfer
+;	./Test_SPI.c:68: SPI_transfer(data);
+	mov	dpl,_MAX7219_transfer_PARM_3
+	lcall	_SPI_transfer
+	pop	ar7
+;	./Test_SPI.c:71: while (--chip >= 1)
+00104$:
+	dec	r7
+	cjne	r7,#0x01,00132$
+00132$:
+	jc	00106$
+;	./Test_SPI.c:73: SPI_transfer(0x00);
+	mov	dpl,#0x00
+	push	ar7
+	lcall	_SPI_transfer
+;	./Test_SPI.c:74: SPI_transfer(0x00);
+	mov	dpl,#0x00
+	lcall	_SPI_transfer
+	pop	ar7
+	sjmp	00104$
+00106$:
+;	./Test_SPI.c:76: setb(SPI_Px_SS, SPI_PIN_SS);
+	orl	_p1,#0x02
+;	./Test_SPI.c:77: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'main'
+;------------------------------------------------------------
+;	./Test_SPI.c:79: void main(void)
+;	-----------------------------------------
+;	 function main
+;	-----------------------------------------
+_main:
+;	./Test_SPI.c:81: MAX7219_begin();
+	lcall	_MAX7219_begin
+;	./Test_SPI.c:82: while (1)
 00102$:
-;	./Test_UART.c:17: UART0_println("START\r\n");
-	mov	dptr,#___str_0
-	mov	b,#0x80
-	lcall	_UART0_println
-;	./Test_UART.c:18: _delay_ms(800);
-	mov	dptr,#0x0320
-	clr	a
-	mov	b,a
-	lcall	__delay_ms
-;	./Test_UART.c:20: }
+;	./Test_SPI.c:84: MAX7219_transfer(0x13, 1, 5);
+	mov	_MAX7219_transfer_PARM_2,#0x01
+	mov	_MAX7219_transfer_PARM_3,#0x05
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:85: MAX7219_transfer(0x13, 2, 9);
+	mov	_MAX7219_transfer_PARM_2,#0x02
+	mov	_MAX7219_transfer_PARM_3,#0x09
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:86: MAX7219_transfer(0x13, 3, 9);
+	mov	_MAX7219_transfer_PARM_2,#0x03
+	mov	_MAX7219_transfer_PARM_3,#0x09
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:87: MAX7219_transfer(0x13, 4, 1);
+	mov	_MAX7219_transfer_PARM_2,#0x04
+	mov	_MAX7219_transfer_PARM_3,#0x01
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:88: MAX7219_transfer(0x13, 5, 3 | CODEB_DP);
+	mov	_MAX7219_transfer_PARM_2,#0x05
+	mov	_MAX7219_transfer_PARM_3,#0xf3
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:89: MAX7219_transfer(0x13, 6, 0);
+	mov	_MAX7219_transfer_PARM_2,#0x06
+	mov	_MAX7219_transfer_PARM_3,#0x00
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:90: MAX7219_transfer(0x13, 7, 3 | CODEB_DP);
+	mov	_MAX7219_transfer_PARM_2,#0x07
+	mov	_MAX7219_transfer_PARM_3,#0xf3
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:91: MAX7219_transfer(0x13, 8, 1);
+	mov	_MAX7219_transfer_PARM_2,#0x08
+	mov	_MAX7219_transfer_PARM_3,#0x01
+	mov	dpl,#0x13
+	lcall	_MAX7219_transfer
+;	./Test_SPI.c:93: }
 	sjmp	00102$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-	.area CONST   (CODE)
-___str_0:
-	.ascii "START"
-	.db 0x0d
-	.db 0x0a
-	.db 0x00
-	.area CSEG    (CODE)
 	.area XINIT   (CODE)
 	.area CABS    (ABS,CODE)

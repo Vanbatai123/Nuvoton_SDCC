@@ -4,9 +4,6 @@ N76E003.H
 Header file for Nuvoton N76E003
 --------------------------------------------------------------------------*/
 
-#ifndef F_CPU
-#define F_CPU 				16000000UL
-#endif
 
 # define SBIT(name, addr, bit)  __sbit  __at(addr+bit)             name
 # define SFR(name, addr)        __sfr   __at(addr)                 name

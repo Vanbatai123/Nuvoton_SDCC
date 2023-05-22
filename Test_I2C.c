@@ -36,7 +36,6 @@ void main(void)
 	UART0_begin(BAUD_115200);
 	while (1)
 	{
-
 		/* Đọc dữ liệu của DS1307 */
 		readDS1307();
 		/* Hiển thị thời gian ra Serial monitor */
@@ -66,6 +65,7 @@ int bcd2dec(uint8_t num)
 {
 	return ((num / 16 * 10) + (num % 16));
 }
+
 /* Chuyển từ Decimal sang BCD */
 int dec2bcd(uint8_t num)
 {
