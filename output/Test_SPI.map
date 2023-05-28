@@ -80,9 +80,9 @@ C:   00000064  s_SSEG
 C:   00000080  l_DSEG                          
 C:   0000009C  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   00000EB2  l_CSEG                          
-C:   00000F14  s_CONST                         
-C:   00000F26  s_XINIT                         
+C:   00000EE8  l_CSEG                          
+C:   00000F4A  s_CONST                         
+C:   00000F5C  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -412,54 +412,58 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00000062    00000EB2 =        3762. bytes (REL,CON,CODE)
+CSEG                                00000062    00000EE8 =        3816. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00000062  _MAX7219_begin                     Test_SPI
-C:   000000A1  _MAX7219_transferAll               Test_SPI
-C:   000000C2  _MAX7219_transfer                  Test_SPI
-C:   00000118  _main                              Test_SPI
-C:   0000017D  __delay_ms                         include
-C:   000001B7  __delay_us                         include
-C:   0000020B  _APROM_read_byte                   N76_Flash
-C:   00000210  _APROM_read_2byte                  N76_Flash
-C:   0000021B  _APROM_write_byte                  N76_Flash
-C:   00000275  _Erase_APROM                       N76_Flash
-C:   000002CF  _timeOut                           N76_I2C
-C:   000002EC  _I2C_begin                         N76_I2C
-C:   000002FF  _I2C_beginTransmission             N76_I2C
-C:   00000357  _I2C_write                         N76_I2C
-C:   00000375  _I2C_writeBuffer                   N76_I2C
-C:   000003AD  _I2C_endTransmission               N76_I2C
-C:   00000413  _I2C_requestFrom                   N76_I2C
-C:   00000520  _I2C_read                          N76_I2C
-C:   00000546  _I2C_available                     N76_I2C
-C:   0000055F  _SPI_begin                         N76_SPI
-C:   00000584  _SPI_transfer                      N76_SPI
-C:   00000595  _UART0_begin                       N76_uart0
-C:   000005BB  _UART0_putChar                     N76_uart0
-C:   000005CB  _UART0_print                       N76_uart0
-C:   00000610  _UART0_println                     N76_uart0
-C:   0000061C  _UART0_printNum                    N76_uart0
-C:   00000655  __mullong                          _mullong
-C:   00000655  __mullong_dummy                    _mullong
-C:   00000733  _vsprintf                          sprintf
-C:   00000770  _sprintf                           sprintf
-C:   00000856  __print_format                     printf_large
-C:   00000EA4  _strlen                            _strlen
-C:   00000EBC  __mulint                           _mulint
-C:   00000EBC  __mulint_dummy                     _mulint
-C:   00000ED9  __gptrget                          _gptrget
-C:   00000EF5  __sdcc_external_startup            _startup
-C:   00000EF9  __gptrput                          _gptrput
-
+C:   000000A4  _MAX7219_transferAll               Test_SPI
+C:   000000C5  _MAX7219_transfer                  Test_SPI
+C:   0000011B  _main                              Test_SPI
+C:   00000180  __delay_ms                         include
+C:   000001BA  __delay_us                         include
+C:   0000020E  _APROM_read_byte                   N76_Flash
+C:   00000213  _APROM_read_2byte                  N76_Flash
+C:   0000021E  _APROM_write_byte                  N76_Flash
+C:   00000278  _Erase_APROM                       N76_Flash
+C:   000002D2  _timeOut                           N76_I2C
+C:   000002EF  _I2C_begin                         N76_I2C
+C:   00000302  _I2C_beginTransmission             N76_I2C
+C:   0000035A  _I2C_write                         N76_I2C
+C:   00000378  _I2C_writeBuffer                   N76_I2C
+C:   000003B0  _I2C_endTransmission               N76_I2C
+C:   00000416  _I2C_requestFrom                   N76_I2C
+C:   00000523  _I2C_read                          N76_I2C
+C:   00000549  _I2C_available                     N76_I2C
+C:   00000562  _SPI_begin                         N76_SPI
+C:   0000058C  _SPI_transfer                      N76_SPI
+C:   000005A5  _SPI_setBitOrder                   N76_SPI
+C:   000005B1  _SPI_setDataMode                   N76_SPI
+C:   000005BB  _SPI_setClockDivider               N76_SPI
+C:   000005C9  _SPI_attachInterrupt               N76_SPI
+C:   000005CA  _SPI_aetachInterrupt               N76_SPI
+C:   000005CB  _UART0_begin                       N76_uart0
+C:   000005F1  _UART0_putChar                     N76_uart0
+C:   00000601  _UART0_print                       N76_uart0
+C:   00000646  _UART0_println                     N76_uart0
+C:   00000652  _UART0_printNum                    N76_uart0
+C:   0000068B  __mullong                          _mullong
+C:   0000068B  __mullong_dummy                    _mullong
+C:   00000769  _vsprintf                          sprintf
+C:   000007A6  _sprintf                           sprintf
+C:   0000088C  __print_format                     printf_large
+C:   00000EDA  _strlen                            _strlen
+C:   00000EF2  __mulint                           _mulint
+C:   00000EF2  __mulint_dummy                     _mulint
+C:   00000F0F  __gptrget                          _gptrget
+C:   00000F2B  __sdcc_external_startup            _startup
+C:   00000F2F  __gptrput                          _gptrput
 ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               00000F14    00000012 =          18. bytes (REL,CON,CODE)
+CONST                               00000F4A    00000012 =          18. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -468,7 +472,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-XINIT                               00000F26    00000001 =           1. bytes (REL,CON,CODE)
+XINIT                               00000F5C    00000001 =           1. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

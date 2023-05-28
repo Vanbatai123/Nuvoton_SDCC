@@ -418,7 +418,8 @@ _MAX7219_begin:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	./Test_SPI.c:33: SPI_begin();
+;	./Test_SPI.c:33: SPI_begin(SPI_MODE_MASTER);
+	mov	dpl,#0x00
 	lcall	_SPI_begin
 ;	./Test_SPI.c:35: MAX7219_transferAll(3, SCAN_LIMIT, 0x07);
 	mov	_MAX7219_transferAll_PARM_2,#0x0b

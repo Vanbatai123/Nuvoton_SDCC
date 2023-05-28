@@ -396,7 +396,7 @@
                                     396 	.area HOME    (CODE)
                                     397 	.area HOME    (CODE)
       000003                        398 __sdcc_program_startup:
-      000003 02 01 18         [24]  399 	ljmp	_main
+      000003 02 01 1B         [24]  399 	ljmp	_main
                                     400 ;	return from main will return to caller
                                     401 ;--------------------------------------------------------
                                     402 ; code
@@ -418,196 +418,197 @@
                            000002   418 	ar2 = 0x02
                            000001   419 	ar1 = 0x01
                            000000   420 	ar0 = 0x00
-                                    421 ;	./Test_SPI.c:33: SPI_begin();
-      000062 12 05 5F         [24]  422 	lcall	_SPI_begin
-                                    423 ;	./Test_SPI.c:35: MAX7219_transferAll(3, SCAN_LIMIT, 0x07);
-      000065 75 0A 0B         [24]  424 	mov	_MAX7219_transferAll_PARM_2,#0x0b
-      000068 75 0B 07         [24]  425 	mov	_MAX7219_transferAll_PARM_3,#0x07
-      00006B 75 82 03         [24]  426 	mov	dpl,#0x03
-      00006E 12 00 A1         [24]  427 	lcall	_MAX7219_transferAll
-                                    428 ;	./Test_SPI.c:36: MAX7219_transferAll(3, DECODE_MODE, 0xFF);
-      000071 75 0A 09         [24]  429 	mov	_MAX7219_transferAll_PARM_2,#0x09
-      000074 75 0B FF         [24]  430 	mov	_MAX7219_transferAll_PARM_3,#0xff
-      000077 75 82 03         [24]  431 	mov	dpl,#0x03
-      00007A 12 00 A1         [24]  432 	lcall	_MAX7219_transferAll
-                                    433 ;	./Test_SPI.c:37: MAX7219_transferAll(3, SHUTDOWN, 0x01);
-      00007D 75 0A 0C         [24]  434 	mov	_MAX7219_transferAll_PARM_2,#0x0c
-      000080 75 0B 01         [24]  435 	mov	_MAX7219_transferAll_PARM_3,#0x01
-      000083 75 82 03         [24]  436 	mov	dpl,#0x03
-      000086 12 00 A1         [24]  437 	lcall	_MAX7219_transferAll
-                                    438 ;	./Test_SPI.c:38: MAX7219_transferAll(3, DISPLAY_TEST, 0x00);
-      000089 75 0A 0F         [24]  439 	mov	_MAX7219_transferAll_PARM_2,#0x0f
-      00008C 75 0B 00         [24]  440 	mov	_MAX7219_transferAll_PARM_3,#0x00
-      00008F 75 82 03         [24]  441 	mov	dpl,#0x03
-      000092 12 00 A1         [24]  442 	lcall	_MAX7219_transferAll
-                                    443 ;	./Test_SPI.c:39: MAX7219_transferAll(3, INTENSITY, 0x01);
-      000095 75 0A 0A         [24]  444 	mov	_MAX7219_transferAll_PARM_2,#0x0a
-      000098 75 0B 01         [24]  445 	mov	_MAX7219_transferAll_PARM_3,#0x01
-      00009B 75 82 03         [24]  446 	mov	dpl,#0x03
-                                    447 ;	./Test_SPI.c:40: }
-      00009E 02 00 A1         [24]  448 	ljmp	_MAX7219_transferAll
-                                    449 ;------------------------------------------------------------
-                                    450 ;Allocation info for local variables in function 'MAX7219_transferAll'
-                                    451 ;------------------------------------------------------------
-                                    452 ;addr                      Allocated with name '_MAX7219_transferAll_PARM_2'
-                                    453 ;data                      Allocated with name '_MAX7219_transferAll_PARM_3'
-                                    454 ;chip                      Allocated to registers r7 
-                                    455 ;------------------------------------------------------------
-                                    456 ;	./Test_SPI.c:42: void MAX7219_transferAll(int8_t chip, const uint8_t addr, const uint8_t data)
-                                    457 ;	-----------------------------------------
-                                    458 ;	 function MAX7219_transferAll
-                                    459 ;	-----------------------------------------
-      0000A1                        460 _MAX7219_transferAll:
-      0000A1 AF 82            [24]  461 	mov	r7,dpl
-                                    462 ;	./Test_SPI.c:44: clrb(SPI_Px_SS, SPI_PIN_SS);
-      0000A3 53 90 FD         [24]  463 	anl	_p1,#0xfd
-                                    464 ;	./Test_SPI.c:45: while (chip--)
-      0000A6                        465 00101$:
-      0000A6 8F 06            [24]  466 	mov	ar6,r7
-      0000A8 1F               [12]  467 	dec	r7
-      0000A9 EE               [12]  468 	mov	a,r6
-      0000AA 60 12            [24]  469 	jz	00103$
-                                    470 ;	./Test_SPI.c:47: SPI_transfer(addr);
-      0000AC 85 0A 82         [24]  471 	mov	dpl,_MAX7219_transferAll_PARM_2
-      0000AF C0 07            [24]  472 	push	ar7
-      0000B1 12 05 84         [24]  473 	lcall	_SPI_transfer
-                                    474 ;	./Test_SPI.c:48: SPI_transfer(data);
-      0000B4 85 0B 82         [24]  475 	mov	dpl,_MAX7219_transferAll_PARM_3
-      0000B7 12 05 84         [24]  476 	lcall	_SPI_transfer
-      0000BA D0 07            [24]  477 	pop	ar7
-      0000BC 80 E8            [24]  478 	sjmp	00101$
-      0000BE                        479 00103$:
-                                    480 ;	./Test_SPI.c:50: setb(SPI_Px_SS, SPI_PIN_SS);
-      0000BE 43 90 02         [24]  481 	orl	_p1,#0x02
-                                    482 ;	./Test_SPI.c:51: }
-      0000C1 22               [24]  483 	ret
-                                    484 ;------------------------------------------------------------
-                                    485 ;Allocation info for local variables in function 'MAX7219_transfer'
-                                    486 ;------------------------------------------------------------
-                                    487 ;addr                      Allocated with name '_MAX7219_transfer_PARM_2'
-                                    488 ;data                      Allocated with name '_MAX7219_transfer_PARM_3'
-                                    489 ;chip                      Allocated to registers r7 
-                                    490 ;total                     Allocated to registers r6 
-                                    491 ;------------------------------------------------------------
-                                    492 ;	./Test_SPI.c:53: void MAX7219_transfer(uint8_t chip, const uint8_t addr, const uint8_t data)
-                                    493 ;	-----------------------------------------
-                                    494 ;	 function MAX7219_transfer
-                                    495 ;	-----------------------------------------
-      0000C2                        496 _MAX7219_transfer:
-      0000C2 AF 82            [24]  497 	mov	r7,dpl
-                                    498 ;	./Test_SPI.c:55: uint8_t total = chip & 0x0F; // 8
-      0000C4 74 0F            [12]  499 	mov	a,#0x0f
-      0000C6 5F               [12]  500 	anl	a,r7
-      0000C7 FE               [12]  501 	mov	r6,a
-                                    502 ;	./Test_SPI.c:56: chip = chip >> 4;			 // 3
-      0000C8 EF               [12]  503 	mov	a,r7
-      0000C9 C4               [12]  504 	swap	a
-      0000CA 54 0F            [12]  505 	anl	a,#0x0f
-      0000CC FF               [12]  506 	mov	r7,a
-                                    507 ;	./Test_SPI.c:58: clrb(SPI_Px_SS, SPI_PIN_SS);
-      0000CD 53 90 FD         [24]  508 	anl	_p1,#0xfd
-                                    509 ;	./Test_SPI.c:60: while (--total >= chip)
-      0000D0                        510 00101$:
-      0000D0 1E               [12]  511 	dec	r6
-      0000D1 C3               [12]  512 	clr	c
-      0000D2 EE               [12]  513 	mov	a,r6
-      0000D3 9F               [12]  514 	subb	a,r7
-      0000D4 40 16            [24]  515 	jc	00103$
-                                    516 ;	./Test_SPI.c:62: SPI_transfer(0x00);
-      0000D6 75 82 00         [24]  517 	mov	dpl,#0x00
-      0000D9 C0 07            [24]  518 	push	ar7
-      0000DB C0 06            [24]  519 	push	ar6
-      0000DD 12 05 84         [24]  520 	lcall	_SPI_transfer
-                                    521 ;	./Test_SPI.c:63: SPI_transfer(0x00);
-      0000E0 75 82 00         [24]  522 	mov	dpl,#0x00
-      0000E3 12 05 84         [24]  523 	lcall	_SPI_transfer
-      0000E6 D0 06            [24]  524 	pop	ar6
-      0000E8 D0 07            [24]  525 	pop	ar7
-      0000EA 80 E4            [24]  526 	sjmp	00101$
-      0000EC                        527 00103$:
-                                    528 ;	./Test_SPI.c:67: SPI_transfer(addr);
-      0000EC 85 0C 82         [24]  529 	mov	dpl,_MAX7219_transfer_PARM_2
-      0000EF C0 07            [24]  530 	push	ar7
-      0000F1 12 05 84         [24]  531 	lcall	_SPI_transfer
-                                    532 ;	./Test_SPI.c:68: SPI_transfer(data);
-      0000F4 85 0D 82         [24]  533 	mov	dpl,_MAX7219_transfer_PARM_3
-      0000F7 12 05 84         [24]  534 	lcall	_SPI_transfer
-      0000FA D0 07            [24]  535 	pop	ar7
-                                    536 ;	./Test_SPI.c:71: while (--chip >= 1)
-      0000FC                        537 00104$:
-      0000FC 1F               [12]  538 	dec	r7
-      0000FD BF 01 00         [24]  539 	cjne	r7,#0x01,00132$
-      000100                        540 00132$:
-      000100 40 12            [24]  541 	jc	00106$
-                                    542 ;	./Test_SPI.c:73: SPI_transfer(0x00);
-      000102 75 82 00         [24]  543 	mov	dpl,#0x00
-      000105 C0 07            [24]  544 	push	ar7
-      000107 12 05 84         [24]  545 	lcall	_SPI_transfer
-                                    546 ;	./Test_SPI.c:74: SPI_transfer(0x00);
-      00010A 75 82 00         [24]  547 	mov	dpl,#0x00
-      00010D 12 05 84         [24]  548 	lcall	_SPI_transfer
-      000110 D0 07            [24]  549 	pop	ar7
-      000112 80 E8            [24]  550 	sjmp	00104$
-      000114                        551 00106$:
-                                    552 ;	./Test_SPI.c:76: setb(SPI_Px_SS, SPI_PIN_SS);
-      000114 43 90 02         [24]  553 	orl	_p1,#0x02
-                                    554 ;	./Test_SPI.c:77: }
-      000117 22               [24]  555 	ret
-                                    556 ;------------------------------------------------------------
-                                    557 ;Allocation info for local variables in function 'main'
-                                    558 ;------------------------------------------------------------
-                                    559 ;	./Test_SPI.c:79: void main(void)
-                                    560 ;	-----------------------------------------
-                                    561 ;	 function main
-                                    562 ;	-----------------------------------------
-      000118                        563 _main:
-                                    564 ;	./Test_SPI.c:81: MAX7219_begin();
-      000118 12 00 62         [24]  565 	lcall	_MAX7219_begin
-                                    566 ;	./Test_SPI.c:82: while (1)
-      00011B                        567 00102$:
-                                    568 ;	./Test_SPI.c:84: MAX7219_transfer(0x13, 1, 5);
-      00011B 75 0C 01         [24]  569 	mov	_MAX7219_transfer_PARM_2,#0x01
-      00011E 75 0D 05         [24]  570 	mov	_MAX7219_transfer_PARM_3,#0x05
-      000121 75 82 13         [24]  571 	mov	dpl,#0x13
-      000124 12 00 C2         [24]  572 	lcall	_MAX7219_transfer
-                                    573 ;	./Test_SPI.c:85: MAX7219_transfer(0x13, 2, 9);
-      000127 75 0C 02         [24]  574 	mov	_MAX7219_transfer_PARM_2,#0x02
-      00012A 75 0D 09         [24]  575 	mov	_MAX7219_transfer_PARM_3,#0x09
-      00012D 75 82 13         [24]  576 	mov	dpl,#0x13
-      000130 12 00 C2         [24]  577 	lcall	_MAX7219_transfer
-                                    578 ;	./Test_SPI.c:86: MAX7219_transfer(0x13, 3, 9);
-      000133 75 0C 03         [24]  579 	mov	_MAX7219_transfer_PARM_2,#0x03
-      000136 75 0D 09         [24]  580 	mov	_MAX7219_transfer_PARM_3,#0x09
-      000139 75 82 13         [24]  581 	mov	dpl,#0x13
-      00013C 12 00 C2         [24]  582 	lcall	_MAX7219_transfer
-                                    583 ;	./Test_SPI.c:87: MAX7219_transfer(0x13, 4, 1);
-      00013F 75 0C 04         [24]  584 	mov	_MAX7219_transfer_PARM_2,#0x04
-      000142 75 0D 01         [24]  585 	mov	_MAX7219_transfer_PARM_3,#0x01
-      000145 75 82 13         [24]  586 	mov	dpl,#0x13
-      000148 12 00 C2         [24]  587 	lcall	_MAX7219_transfer
-                                    588 ;	./Test_SPI.c:88: MAX7219_transfer(0x13, 5, 3 | CODEB_DP);
-      00014B 75 0C 05         [24]  589 	mov	_MAX7219_transfer_PARM_2,#0x05
-      00014E 75 0D F3         [24]  590 	mov	_MAX7219_transfer_PARM_3,#0xf3
-      000151 75 82 13         [24]  591 	mov	dpl,#0x13
-      000154 12 00 C2         [24]  592 	lcall	_MAX7219_transfer
-                                    593 ;	./Test_SPI.c:89: MAX7219_transfer(0x13, 6, 0);
-      000157 75 0C 06         [24]  594 	mov	_MAX7219_transfer_PARM_2,#0x06
-      00015A 75 0D 00         [24]  595 	mov	_MAX7219_transfer_PARM_3,#0x00
-      00015D 75 82 13         [24]  596 	mov	dpl,#0x13
-      000160 12 00 C2         [24]  597 	lcall	_MAX7219_transfer
-                                    598 ;	./Test_SPI.c:90: MAX7219_transfer(0x13, 7, 3 | CODEB_DP);
-      000163 75 0C 07         [24]  599 	mov	_MAX7219_transfer_PARM_2,#0x07
-      000166 75 0D F3         [24]  600 	mov	_MAX7219_transfer_PARM_3,#0xf3
-      000169 75 82 13         [24]  601 	mov	dpl,#0x13
-      00016C 12 00 C2         [24]  602 	lcall	_MAX7219_transfer
-                                    603 ;	./Test_SPI.c:91: MAX7219_transfer(0x13, 8, 1);
-      00016F 75 0C 08         [24]  604 	mov	_MAX7219_transfer_PARM_2,#0x08
-      000172 75 0D 01         [24]  605 	mov	_MAX7219_transfer_PARM_3,#0x01
-      000175 75 82 13         [24]  606 	mov	dpl,#0x13
-      000178 12 00 C2         [24]  607 	lcall	_MAX7219_transfer
-                                    608 ;	./Test_SPI.c:93: }
-      00017B 80 9E            [24]  609 	sjmp	00102$
-                                    610 	.area CSEG    (CODE)
-                                    611 	.area CONST   (CODE)
-                                    612 	.area XINIT   (CODE)
-                                    613 	.area CABS    (ABS,CODE)
+                                    421 ;	./Test_SPI.c:33: SPI_begin(SPI_MODE_MASTER);
+      000062 75 82 00         [24]  422 	mov	dpl,#0x00
+      000065 12 05 62         [24]  423 	lcall	_SPI_begin
+                                    424 ;	./Test_SPI.c:35: MAX7219_transferAll(3, SCAN_LIMIT, 0x07);
+      000068 75 0A 0B         [24]  425 	mov	_MAX7219_transferAll_PARM_2,#0x0b
+      00006B 75 0B 07         [24]  426 	mov	_MAX7219_transferAll_PARM_3,#0x07
+      00006E 75 82 03         [24]  427 	mov	dpl,#0x03
+      000071 12 00 A4         [24]  428 	lcall	_MAX7219_transferAll
+                                    429 ;	./Test_SPI.c:36: MAX7219_transferAll(3, DECODE_MODE, 0xFF);
+      000074 75 0A 09         [24]  430 	mov	_MAX7219_transferAll_PARM_2,#0x09
+      000077 75 0B FF         [24]  431 	mov	_MAX7219_transferAll_PARM_3,#0xff
+      00007A 75 82 03         [24]  432 	mov	dpl,#0x03
+      00007D 12 00 A4         [24]  433 	lcall	_MAX7219_transferAll
+                                    434 ;	./Test_SPI.c:37: MAX7219_transferAll(3, SHUTDOWN, 0x01);
+      000080 75 0A 0C         [24]  435 	mov	_MAX7219_transferAll_PARM_2,#0x0c
+      000083 75 0B 01         [24]  436 	mov	_MAX7219_transferAll_PARM_3,#0x01
+      000086 75 82 03         [24]  437 	mov	dpl,#0x03
+      000089 12 00 A4         [24]  438 	lcall	_MAX7219_transferAll
+                                    439 ;	./Test_SPI.c:38: MAX7219_transferAll(3, DISPLAY_TEST, 0x00);
+      00008C 75 0A 0F         [24]  440 	mov	_MAX7219_transferAll_PARM_2,#0x0f
+      00008F 75 0B 00         [24]  441 	mov	_MAX7219_transferAll_PARM_3,#0x00
+      000092 75 82 03         [24]  442 	mov	dpl,#0x03
+      000095 12 00 A4         [24]  443 	lcall	_MAX7219_transferAll
+                                    444 ;	./Test_SPI.c:39: MAX7219_transferAll(3, INTENSITY, 0x01);
+      000098 75 0A 0A         [24]  445 	mov	_MAX7219_transferAll_PARM_2,#0x0a
+      00009B 75 0B 01         [24]  446 	mov	_MAX7219_transferAll_PARM_3,#0x01
+      00009E 75 82 03         [24]  447 	mov	dpl,#0x03
+                                    448 ;	./Test_SPI.c:40: }
+      0000A1 02 00 A4         [24]  449 	ljmp	_MAX7219_transferAll
+                                    450 ;------------------------------------------------------------
+                                    451 ;Allocation info for local variables in function 'MAX7219_transferAll'
+                                    452 ;------------------------------------------------------------
+                                    453 ;addr                      Allocated with name '_MAX7219_transferAll_PARM_2'
+                                    454 ;data                      Allocated with name '_MAX7219_transferAll_PARM_3'
+                                    455 ;chip                      Allocated to registers r7 
+                                    456 ;------------------------------------------------------------
+                                    457 ;	./Test_SPI.c:42: void MAX7219_transferAll(int8_t chip, const uint8_t addr, const uint8_t data)
+                                    458 ;	-----------------------------------------
+                                    459 ;	 function MAX7219_transferAll
+                                    460 ;	-----------------------------------------
+      0000A4                        461 _MAX7219_transferAll:
+      0000A4 AF 82            [24]  462 	mov	r7,dpl
+                                    463 ;	./Test_SPI.c:44: clrb(SPI_Px_SS, SPI_PIN_SS);
+      0000A6 53 90 FD         [24]  464 	anl	_p1,#0xfd
+                                    465 ;	./Test_SPI.c:45: while (chip--)
+      0000A9                        466 00101$:
+      0000A9 8F 06            [24]  467 	mov	ar6,r7
+      0000AB 1F               [12]  468 	dec	r7
+      0000AC EE               [12]  469 	mov	a,r6
+      0000AD 60 12            [24]  470 	jz	00103$
+                                    471 ;	./Test_SPI.c:47: SPI_transfer(addr);
+      0000AF 85 0A 82         [24]  472 	mov	dpl,_MAX7219_transferAll_PARM_2
+      0000B2 C0 07            [24]  473 	push	ar7
+      0000B4 12 05 8C         [24]  474 	lcall	_SPI_transfer
+                                    475 ;	./Test_SPI.c:48: SPI_transfer(data);
+      0000B7 85 0B 82         [24]  476 	mov	dpl,_MAX7219_transferAll_PARM_3
+      0000BA 12 05 8C         [24]  477 	lcall	_SPI_transfer
+      0000BD D0 07            [24]  478 	pop	ar7
+      0000BF 80 E8            [24]  479 	sjmp	00101$
+      0000C1                        480 00103$:
+                                    481 ;	./Test_SPI.c:50: setb(SPI_Px_SS, SPI_PIN_SS);
+      0000C1 43 90 02         [24]  482 	orl	_p1,#0x02
+                                    483 ;	./Test_SPI.c:51: }
+      0000C4 22               [24]  484 	ret
+                                    485 ;------------------------------------------------------------
+                                    486 ;Allocation info for local variables in function 'MAX7219_transfer'
+                                    487 ;------------------------------------------------------------
+                                    488 ;addr                      Allocated with name '_MAX7219_transfer_PARM_2'
+                                    489 ;data                      Allocated with name '_MAX7219_transfer_PARM_3'
+                                    490 ;chip                      Allocated to registers r7 
+                                    491 ;total                     Allocated to registers r6 
+                                    492 ;------------------------------------------------------------
+                                    493 ;	./Test_SPI.c:53: void MAX7219_transfer(uint8_t chip, const uint8_t addr, const uint8_t data)
+                                    494 ;	-----------------------------------------
+                                    495 ;	 function MAX7219_transfer
+                                    496 ;	-----------------------------------------
+      0000C5                        497 _MAX7219_transfer:
+      0000C5 AF 82            [24]  498 	mov	r7,dpl
+                                    499 ;	./Test_SPI.c:55: uint8_t total = chip & 0x0F; // 8
+      0000C7 74 0F            [12]  500 	mov	a,#0x0f
+      0000C9 5F               [12]  501 	anl	a,r7
+      0000CA FE               [12]  502 	mov	r6,a
+                                    503 ;	./Test_SPI.c:56: chip = chip >> 4;			 // 3
+      0000CB EF               [12]  504 	mov	a,r7
+      0000CC C4               [12]  505 	swap	a
+      0000CD 54 0F            [12]  506 	anl	a,#0x0f
+      0000CF FF               [12]  507 	mov	r7,a
+                                    508 ;	./Test_SPI.c:58: clrb(SPI_Px_SS, SPI_PIN_SS);
+      0000D0 53 90 FD         [24]  509 	anl	_p1,#0xfd
+                                    510 ;	./Test_SPI.c:60: while (--total >= chip)
+      0000D3                        511 00101$:
+      0000D3 1E               [12]  512 	dec	r6
+      0000D4 C3               [12]  513 	clr	c
+      0000D5 EE               [12]  514 	mov	a,r6
+      0000D6 9F               [12]  515 	subb	a,r7
+      0000D7 40 16            [24]  516 	jc	00103$
+                                    517 ;	./Test_SPI.c:62: SPI_transfer(0x00);
+      0000D9 75 82 00         [24]  518 	mov	dpl,#0x00
+      0000DC C0 07            [24]  519 	push	ar7
+      0000DE C0 06            [24]  520 	push	ar6
+      0000E0 12 05 8C         [24]  521 	lcall	_SPI_transfer
+                                    522 ;	./Test_SPI.c:63: SPI_transfer(0x00);
+      0000E3 75 82 00         [24]  523 	mov	dpl,#0x00
+      0000E6 12 05 8C         [24]  524 	lcall	_SPI_transfer
+      0000E9 D0 06            [24]  525 	pop	ar6
+      0000EB D0 07            [24]  526 	pop	ar7
+      0000ED 80 E4            [24]  527 	sjmp	00101$
+      0000EF                        528 00103$:
+                                    529 ;	./Test_SPI.c:67: SPI_transfer(addr);
+      0000EF 85 0C 82         [24]  530 	mov	dpl,_MAX7219_transfer_PARM_2
+      0000F2 C0 07            [24]  531 	push	ar7
+      0000F4 12 05 8C         [24]  532 	lcall	_SPI_transfer
+                                    533 ;	./Test_SPI.c:68: SPI_transfer(data);
+      0000F7 85 0D 82         [24]  534 	mov	dpl,_MAX7219_transfer_PARM_3
+      0000FA 12 05 8C         [24]  535 	lcall	_SPI_transfer
+      0000FD D0 07            [24]  536 	pop	ar7
+                                    537 ;	./Test_SPI.c:71: while (--chip >= 1)
+      0000FF                        538 00104$:
+      0000FF 1F               [12]  539 	dec	r7
+      000100 BF 01 00         [24]  540 	cjne	r7,#0x01,00132$
+      000103                        541 00132$:
+      000103 40 12            [24]  542 	jc	00106$
+                                    543 ;	./Test_SPI.c:73: SPI_transfer(0x00);
+      000105 75 82 00         [24]  544 	mov	dpl,#0x00
+      000108 C0 07            [24]  545 	push	ar7
+      00010A 12 05 8C         [24]  546 	lcall	_SPI_transfer
+                                    547 ;	./Test_SPI.c:74: SPI_transfer(0x00);
+      00010D 75 82 00         [24]  548 	mov	dpl,#0x00
+      000110 12 05 8C         [24]  549 	lcall	_SPI_transfer
+      000113 D0 07            [24]  550 	pop	ar7
+      000115 80 E8            [24]  551 	sjmp	00104$
+      000117                        552 00106$:
+                                    553 ;	./Test_SPI.c:76: setb(SPI_Px_SS, SPI_PIN_SS);
+      000117 43 90 02         [24]  554 	orl	_p1,#0x02
+                                    555 ;	./Test_SPI.c:77: }
+      00011A 22               [24]  556 	ret
+                                    557 ;------------------------------------------------------------
+                                    558 ;Allocation info for local variables in function 'main'
+                                    559 ;------------------------------------------------------------
+                                    560 ;	./Test_SPI.c:79: void main(void)
+                                    561 ;	-----------------------------------------
+                                    562 ;	 function main
+                                    563 ;	-----------------------------------------
+      00011B                        564 _main:
+                                    565 ;	./Test_SPI.c:81: MAX7219_begin();
+      00011B 12 00 62         [24]  566 	lcall	_MAX7219_begin
+                                    567 ;	./Test_SPI.c:82: while (1)
+      00011E                        568 00102$:
+                                    569 ;	./Test_SPI.c:84: MAX7219_transfer(0x13, 1, 5);
+      00011E 75 0C 01         [24]  570 	mov	_MAX7219_transfer_PARM_2,#0x01
+      000121 75 0D 05         [24]  571 	mov	_MAX7219_transfer_PARM_3,#0x05
+      000124 75 82 13         [24]  572 	mov	dpl,#0x13
+      000127 12 00 C5         [24]  573 	lcall	_MAX7219_transfer
+                                    574 ;	./Test_SPI.c:85: MAX7219_transfer(0x13, 2, 9);
+      00012A 75 0C 02         [24]  575 	mov	_MAX7219_transfer_PARM_2,#0x02
+      00012D 75 0D 09         [24]  576 	mov	_MAX7219_transfer_PARM_3,#0x09
+      000130 75 82 13         [24]  577 	mov	dpl,#0x13
+      000133 12 00 C5         [24]  578 	lcall	_MAX7219_transfer
+                                    579 ;	./Test_SPI.c:86: MAX7219_transfer(0x13, 3, 9);
+      000136 75 0C 03         [24]  580 	mov	_MAX7219_transfer_PARM_2,#0x03
+      000139 75 0D 09         [24]  581 	mov	_MAX7219_transfer_PARM_3,#0x09
+      00013C 75 82 13         [24]  582 	mov	dpl,#0x13
+      00013F 12 00 C5         [24]  583 	lcall	_MAX7219_transfer
+                                    584 ;	./Test_SPI.c:87: MAX7219_transfer(0x13, 4, 1);
+      000142 75 0C 04         [24]  585 	mov	_MAX7219_transfer_PARM_2,#0x04
+      000145 75 0D 01         [24]  586 	mov	_MAX7219_transfer_PARM_3,#0x01
+      000148 75 82 13         [24]  587 	mov	dpl,#0x13
+      00014B 12 00 C5         [24]  588 	lcall	_MAX7219_transfer
+                                    589 ;	./Test_SPI.c:88: MAX7219_transfer(0x13, 5, 3 | CODEB_DP);
+      00014E 75 0C 05         [24]  590 	mov	_MAX7219_transfer_PARM_2,#0x05
+      000151 75 0D F3         [24]  591 	mov	_MAX7219_transfer_PARM_3,#0xf3
+      000154 75 82 13         [24]  592 	mov	dpl,#0x13
+      000157 12 00 C5         [24]  593 	lcall	_MAX7219_transfer
+                                    594 ;	./Test_SPI.c:89: MAX7219_transfer(0x13, 6, 0);
+      00015A 75 0C 06         [24]  595 	mov	_MAX7219_transfer_PARM_2,#0x06
+      00015D 75 0D 00         [24]  596 	mov	_MAX7219_transfer_PARM_3,#0x00
+      000160 75 82 13         [24]  597 	mov	dpl,#0x13
+      000163 12 00 C5         [24]  598 	lcall	_MAX7219_transfer
+                                    599 ;	./Test_SPI.c:90: MAX7219_transfer(0x13, 7, 3 | CODEB_DP);
+      000166 75 0C 07         [24]  600 	mov	_MAX7219_transfer_PARM_2,#0x07
+      000169 75 0D F3         [24]  601 	mov	_MAX7219_transfer_PARM_3,#0xf3
+      00016C 75 82 13         [24]  602 	mov	dpl,#0x13
+      00016F 12 00 C5         [24]  603 	lcall	_MAX7219_transfer
+                                    604 ;	./Test_SPI.c:91: MAX7219_transfer(0x13, 8, 1);
+      000172 75 0C 08         [24]  605 	mov	_MAX7219_transfer_PARM_2,#0x08
+      000175 75 0D 01         [24]  606 	mov	_MAX7219_transfer_PARM_3,#0x01
+      000178 75 82 13         [24]  607 	mov	dpl,#0x13
+      00017B 12 00 C5         [24]  608 	lcall	_MAX7219_transfer
+                                    609 ;	./Test_SPI.c:93: }
+      00017E 80 9E            [24]  610 	sjmp	00102$
+                                    611 	.area CSEG    (CODE)
+                                    612 	.area CONST   (CODE)
+                                    613 	.area XINIT   (CODE)
+                                    614 	.area CABS    (ABS,CODE)

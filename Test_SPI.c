@@ -30,7 +30,7 @@ void MAX7219_transfer(uint8_t chip, const uint8_t addr, const uint8_t data);
 
 void MAX7219_begin(void)
 {
-	SPI_begin();
+	SPI_begin(SPI_MODE_MASTER);
 
 	MAX7219_transferAll(3, SCAN_LIMIT, 0x07);
 	MAX7219_transferAll(3, DECODE_MODE, 0xFF);

@@ -199,8 +199,8 @@ Symbol Table
     TR2                                                         =  0000CA L
     TXD                                                         =  0000B1 L
  17 _MAX7219_begin                                                 000000 GR
- 17 _MAX7219_transfer                                              000060 GR
- 17 _MAX7219_transferAll                                           00003F GR
+ 17 _MAX7219_transfer                                              000063 GR
+ 17 _MAX7219_transferAll                                           000042 GR
   5 _MAX7219_transferAll_PARM_2                                    000002 GR
   5 _MAX7219_transferAll_PARM_3                                    000003 GR
   5 _MAX7219_transfer_PARM_2                                       000004 GR
@@ -273,7 +273,7 @@ Symbol Table
     _ie                                                         =  0000A8 G
     _ip                                                         =  0000B8 G
     _iph                                                        =  0000B7 G
- 17 _main                                                          0000B6 GR
+ 17 _main                                                          0000B9 GR
     _p0                                                         =  000080 G
     _p0m1                                                       =  0000B1 G
     _p0m2                                                       =  0000B2 G
@@ -596,7 +596,7 @@ Area Table
   14 GSINIT5                                    size      0   flags   20
   15 GSINIT                                     size      0   flags   20
   16 GSFINAL                                    size      3   flags   20
-  17 CSEG                                       size    11B   flags   20
+  17 CSEG                                       size    11E   flags   20
   18 CONST                                      size      0   flags   20
   19 XINIT                                      size      0   flags   20
   1A CABS                                       size      0   flags   28
