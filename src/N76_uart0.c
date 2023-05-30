@@ -43,9 +43,18 @@ void UART0_println(char *str)
 	UART0_print("\r\n");
 }
 
-void UART0_printNum(long num)
+
+void UART0_printNum(long num, uint8_t base)
 {
 	char dis[20];
-	sprintf(dis, "%li", num);
+	if (base == DEC)	sprintf(dis, "%li", num);
+	else if (base == HEX)	sprintf(dis, "0x%lx", num);
+	// else if (base == BIN)	sprintf(dis, "can't print binary number");
 	UART0_print(dis);
+}
+
+void UART0_printNumln(long num, uint8_t base)
+{
+	UART0_printNum(num, base);
+	UART0_println("");
 }

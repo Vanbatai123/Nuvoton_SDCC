@@ -30,7 +30,7 @@ void SPI_begin(uint8_t spi_mode)
 		setb(SPI_PxM2_MISO, SPI_PIN_MISO);
 		setb(SPI_PxM2_SS, SPI_PIN_SS);
 	}
-	else if (spi_mode== SPI_MODE_SLAVE)
+	else if (spi_mode == SPI_MODE_SLAVE)
 	{
 		// #warning not define yet
 
@@ -52,12 +52,11 @@ void SPI_begin(uint8_t spi_mode)
 uint8_t SPI_transfer(uint8_t data)
 {
 	SPDR = data;
-	__asm__("nop");
+	// __asm__("nop");
 	while (inbit(SPSR, SPIF) == 0)
-		data = SPDR;
-	; // wait
+		; // wait
 	clrb(SPSR, SPIF);
-	return data;
+	return SPDR;
 }
 
 // uint16_t SPI_transfer16(uint16_t data)

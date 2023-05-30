@@ -71,16 +71,46 @@
 // Initialize the SPI library
 
 /// @brief default master: mode 0 div 2
-/// @param spi_mode 
+/// @brief did not dev slave mode
+/// @param spi_mode SPI_MODE_MASTER/SLAVE
 void SPI_begin(uint8_t spi_mode);
+
+/// @brief Tranfer 1 byte data to SPI_MOSI line
+/// @brief and return 1 byte from SPI_MISO
+/// @param data 
+/// @return 
 uint8_t SPI_transfer(uint8_t data);
+
+/// @brief 
+/// @param data 
+/// @return 
 uint16_t SPI_transfer16(uint16_t data);
+
+/// @brief 
+/// @param buf 
+/// @param count 
 void SPI_transferBuf(void *buf, uint16_t count);
+
+/// @brief 
 void SPI_end();
+
+
+/// @brief set bit order of SPI line
+/// @param bitOrder (MSB or LSB)
 void SPI_setBitOrder(uint8_t bitOrder);
+
+/// @brief set data mode of SPI
+/// @param dataMode SPI_MODE0-3
 void SPI_setDataMode(uint8_t dataMode);
+
+/// @brief Set clock devider 
+/// @param clockDiv SPI_CLOCK_DIV2/4/8/16
 void SPI_setClockDivider(uint8_t clockDiv);
+
+/// @brief 
 void SPI_attachInterrupt();
+
+/// @brief 
 void SPI_detachInterrupt();
 
 
