@@ -1,0 +1,644 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.2.0 #13081 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module MS51_W25Q32
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _W25Qxx_readPage
+                                     13 	.globl _W25Qxx_writePage
+                                     14 	.globl _W25Qxx_eraseChip
+                                     15 	.globl _W25Qxx_readMidDid
+                                     16 	.globl _W25Qxx_begin
+                                     17 	.globl _SPI_Error
+                                     18 	.globl _UART0_printNumln
+                                     19 	.globl _UART0_printNum
+                                     20 	.globl _UART0_println
+                                     21 	.globl _UART0_print
+                                     22 	.globl _UART0_begin
+                                     23 	.globl _eiph1
+                                     24 	.globl _eip1
+                                     25 	.globl _pmd
+                                     26 	.globl _pmen
+                                     27 	.globl _pdtcnt
+                                     28 	.globl _pdten
+                                     29 	.globl _scon_1
+                                     30 	.globl _eiph
+                                     31 	.globl _aindids
+                                     32 	.globl _spdr
+                                     33 	.globl _spsr
+                                     34 	.globl _spcr2
+                                     35 	.globl _spcr
+                                     36 	.globl _capcon4
+                                     37 	.globl _capcon3
+                                     38 	.globl _b
+                                     39 	.globl _eip
+                                     40 	.globl _c2h
+                                     41 	.globl _c2l
+                                     42 	.globl _pif
+                                     43 	.globl _pipen
+                                     44 	.globl _pinen
+                                     45 	.globl _picon
+                                     46 	.globl _adccon0
+                                     47 	.globl _c1h
+                                     48 	.globl _c1l
+                                     49 	.globl _c0h
+                                     50 	.globl _c0l
+                                     51 	.globl _adcdly
+                                     52 	.globl _adccon2
+                                     53 	.globl _adccon1
+                                     54 	.globl _acc
+                                     55 	.globl _pwmcon1
+                                     56 	.globl _piocon0
+                                     57 	.globl _pwm3l
+                                     58 	.globl _pwm2l
+                                     59 	.globl _pwm1l
+                                     60 	.globl _pwm0l
+                                     61 	.globl _pwmpl
+                                     62 	.globl _pwmcon0
+                                     63 	.globl _fbd
+                                     64 	.globl _pnp
+                                     65 	.globl _pwm3h
+                                     66 	.globl _pwm2h
+                                     67 	.globl _pwm1h
+                                     68 	.globl _pwm0h
+                                     69 	.globl _pwmph
+                                     70 	.globl _psw
+                                     71 	.globl _adcmph
+                                     72 	.globl _adcmpl
+                                     73 	.globl _pwm5l
+                                     74 	.globl _th2
+                                     75 	.globl _pwm4l
+                                     76 	.globl _tl2
+                                     77 	.globl _rcmp2h
+                                     78 	.globl _rcmp2l
+                                     79 	.globl _t2mod
+                                     80 	.globl _t2con
+                                     81 	.globl _ta
+                                     82 	.globl _piocon1
+                                     83 	.globl _rh3
+                                     84 	.globl _pwm5h
+                                     85 	.globl _rl3
+                                     86 	.globl _pwm4h
+                                     87 	.globl _t3con
+                                     88 	.globl _adcrh
+                                     89 	.globl _adcrl
+                                     90 	.globl _i2addr
+                                     91 	.globl _i2con
+                                     92 	.globl _i2toc
+                                     93 	.globl _i2clk
+                                     94 	.globl _i2stat
+                                     95 	.globl _i2dat
+                                     96 	.globl _saddr_1
+                                     97 	.globl _saden_1
+                                     98 	.globl _saden
+                                     99 	.globl _ip
+                                    100 	.globl _pwmintc
+                                    101 	.globl _iph
+                                    102 	.globl _p2s
+                                    103 	.globl _p1sr
+                                    104 	.globl _p1m2
+                                    105 	.globl _p1s
+                                    106 	.globl _p1m1
+                                    107 	.globl _p0sr
+                                    108 	.globl _p0m2
+                                    109 	.globl _p0s
+                                    110 	.globl _p0m1
+                                    111 	.globl _p3
+                                    112 	.globl _iapcn
+                                    113 	.globl _iapfd
+                                    114 	.globl _p3sr
+                                    115 	.globl _p3m2
+                                    116 	.globl _p3s
+                                    117 	.globl _p3m1
+                                    118 	.globl _bodcon1
+                                    119 	.globl _wdcon
+                                    120 	.globl _saddr
+                                    121 	.globl _ie
+                                    122 	.globl _iapah
+                                    123 	.globl _iapal
+                                    124 	.globl _iapuen
+                                    125 	.globl _iaptrg
+                                    126 	.globl _bodcon0
+                                    127 	.globl _auxr1
+                                    128 	.globl _p2
+                                    129 	.globl _chpcon
+                                    130 	.globl _eie1
+                                    131 	.globl _eie
+                                    132 	.globl _sbuf_1
+                                    133 	.globl _sbuf
+                                    134 	.globl _scon
+                                    135 	.globl _cken
+                                    136 	.globl _ckswt
+                                    137 	.globl _ckdiv
+                                    138 	.globl _capcon2
+                                    139 	.globl _capcon1
+                                    140 	.globl _capcon0
+                                    141 	.globl _sfrs
+                                    142 	.globl _p1
+                                    143 	.globl _wkcon
+                                    144 	.globl _ckcon
+                                    145 	.globl _th1
+                                    146 	.globl _th0
+                                    147 	.globl _tl1
+                                    148 	.globl _tl0
+                                    149 	.globl _tmod
+                                    150 	.globl _tcon
+                                    151 	.globl _pcon
+                                    152 	.globl _rwk
+                                    153 	.globl _rctrim1
+                                    154 	.globl _rctrim0
+                                    155 	.globl _dph
+                                    156 	.globl _dpl
+                                    157 	.globl _sp
+                                    158 	.globl _p0
+                                    159 	.globl _data2
+                                    160 ;--------------------------------------------------------
+                                    161 ; special function registers
+                                    162 ;--------------------------------------------------------
+                                    163 	.area RSEG    (ABS,DATA)
+      000000                        164 	.org 0x0000
+                           000080   165 _p0	=	0x0080
+                           000081   166 _sp	=	0x0081
+                           000082   167 _dpl	=	0x0082
+                           000083   168 _dph	=	0x0083
+                           000084   169 _rctrim0	=	0x0084
+                           000085   170 _rctrim1	=	0x0085
+                           000086   171 _rwk	=	0x0086
+                           000087   172 _pcon	=	0x0087
+                           000088   173 _tcon	=	0x0088
+                           000089   174 _tmod	=	0x0089
+                           00008A   175 _tl0	=	0x008a
+                           00008B   176 _tl1	=	0x008b
+                           00008C   177 _th0	=	0x008c
+                           00008D   178 _th1	=	0x008d
+                           00008E   179 _ckcon	=	0x008e
+                           00008F   180 _wkcon	=	0x008f
+                           000090   181 _p1	=	0x0090
+                           000091   182 _sfrs	=	0x0091
+                           000092   183 _capcon0	=	0x0092
+                           000093   184 _capcon1	=	0x0093
+                           000094   185 _capcon2	=	0x0094
+                           000095   186 _ckdiv	=	0x0095
+                           000096   187 _ckswt	=	0x0096
+                           000097   188 _cken	=	0x0097
+                           000098   189 _scon	=	0x0098
+                           000099   190 _sbuf	=	0x0099
+                           00009A   191 _sbuf_1	=	0x009a
+                           00009B   192 _eie	=	0x009b
+                           00009C   193 _eie1	=	0x009c
+                           00009F   194 _chpcon	=	0x009f
+                           0000A0   195 _p2	=	0x00a0
+                           0000A2   196 _auxr1	=	0x00a2
+                           0000A3   197 _bodcon0	=	0x00a3
+                           0000A4   198 _iaptrg	=	0x00a4
+                           0000A5   199 _iapuen	=	0x00a5
+                           0000A6   200 _iapal	=	0x00a6
+                           0000A7   201 _iapah	=	0x00a7
+                           0000A8   202 _ie	=	0x00a8
+                           0000A9   203 _saddr	=	0x00a9
+                           0000AA   204 _wdcon	=	0x00aa
+                           0000AB   205 _bodcon1	=	0x00ab
+                           0000AC   206 _p3m1	=	0x00ac
+                           0000AC   207 _p3s	=	0x00ac
+                           0000AD   208 _p3m2	=	0x00ad
+                           0000AD   209 _p3sr	=	0x00ad
+                           0000AE   210 _iapfd	=	0x00ae
+                           0000AF   211 _iapcn	=	0x00af
+                           0000B0   212 _p3	=	0x00b0
+                           0000B1   213 _p0m1	=	0x00b1
+                           0000B1   214 _p0s	=	0x00b1
+                           0000B2   215 _p0m2	=	0x00b2
+                           0000B2   216 _p0sr	=	0x00b2
+                           0000B3   217 _p1m1	=	0x00b3
+                           0000B3   218 _p1s	=	0x00b3
+                           0000B4   219 _p1m2	=	0x00b4
+                           0000B4   220 _p1sr	=	0x00b4
+                           0000B5   221 _p2s	=	0x00b5
+                           0000B7   222 _iph	=	0x00b7
+                           0000B7   223 _pwmintc	=	0x00b7
+                           0000B8   224 _ip	=	0x00b8
+                           0000B9   225 _saden	=	0x00b9
+                           0000BA   226 _saden_1	=	0x00ba
+                           0000BB   227 _saddr_1	=	0x00bb
+                           0000BC   228 _i2dat	=	0x00bc
+                           0000BD   229 _i2stat	=	0x00bd
+                           0000BE   230 _i2clk	=	0x00be
+                           0000BF   231 _i2toc	=	0x00bf
+                           0000C0   232 _i2con	=	0x00c0
+                           0000C1   233 _i2addr	=	0x00c1
+                           0000C2   234 _adcrl	=	0x00c2
+                           0000C3   235 _adcrh	=	0x00c3
+                           0000C4   236 _t3con	=	0x00c4
+                           0000C4   237 _pwm4h	=	0x00c4
+                           0000C5   238 _rl3	=	0x00c5
+                           0000C5   239 _pwm5h	=	0x00c5
+                           0000C6   240 _rh3	=	0x00c6
+                           0000C6   241 _piocon1	=	0x00c6
+                           0000C7   242 _ta	=	0x00c7
+                           0000C8   243 _t2con	=	0x00c8
+                           0000C9   244 _t2mod	=	0x00c9
+                           0000CA   245 _rcmp2l	=	0x00ca
+                           0000CB   246 _rcmp2h	=	0x00cb
+                           0000CC   247 _tl2	=	0x00cc
+                           0000CC   248 _pwm4l	=	0x00cc
+                           0000CD   249 _th2	=	0x00cd
+                           0000CD   250 _pwm5l	=	0x00cd
+                           0000CE   251 _adcmpl	=	0x00ce
+                           0000CF   252 _adcmph	=	0x00cf
+                           0000D0   253 _psw	=	0x00d0
+                           0000D1   254 _pwmph	=	0x00d1
+                           0000D2   255 _pwm0h	=	0x00d2
+                           0000D3   256 _pwm1h	=	0x00d3
+                           0000D4   257 _pwm2h	=	0x00d4
+                           0000D5   258 _pwm3h	=	0x00d5
+                           0000D6   259 _pnp	=	0x00d6
+                           0000D7   260 _fbd	=	0x00d7
+                           0000D8   261 _pwmcon0	=	0x00d8
+                           0000D9   262 _pwmpl	=	0x00d9
+                           0000DA   263 _pwm0l	=	0x00da
+                           0000DB   264 _pwm1l	=	0x00db
+                           0000DC   265 _pwm2l	=	0x00dc
+                           0000DD   266 _pwm3l	=	0x00dd
+                           0000DE   267 _piocon0	=	0x00de
+                           0000DF   268 _pwmcon1	=	0x00df
+                           0000E0   269 _acc	=	0x00e0
+                           0000E1   270 _adccon1	=	0x00e1
+                           0000E2   271 _adccon2	=	0x00e2
+                           0000E3   272 _adcdly	=	0x00e3
+                           0000E4   273 _c0l	=	0x00e4
+                           0000E5   274 _c0h	=	0x00e5
+                           0000E6   275 _c1l	=	0x00e6
+                           0000E7   276 _c1h	=	0x00e7
+                           0000E8   277 _adccon0	=	0x00e8
+                           0000E9   278 _picon	=	0x00e9
+                           0000EA   279 _pinen	=	0x00ea
+                           0000EB   280 _pipen	=	0x00eb
+                           0000EC   281 _pif	=	0x00ec
+                           0000ED   282 _c2l	=	0x00ed
+                           0000EE   283 _c2h	=	0x00ee
+                           0000EF   284 _eip	=	0x00ef
+                           0000F0   285 _b	=	0x00f0
+                           0000F1   286 _capcon3	=	0x00f1
+                           0000F2   287 _capcon4	=	0x00f2
+                           0000F3   288 _spcr	=	0x00f3
+                           0000F3   289 _spcr2	=	0x00f3
+                           0000F4   290 _spsr	=	0x00f4
+                           0000F5   291 _spdr	=	0x00f5
+                           0000F6   292 _aindids	=	0x00f6
+                           0000F7   293 _eiph	=	0x00f7
+                           0000F8   294 _scon_1	=	0x00f8
+                           0000F9   295 _pdten	=	0x00f9
+                           0000FA   296 _pdtcnt	=	0x00fa
+                           0000FB   297 _pmen	=	0x00fb
+                           0000FC   298 _pmd	=	0x00fc
+                           0000FE   299 _eip1	=	0x00fe
+                           0000FF   300 _eiph1	=	0x00ff
+                                    301 ;--------------------------------------------------------
+                                    302 ; special function bits
+                                    303 ;--------------------------------------------------------
+                                    304 	.area RSEG    (ABS,DATA)
+      000000                        305 	.org 0x0000
+                                    306 ;--------------------------------------------------------
+                                    307 ; overlayable register banks
+                                    308 ;--------------------------------------------------------
+                                    309 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        310 	.ds 8
+                                    311 ;--------------------------------------------------------
+                                    312 ; internal ram data
+                                    313 ;--------------------------------------------------------
+                                    314 	.area DSEG    (DATA)
+      000000                        315 _main_u8MID_65536_61:
+      000000                        316 	.ds 1
+      000001                        317 _main_u8DID_65536_61:
+      000001                        318 	.ds 1
+                                    319 ;--------------------------------------------------------
+                                    320 ; overlayable items in internal ram
+                                    321 ;--------------------------------------------------------
+                                    322 ;--------------------------------------------------------
+                                    323 ; Stack segment in internal ram
+                                    324 ;--------------------------------------------------------
+                                    325 	.area	SSEG
+      000000                        326 __start__stack:
+      000000                        327 	.ds	1
+                                    328 
+                                    329 ;--------------------------------------------------------
+                                    330 ; indirectly addressable internal ram data
+                                    331 ;--------------------------------------------------------
+                                    332 	.area ISEG    (DATA)
+                                    333 ;--------------------------------------------------------
+                                    334 ; absolute internal ram data
+                                    335 ;--------------------------------------------------------
+                                    336 	.area IABS    (ABS,DATA)
+                                    337 	.area IABS    (ABS,DATA)
+                                    338 ;--------------------------------------------------------
+                                    339 ; bit data
+                                    340 ;--------------------------------------------------------
+                                    341 	.area BSEG    (BIT)
+                                    342 ;--------------------------------------------------------
+                                    343 ; paged external ram data
+                                    344 ;--------------------------------------------------------
+                                    345 	.area PSEG    (PAG,XDATA)
+                                    346 ;--------------------------------------------------------
+                                    347 ; external ram data
+                                    348 ;--------------------------------------------------------
+                                    349 	.area XSEG    (XDATA)
+      000000                        350 _data2::
+      000000                        351 	.ds 256
+                                    352 ;--------------------------------------------------------
+                                    353 ; absolute external ram data
+                                    354 ;--------------------------------------------------------
+                                    355 	.area XABS    (ABS,XDATA)
+                                    356 ;--------------------------------------------------------
+                                    357 ; external initialized ram data
+                                    358 ;--------------------------------------------------------
+                                    359 	.area XISEG   (XDATA)
+                                    360 	.area HOME    (CODE)
+                                    361 	.area GSINIT0 (CODE)
+                                    362 	.area GSINIT1 (CODE)
+                                    363 	.area GSINIT2 (CODE)
+                                    364 	.area GSINIT3 (CODE)
+                                    365 	.area GSINIT4 (CODE)
+                                    366 	.area GSINIT5 (CODE)
+                                    367 	.area GSINIT  (CODE)
+                                    368 	.area GSFINAL (CODE)
+                                    369 	.area CSEG    (CODE)
+                                    370 ;--------------------------------------------------------
+                                    371 ; interrupt vector
+                                    372 ;--------------------------------------------------------
+                                    373 	.area HOME    (CODE)
+      000000                        374 __interrupt_vect:
+      000000 02r00r00         [24]  375 	ljmp	__sdcc_gsinit_startup
+                                    376 ;--------------------------------------------------------
+                                    377 ; global & static initialisations
+                                    378 ;--------------------------------------------------------
+                                    379 	.area HOME    (CODE)
+                                    380 	.area GSINIT  (CODE)
+                                    381 	.area GSFINAL (CODE)
+                                    382 	.area GSINIT  (CODE)
+                                    383 	.globl __sdcc_gsinit_startup
+                                    384 	.globl __sdcc_program_startup
+                                    385 	.globl __start__stack
+                                    386 	.globl __mcs51_genXINIT
+                                    387 	.globl __mcs51_genXRAMCLEAR
+                                    388 	.globl __mcs51_genRAMCLEAR
+                                    389 	.area GSFINAL (CODE)
+      000000 02r00r03         [24]  390 	ljmp	__sdcc_program_startup
+                                    391 ;--------------------------------------------------------
+                                    392 ; Home
+                                    393 ;--------------------------------------------------------
+                                    394 	.area HOME    (CODE)
+                                    395 	.area HOME    (CODE)
+      000003                        396 __sdcc_program_startup:
+      000003 02r00r00         [24]  397 	ljmp	_main
+                                    398 ;	return from main will return to caller
+                                    399 ;--------------------------------------------------------
+                                    400 ; code
+                                    401 ;--------------------------------------------------------
+                                    402 	.area CSEG    (CODE)
+                                    403 ;------------------------------------------------------------
+                                    404 ;Allocation info for local variables in function 'main'
+                                    405 ;------------------------------------------------------------
+                                    406 ;u8MID                     Allocated with name '_main_u8MID_65536_61'
+                                    407 ;u8DID                     Allocated with name '_main_u8DID_65536_61'
+                                    408 ;i                         Allocated to registers r6 r7 
+                                    409 ;i                         Allocated to registers r6 r7 
+                                    410 ;------------------------------------------------------------
+                                    411 ;	./MS51_W25Q32.c:17: void main(void)
+                                    412 ;	-----------------------------------------
+                                    413 ;	 function main
+                                    414 ;	-----------------------------------------
+      000000                        415 _main:
+                           000007   416 	ar7 = 0x07
+                           000006   417 	ar6 = 0x06
+                           000005   418 	ar5 = 0x05
+                           000004   419 	ar4 = 0x04
+                           000003   420 	ar3 = 0x03
+                           000002   421 	ar2 = 0x02
+                           000001   422 	ar1 = 0x01
+                           000000   423 	ar0 = 0x00
+                                    424 ;	./MS51_W25Q32.c:20: for (int16_t i = 0; i < 256; i++)
+      000000 7E 00            [12]  425 	mov	r6,#0x00
+      000002 7F 00            [12]  426 	mov	r7,#0x00
+      000004                        427 00113$:
+      000004 8F 05            [24]  428 	mov	ar5,r7
+      000006 C3               [12]  429 	clr	c
+      000007 ED               [12]  430 	mov	a,r5
+      000008 64 80            [12]  431 	xrl	a,#0x80
+      00000A 94 81            [12]  432 	subb	a,#0x81
+      00000C 50 15            [24]  433 	jnc	00101$
+                                    434 ;	./MS51_W25Q32.c:22: data2[i] = (uint8_t)(i);
+      00000E EE               [12]  435 	mov	a,r6
+      00000F 24r00            [12]  436 	add	a,#_data2
+      000011 F5 82            [12]  437 	mov	dpl,a
+      000013 EF               [12]  438 	mov	a,r7
+      000014 34s00            [12]  439 	addc	a,#(_data2 >> 8)
+      000016 F5 83            [12]  440 	mov	dph,a
+      000018 8E 05            [24]  441 	mov	ar5,r6
+      00001A ED               [12]  442 	mov	a,r5
+      00001B F0               [24]  443 	movx	@dptr,a
+                                    444 ;	./MS51_W25Q32.c:20: for (int16_t i = 0; i < 256; i++)
+      00001C 0E               [12]  445 	inc	r6
+      00001D BE 00 E4         [24]  446 	cjne	r6,#0x00,00113$
+      000020 0F               [12]  447 	inc	r7
+      000021 80 E1            [24]  448 	sjmp	00113$
+      000023                        449 00101$:
+                                    450 ;	./MS51_W25Q32.c:25: UART0_begin(BAUD_38400); /* 9600 Baud Rate*/
+      000023 75 82 E6         [24]  451 	mov	dpl,#0xe6
+      000026 12r00r00         [24]  452 	lcall	_UART0_begin
+                                    453 ;	./MS51_W25Q32.c:26: W25Qxx_begin();
+      000029 12r00r00         [24]  454 	lcall	_W25Qxx_begin
+                                    455 ;	./MS51_W25Q32.c:28: W25Qxx_readMidDid(&u8MID, &u8DID);
+      00002C 75*00r01         [24]  456 	mov	_W25Qxx_readMidDid_PARM_2,#_main_u8DID_65536_61
+      00002F 75*01 00         [24]  457 	mov	(_W25Qxx_readMidDid_PARM_2 + 1),#0x00
+      000032 75*02 40         [24]  458 	mov	(_W25Qxx_readMidDid_PARM_2 + 2),#0x40
+      000035 90r00r00         [24]  459 	mov	dptr,#_main_u8MID_65536_61
+      000038 75 F0 40         [24]  460 	mov	b,#0x40
+      00003B 12r00r00         [24]  461 	lcall	_W25Qxx_readMidDid
+                                    462 ;	./MS51_W25Q32.c:30: UART0_printNum(u8MID, HEX);
+      00003E AC*00            [24]  463 	mov	r4,_main_u8MID_65536_61
+      000040 7D 00            [12]  464 	mov	r5,#0x00
+      000042 7E 00            [12]  465 	mov	r6,#0x00
+      000044 7F 00            [12]  466 	mov	r7,#0x00
+      000046 75*00 10         [24]  467 	mov	_UART0_printNum_PARM_2,#0x10
+      000049 8C 82            [24]  468 	mov	dpl,r4
+      00004B 8D 83            [24]  469 	mov	dph,r5
+      00004D 8E F0            [24]  470 	mov	b,r6
+      00004F EF               [12]  471 	mov	a,r7
+      000050 12r00r00         [24]  472 	lcall	_UART0_printNum
+                                    473 ;	./MS51_W25Q32.c:31: UART0_print("  ");
+      000053 90r00r00         [24]  474 	mov	dptr,#___str_0
+      000056 75 F0 80         [24]  475 	mov	b,#0x80
+      000059 12r00r00         [24]  476 	lcall	_UART0_print
+                                    477 ;	./MS51_W25Q32.c:32: UART0_printNumln(u8DID, HEX);
+      00005C AC*01            [24]  478 	mov	r4,_main_u8DID_65536_61
+      00005E 7D 00            [12]  479 	mov	r5,#0x00
+      000060 7E 00            [12]  480 	mov	r6,#0x00
+      000062 7F 00            [12]  481 	mov	r7,#0x00
+      000064 75*00 10         [24]  482 	mov	_UART0_printNumln_PARM_2,#0x10
+      000067 8C 82            [24]  483 	mov	dpl,r4
+      000069 8D 83            [24]  484 	mov	dph,r5
+      00006B 8E F0            [24]  485 	mov	b,r6
+      00006D EF               [12]  486 	mov	a,r7
+      00006E 12r00r00         [24]  487 	lcall	_UART0_printNumln
+                                    488 ;	./MS51_W25Q32.c:33: if ((u8MID != 0xEF) && (u8DID != 0x14))
+      000071 74 EF            [12]  489 	mov	a,#0xef
+      000073 B5*00 02         [24]  490 	cjne	a,_main_u8MID_65536_61,00156$
+      000076 80 0A            [24]  491 	sjmp	00103$
+      000078                        492 00156$:
+      000078 74 14            [12]  493 	mov	a,#0x14
+      00007A B5*01 02         [24]  494 	cjne	a,_main_u8DID_65536_61,00157$
+      00007D 80 03            [24]  495 	sjmp	00103$
+      00007F                        496 00157$:
+                                    497 ;	./MS51_W25Q32.c:35: SPI_Error();
+      00007F 12r00r00         [24]  498 	lcall	_SPI_Error
+      000082                        499 00103$:
+                                    500 ;	./MS51_W25Q32.c:37: UART0_println("read OK");
+      000082 90r00r03         [24]  501 	mov	dptr,#___str_1
+      000085 75 F0 80         [24]  502 	mov	b,#0x80
+      000088 12r00r00         [24]  503 	lcall	_UART0_println
+                                    504 ;	./MS51_W25Q32.c:39: W25Qxx_eraseChip();
+      00008B 12r00r00         [24]  505 	lcall	_W25Qxx_eraseChip
+                                    506 ;	./MS51_W25Q32.c:51: W25Qxx_writePage(256, data2);
+      00008E 75*00r00         [24]  507 	mov	_W25Qxx_writePage_PARM_2,#_data2
+      000091 75*01s00         [24]  508 	mov	(_W25Qxx_writePage_PARM_2 + 1),#(_data2 >> 8)
+      000094 75*02 00         [24]  509 	mov	(_W25Qxx_writePage_PARM_2 + 2),#0x00
+      000097 90 01 00         [24]  510 	mov	dptr,#0x0100
+      00009A E4               [12]  511 	clr	a
+      00009B F5 F0            [12]  512 	mov	b,a
+      00009D 12r00r00         [24]  513 	lcall	_W25Qxx_writePage
+                                    514 ;	./MS51_W25Q32.c:62: W25Qxx_readPage(256, data2);
+      0000A0 75*00r00         [24]  515 	mov	_W25Qxx_readPage_PARM_2,#_data2
+      0000A3 75*01s00         [24]  516 	mov	(_W25Qxx_readPage_PARM_2 + 1),#(_data2 >> 8)
+      0000A6 75*02 00         [24]  517 	mov	(_W25Qxx_readPage_PARM_2 + 2),#0x00
+      0000A9 90 01 00         [24]  518 	mov	dptr,#0x0100
+      0000AC E4               [12]  519 	clr	a
+      0000AD F5 F0            [12]  520 	mov	b,a
+      0000AF 12r00r00         [24]  521 	lcall	_W25Qxx_readPage
+                                    522 ;	./MS51_W25Q32.c:64: for (uint16_t i = 0; i < 256; i++)
+      0000B2 7E 00            [12]  523 	mov	r6,#0x00
+      0000B4 7F 00            [12]  524 	mov	r7,#0x00
+      0000B6                        525 00116$:
+      0000B6 8E 04            [24]  526 	mov	ar4,r6
+      0000B8 8F 05            [24]  527 	mov	ar5,r7
+      0000BA 74 FF            [12]  528 	mov	a,#0x100 - 0x01
+      0000BC 2D               [12]  529 	add	a,r5
+      0000BD 40 65            [24]  530 	jc	00108$
+                                    531 ;	./MS51_W25Q32.c:66: UART0_printNum(data2[i], HEX);
+      0000BF EE               [12]  532 	mov	a,r6
+      0000C0 24r00            [12]  533 	add	a,#_data2
+      0000C2 F5 82            [12]  534 	mov	dpl,a
+      0000C4 EF               [12]  535 	mov	a,r7
+      0000C5 34s00            [12]  536 	addc	a,#(_data2 >> 8)
+      0000C7 F5 83            [12]  537 	mov	dph,a
+      0000C9 E0               [24]  538 	movx	a,@dptr
+      0000CA F8               [12]  539 	mov	r0,a
+      0000CB 79 00            [12]  540 	mov	r1,#0x00
+      0000CD 7A 00            [12]  541 	mov	r2,#0x00
+      0000CF 7B 00            [12]  542 	mov	r3,#0x00
+      0000D1 75*00 10         [24]  543 	mov	_UART0_printNum_PARM_2,#0x10
+      0000D4 88 82            [24]  544 	mov	dpl,r0
+      0000D6 89 83            [24]  545 	mov	dph,r1
+      0000D8 8A F0            [24]  546 	mov	b,r2
+      0000DA EB               [12]  547 	mov	a,r3
+      0000DB C0 07            [24]  548 	push	ar7
+      0000DD C0 06            [24]  549 	push	ar6
+      0000DF C0 05            [24]  550 	push	ar5
+      0000E1 C0 04            [24]  551 	push	ar4
+      0000E3 12r00r00         [24]  552 	lcall	_UART0_printNum
+      0000E6 D0 04            [24]  553 	pop	ar4
+      0000E8 D0 05            [24]  554 	pop	ar5
+      0000EA D0 06            [24]  555 	pop	ar6
+      0000EC D0 07            [24]  556 	pop	ar7
+                                    557 ;	./MS51_W25Q32.c:67: if (i % 16 == 15)
+      0000EE 53 04 0F         [24]  558 	anl	ar4,#0x0f
+      0000F1 7D 00            [12]  559 	mov	r5,#0x00
+      0000F3 BC 0F 16         [24]  560 	cjne	r4,#0x0f,00106$
+      0000F6 BD 00 13         [24]  561 	cjne	r5,#0x00,00106$
+                                    562 ;	./MS51_W25Q32.c:69: UART0_println("");
+      0000F9 90r00r0B         [24]  563 	mov	dptr,#___str_2
+      0000FC 75 F0 80         [24]  564 	mov	b,#0x80
+      0000FF C0 07            [24]  565 	push	ar7
+      000101 C0 06            [24]  566 	push	ar6
+      000103 12r00r00         [24]  567 	lcall	_UART0_println
+      000106 D0 06            [24]  568 	pop	ar6
+      000108 D0 07            [24]  569 	pop	ar7
+      00010A 80 11            [24]  570 	sjmp	00117$
+      00010C                        571 00106$:
+                                    572 ;	./MS51_W25Q32.c:73: UART0_print(" - ");
+      00010C 90r00r0C         [24]  573 	mov	dptr,#___str_3
+      00010F 75 F0 80         [24]  574 	mov	b,#0x80
+      000112 C0 07            [24]  575 	push	ar7
+      000114 C0 06            [24]  576 	push	ar6
+      000116 12r00r00         [24]  577 	lcall	_UART0_print
+      000119 D0 06            [24]  578 	pop	ar6
+      00011B D0 07            [24]  579 	pop	ar7
+      00011D                        580 00117$:
+                                    581 ;	./MS51_W25Q32.c:64: for (uint16_t i = 0; i < 256; i++)
+      00011D 0E               [12]  582 	inc	r6
+      00011E BE 00 95         [24]  583 	cjne	r6,#0x00,00116$
+      000121 0F               [12]  584 	inc	r7
+      000122 80 92            [24]  585 	sjmp	00116$
+      000124                        586 00108$:
+                                    587 ;	./MS51_W25Q32.c:91: UART0_println("/////////////");
+      000124 90r00r10         [24]  588 	mov	dptr,#___str_4
+      000127 75 F0 80         [24]  589 	mov	b,#0x80
+      00012A 12r00r00         [24]  590 	lcall	_UART0_println
+                                    591 ;	./MS51_W25Q32.c:110: UART0_println("");
+      00012D 90r00r0B         [24]  592 	mov	dptr,#___str_2
+      000130 75 F0 80         [24]  593 	mov	b,#0x80
+      000133 12r00r00         [24]  594 	lcall	_UART0_println
+                                    595 ;	./MS51_W25Q32.c:112: UART0_println("\nFinished the SPI Demo Code and test pass!!!\n");
+      000136 90r00r1E         [24]  596 	mov	dptr,#___str_5
+      000139 75 F0 80         [24]  597 	mov	b,#0x80
+      00013C 12r00r00         [24]  598 	lcall	_UART0_println
+                                    599 ;	./MS51_W25Q32.c:113: while (1)
+      00013F                        600 00110$:
+                                    601 ;	./MS51_W25Q32.c:115: }
+      00013F 80 FE            [24]  602 	sjmp	00110$
+                                    603 	.area CSEG    (CODE)
+                                    604 	.area CONST   (CODE)
+                                    605 	.area CONST   (CODE)
+      000000                        606 ___str_0:
+      000000 20 20                  607 	.ascii "  "
+      000002 00                     608 	.db 0x00
+                                    609 	.area CSEG    (CODE)
+                                    610 	.area CONST   (CODE)
+      000003                        611 ___str_1:
+      000003 72 65 61 64 20 4F 4B   612 	.ascii "read OK"
+      00000A 00                     613 	.db 0x00
+                                    614 	.area CSEG    (CODE)
+                                    615 	.area CONST   (CODE)
+      00000B                        616 ___str_2:
+      00000B 00                     617 	.db 0x00
+                                    618 	.area CSEG    (CODE)
+                                    619 	.area CONST   (CODE)
+      00000C                        620 ___str_3:
+      00000C 20 2D 20               621 	.ascii " - "
+      00000F 00                     622 	.db 0x00
+                                    623 	.area CSEG    (CODE)
+                                    624 	.area CONST   (CODE)
+      000010                        625 ___str_4:
+      000010 2F 2F 2F 2F 2F 2F 2F   626 	.ascii "/////////////"
+             2F 2F 2F 2F 2F 2F
+      00001D 00                     627 	.db 0x00
+                                    628 	.area CSEG    (CODE)
+                                    629 	.area CONST   (CODE)
+      00001E                        630 ___str_5:
+      00001E 0A                     631 	.db 0x0a
+      00001F 46 69 6E 69 73 68 65   632 	.ascii "Finished the SPI Demo Code and test pass!!!"
+             64 20 74 68 65 20 53
+             50 49 20 44 65 6D 6F
+             20 43 6F 64 65 20 61
+             6E 64 20 74 65 73 74
+             20 70 61 73 73 21 21
+             21
+      00004A 0A                     633 	.db 0x0a
+      00004B 00                     634 	.db 0x00
+                                    635 	.area CSEG    (CODE)
+                                    636 	.area XINIT   (CODE)
+                                    637 	.area CABS    (ABS,CODE)

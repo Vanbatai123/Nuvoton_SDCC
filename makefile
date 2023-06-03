@@ -3,8 +3,9 @@ DIR_PRJ := .
 # NAME_PRJ := Test_GPIO
 # NAME_PRJ := Test_I2C
 # NAME_PRJ := Test_PinInt
-NAME_PRJ := Test_SPI
+# NAME_PRJ := Test_SPI
 # NAME_PRJ := Test_UART
+NAME_PRJ := MS51_W25Q32
 
 DIR_INC := $(DIR_PRJ)/inc
 DIR_SRC := $(DIR_PRJ)/src

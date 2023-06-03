@@ -415,94 +415,85 @@ _SPI_begin:
 	orl	_p0m2,#0x02
 ;	./src/N76_SPI.c:31: setb(SPI_PxM2_SS, SPI_PIN_SS);
 	orl	_p1m2,#0x02
-;	./src/N76_SPI.c:33: else if (spi_mode== SPI_MODE_SLAVE)
+;	./src/N76_SPI.c:33: else if (spi_mode == SPI_MODE_SLAVE)
 00104$:
 ;	./src/N76_SPI.c:50: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'SPI_transfer'
 ;------------------------------------------------------------
-;data                      Allocated to registers r7 
+;data                      Allocated to registers 
 ;------------------------------------------------------------
 ;	./src/N76_SPI.c:52: uint8_t SPI_transfer(uint8_t data)
 ;	-----------------------------------------
 ;	 function SPI_transfer
 ;	-----------------------------------------
 _SPI_transfer:
-	mov	r7,dpl
-;	./src/N76_SPI.c:54: SPDR = data;
-	mov	_spdr,r7
-;	./src/N76_SPI.c:55: __asm__("nop");
-	nop
+	mov	_spdr,dpl
 ;	./src/N76_SPI.c:56: while (inbit(SPSR, SPIF) == 0)
 00101$:
 	mov	a,#0x80
 	anl	a,_spsr
 	rl	a
 	anl	a,#0x01
-	mov	r6,a
-	jnz	00103$
-;	./src/N76_SPI.c:57: data = SPDR;
-	mov	r7,_spdr
-	sjmp	00101$
-00103$:
-;	./src/N76_SPI.c:59: clrb(SPSR, SPIF);
+	jz	00101$
+;	./src/N76_SPI.c:58: clrb(SPSR, SPIF);
 	anl	_spsr,#0x7f
-;	./src/N76_SPI.c:60: return data;
-	mov	dpl,r7
-;	./src/N76_SPI.c:61: }
+;	./src/N76_SPI.c:59: return SPDR;
+	mov	dpl,_spdr
+;	./src/N76_SPI.c:60: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'SPI_setBitOrder'
 ;------------------------------------------------------------
 ;bitOrder                  Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_SPI.c:76: void SPI_setBitOrder(uint8_t bitOrder)
+;	./src/N76_SPI.c:75: void SPI_setBitOrder(uint8_t bitOrder)
 ;	-----------------------------------------
 ;	 function SPI_setBitOrder
 ;	-----------------------------------------
 _SPI_setBitOrder:
-;	./src/N76_SPI.c:78: if (bitOrder == LSBFIRST)
+;	./src/N76_SPI.c:77: if (bitOrder == LSBFIRST)
 	mov	a,dpl
 	jnz	00102$
-;	./src/N76_SPI.c:79: setb(SPCR, LSBFE);
+;	./src/N76_SPI.c:78: setb(SPCR, LSBFE);
 	orl	_spcr,#0x20
 	ret
 00102$:
-;	./src/N76_SPI.c:81: clrb(SPCR, LSBFE);
+;	./src/N76_SPI.c:80: clrb(SPCR, LSBFE);
 	anl	_spcr,#0xdf
-;	./src/N76_SPI.c:82: }
+;	./src/N76_SPI.c:81: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'SPI_setDataMode'
 ;------------------------------------------------------------
 ;dataMode                  Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_SPI.c:83: void SPI_setDataMode(uint8_t dataMode)
+;	./src/N76_SPI.c:82: void SPI_setDataMode(uint8_t dataMode)
 ;	-----------------------------------------
 ;	 function SPI_setDataMode
 ;	-----------------------------------------
 _SPI_setDataMode:
 	mov	r7,dpl
-;	./src/N76_SPI.c:85: SPCR = (SPCR & ~SPI_MODE_MASK) | dataMode;
+;	./src/N76_SPI.c:84: SPCR = (SPCR & ~SPI_MODE_MASK) | dataMode;
 	mov	a,#0xf3
 	anl	a,_spcr
 	orl	a,r7
 	mov	_spcr,a
-;	./src/N76_SPI.c:86: }
+;	./src/N76_SPI.c:85: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'SPI_setClockDivider'
 ;------------------------------------------------------------
 ;clockDiv                  Allocated to registers r7 
 ;------------------------------------------------------------
-;	./src/N76_SPI.c:87: void SPI_setClockDivider(uint8_t clockDiv)
+;	./src/N76_SPI.c:86: void SPI_setClockDivider(uint8_t clockDiv)
 ;	-----------------------------------------
 ;	 function SPI_setClockDivider
 ;	-----------------------------------------
 _SPI_setClockDivider:
 	mov	r7,dpl
-;	./src/N76_SPI.c:89: SPCR = (SPCR & ~SPI_CLOCK_MASK) | (clockDiv & SPI_CLOCK_MASK);
+;	./src/N76_SPI.c:88: SPCR = (SPCR & ~SPI_CLOCK_MASK) | (clockDiv & SPI_CLOCK_MASK);
 	mov	a,#0xfc
 	anl	a,_spcr
 	mov	r6,a
@@ -510,27 +501,27 @@ _SPI_setClockDivider:
 	anl	a,r7
 	orl	a,r6
 	mov	_spcr,a
-;	./src/N76_SPI.c:90: }
+;	./src/N76_SPI.c:89: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'SPI_attachInterrupt'
 ;------------------------------------------------------------
-;	./src/N76_SPI.c:91: void SPI_attachInterrupt()
+;	./src/N76_SPI.c:90: void SPI_attachInterrupt()
 ;	-----------------------------------------
 ;	 function SPI_attachInterrupt
 ;	-----------------------------------------
 _SPI_attachInterrupt:
-;	./src/N76_SPI.c:93: }
+;	./src/N76_SPI.c:92: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'SPI_aetachInterrupt'
 ;------------------------------------------------------------
-;	./src/N76_SPI.c:94: void SPI_aetachInterrupt()
+;	./src/N76_SPI.c:93: void SPI_aetachInterrupt()
 ;	-----------------------------------------
 ;	 function SPI_aetachInterrupt
 ;	-----------------------------------------
 _SPI_aetachInterrupt:
-;	./src/N76_SPI.c:96: }
+;	./src/N76_SPI.c:95: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

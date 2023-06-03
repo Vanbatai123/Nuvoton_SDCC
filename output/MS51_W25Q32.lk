@@ -1,5 +1,5 @@
 -muwx
--i ./output/Test_SPI.hex
+-i ./output/MS51_W25Q32.hex
 -M
 -b HOME = 0x0000
 -b XSEG = 0x0001
@@ -13,11 +13,12 @@
 -l libint
 -l liblong
 -l libfloat
-./output/Test_SPI.rel
+./output/MS51_W25Q32.rel
 ./output/include.rel
 ./output/N76_Flash.rel
 ./output/N76_I2C.rel
 ./output/N76_SPI.rel
 ./output/N76_uart0.rel
+./output/N76_W25Qxx.rel
 
 -e

@@ -2,15 +2,24 @@
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 4.2.0 #13081 (Linux)
 ;--------------------------------------------------------
-	.module Test_SPI
+	.module MS51_W25Q32
 	.optsdcc -mmcs51 --model-small
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
-	.globl _SPI_transfer
-	.globl _SPI_begin
+	.globl _W25Qxx_readPage
+	.globl _W25Qxx_writePage
+	.globl _W25Qxx_eraseChip
+	.globl _W25Qxx_readMidDid
+	.globl _W25Qxx_begin
+	.globl _SPI_Error
+	.globl _UART0_printNumln
+	.globl _UART0_printNum
+	.globl _UART0_println
+	.globl _UART0_print
+	.globl _UART0_begin
 	.globl _eiph1
 	.globl _eip1
 	.globl _pmd
@@ -147,14 +156,7 @@
 	.globl _dpl
 	.globl _sp
 	.globl _p0
-	.globl _MAX7219_transfer_PARM_3
-	.globl _MAX7219_transfer_PARM_2
-	.globl _MAX7219_transferAll_PARM_3
-	.globl _MAX7219_transferAll_PARM_2
-	.globl _value
-	.globl _MAX7219_begin
-	.globl _MAX7219_transferAll
-	.globl _MAX7219_transfer
+	.globl _data2
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -310,15 +312,9 @@ _eiph1	=	0x00ff
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
-_value::
-	.ds 2
-_MAX7219_transferAll_PARM_2:
+_main_u8MID_65536_61:
 	.ds 1
-_MAX7219_transferAll_PARM_3:
-	.ds 1
-_MAX7219_transfer_PARM_2:
-	.ds 1
-_MAX7219_transfer_PARM_3:
+_main_u8DID_65536_61:
 	.ds 1
 ;--------------------------------------------------------
 ; overlayable items in internal ram
@@ -351,6 +347,8 @@ __start__stack:
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
+_data2::
+	.ds 256
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -403,13 +401,18 @@ __sdcc_program_startup:
 ;--------------------------------------------------------
 	.area CSEG    (CODE)
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'MAX7219_begin'
+;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	./Test_SPI.c:31: void MAX7219_begin(void)
+;u8MID                     Allocated with name '_main_u8MID_65536_61'
+;u8DID                     Allocated with name '_main_u8DID_65536_61'
+;i                         Allocated to registers r6 r7 
+;i                         Allocated to registers r6 r7 
+;------------------------------------------------------------
+;	./MS51_W25Q32.c:17: void main(void)
 ;	-----------------------------------------
-;	 function MAX7219_begin
+;	 function main
 ;	-----------------------------------------
-_MAX7219_begin:
+_main:
 	ar7 = 0x07
 	ar6 = 0x06
 	ar5 = 0x05
@@ -418,197 +421,217 @@ _MAX7219_begin:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	./Test_SPI.c:33: SPI_begin(SPI_MODE_MASTER);
-	mov	dpl,#0x00
-	lcall	_SPI_begin
-;	./Test_SPI.c:35: MAX7219_transferAll(3, SCAN_LIMIT, 0x07);
-	mov	_MAX7219_transferAll_PARM_2,#0x0b
-	mov	_MAX7219_transferAll_PARM_3,#0x07
-	mov	dpl,#0x03
-	lcall	_MAX7219_transferAll
-;	./Test_SPI.c:36: MAX7219_transferAll(3, DECODE_MODE, 0xFF);
-	mov	_MAX7219_transferAll_PARM_2,#0x09
-	mov	_MAX7219_transferAll_PARM_3,#0xff
-	mov	dpl,#0x03
-	lcall	_MAX7219_transferAll
-;	./Test_SPI.c:37: MAX7219_transferAll(3, SHUTDOWN, 0x01);
-	mov	_MAX7219_transferAll_PARM_2,#0x0c
-	mov	_MAX7219_transferAll_PARM_3,#0x01
-	mov	dpl,#0x03
-	lcall	_MAX7219_transferAll
-;	./Test_SPI.c:38: MAX7219_transferAll(3, DISPLAY_TEST, 0x00);
-	mov	_MAX7219_transferAll_PARM_2,#0x0f
-	mov	_MAX7219_transferAll_PARM_3,#0x00
-	mov	dpl,#0x03
-	lcall	_MAX7219_transferAll
-;	./Test_SPI.c:39: MAX7219_transferAll(3, INTENSITY, 0x01);
-	mov	_MAX7219_transferAll_PARM_2,#0x0a
-	mov	_MAX7219_transferAll_PARM_3,#0x01
-	mov	dpl,#0x03
-;	./Test_SPI.c:40: }
-	ljmp	_MAX7219_transferAll
-;------------------------------------------------------------
-;Allocation info for local variables in function 'MAX7219_transferAll'
-;------------------------------------------------------------
-;addr                      Allocated with name '_MAX7219_transferAll_PARM_2'
-;data                      Allocated with name '_MAX7219_transferAll_PARM_3'
-;chip                      Allocated to registers r7 
-;------------------------------------------------------------
-;	./Test_SPI.c:42: void MAX7219_transferAll(int8_t chip, const uint8_t addr, const uint8_t data)
-;	-----------------------------------------
-;	 function MAX7219_transferAll
-;	-----------------------------------------
-_MAX7219_transferAll:
-	mov	r7,dpl
-;	./Test_SPI.c:44: clrb(SPI_Px_SS, SPI_PIN_SS);
-	anl	_p1,#0xfd
-;	./Test_SPI.c:45: while (chip--)
-00101$:
-	mov	ar6,r7
-	dec	r7
-	mov	a,r6
-	jz	00103$
-;	./Test_SPI.c:47: SPI_transfer(addr);
-	mov	dpl,_MAX7219_transferAll_PARM_2
-	push	ar7
-	lcall	_SPI_transfer
-;	./Test_SPI.c:48: SPI_transfer(data);
-	mov	dpl,_MAX7219_transferAll_PARM_3
-	lcall	_SPI_transfer
-	pop	ar7
-	sjmp	00101$
-00103$:
-;	./Test_SPI.c:50: setb(SPI_Px_SS, SPI_PIN_SS);
-	orl	_p1,#0x02
-;	./Test_SPI.c:51: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'MAX7219_transfer'
-;------------------------------------------------------------
-;addr                      Allocated with name '_MAX7219_transfer_PARM_2'
-;data                      Allocated with name '_MAX7219_transfer_PARM_3'
-;chip                      Allocated to registers r7 
-;total                     Allocated to registers r6 
-;------------------------------------------------------------
-;	./Test_SPI.c:53: void MAX7219_transfer(uint8_t chip, const uint8_t addr, const uint8_t data)
-;	-----------------------------------------
-;	 function MAX7219_transfer
-;	-----------------------------------------
-_MAX7219_transfer:
-	mov	r7,dpl
-;	./Test_SPI.c:55: uint8_t total = chip & 0x0F; // 8
-	mov	a,#0x0f
-	anl	a,r7
-	mov	r6,a
-;	./Test_SPI.c:56: chip = chip >> 4;			 // 3
-	mov	a,r7
-	swap	a
-	anl	a,#0x0f
-	mov	r7,a
-;	./Test_SPI.c:58: clrb(SPI_Px_SS, SPI_PIN_SS);
-	anl	_p1,#0xfd
-;	./Test_SPI.c:60: while (--total >= chip)
-00101$:
-	dec	r6
+;	./MS51_W25Q32.c:20: for (int16_t i = 0; i < 256; i++)
+	mov	r6,#0x00
+	mov	r7,#0x00
+00113$:
+	mov	ar5,r7
 	clr	c
+	mov	a,r5
+	xrl	a,#0x80
+	subb	a,#0x81
+	jnc	00101$
+;	./MS51_W25Q32.c:22: data2[i] = (uint8_t)(i);
 	mov	a,r6
-	subb	a,r7
-	jc	00103$
-;	./Test_SPI.c:62: SPI_transfer(0x00);
-	mov	dpl,#0x00
+	add	a,#_data2
+	mov	dpl,a
+	mov	a,r7
+	addc	a,#(_data2 >> 8)
+	mov	dph,a
+	mov	ar5,r6
+	mov	a,r5
+	movx	@dptr,a
+;	./MS51_W25Q32.c:20: for (int16_t i = 0; i < 256; i++)
+	inc	r6
+	cjne	r6,#0x00,00113$
+	inc	r7
+	sjmp	00113$
+00101$:
+;	./MS51_W25Q32.c:25: UART0_begin(BAUD_38400); /* 9600 Baud Rate*/
+	mov	dpl,#0xe6
+	lcall	_UART0_begin
+;	./MS51_W25Q32.c:26: W25Qxx_begin();
+	lcall	_W25Qxx_begin
+;	./MS51_W25Q32.c:28: W25Qxx_readMidDid(&u8MID, &u8DID);
+	mov	_W25Qxx_readMidDid_PARM_2,#_main_u8DID_65536_61
+	mov	(_W25Qxx_readMidDid_PARM_2 + 1),#0x00
+	mov	(_W25Qxx_readMidDid_PARM_2 + 2),#0x40
+	mov	dptr,#_main_u8MID_65536_61
+	mov	b,#0x40
+	lcall	_W25Qxx_readMidDid
+;	./MS51_W25Q32.c:30: UART0_printNum(u8MID, HEX);
+	mov	r4,_main_u8MID_65536_61
+	mov	r5,#0x00
+	mov	r6,#0x00
+	mov	r7,#0x00
+	mov	_UART0_printNum_PARM_2,#0x10
+	mov	dpl,r4
+	mov	dph,r5
+	mov	b,r6
+	mov	a,r7
+	lcall	_UART0_printNum
+;	./MS51_W25Q32.c:31: UART0_print("  ");
+	mov	dptr,#___str_0
+	mov	b,#0x80
+	lcall	_UART0_print
+;	./MS51_W25Q32.c:32: UART0_printNumln(u8DID, HEX);
+	mov	r4,_main_u8DID_65536_61
+	mov	r5,#0x00
+	mov	r6,#0x00
+	mov	r7,#0x00
+	mov	_UART0_printNumln_PARM_2,#0x10
+	mov	dpl,r4
+	mov	dph,r5
+	mov	b,r6
+	mov	a,r7
+	lcall	_UART0_printNumln
+;	./MS51_W25Q32.c:33: if ((u8MID != 0xEF) && (u8DID != 0x14))
+	mov	a,#0xef
+	cjne	a,_main_u8MID_65536_61,00156$
+	sjmp	00103$
+00156$:
+	mov	a,#0x14
+	cjne	a,_main_u8DID_65536_61,00157$
+	sjmp	00103$
+00157$:
+;	./MS51_W25Q32.c:35: SPI_Error();
+	lcall	_SPI_Error
+00103$:
+;	./MS51_W25Q32.c:37: UART0_println("read OK");
+	mov	dptr,#___str_1
+	mov	b,#0x80
+	lcall	_UART0_println
+;	./MS51_W25Q32.c:39: W25Qxx_eraseChip();
+	lcall	_W25Qxx_eraseChip
+;	./MS51_W25Q32.c:51: W25Qxx_writePage(256, data2);
+	mov	_W25Qxx_writePage_PARM_2,#_data2
+	mov	(_W25Qxx_writePage_PARM_2 + 1),#(_data2 >> 8)
+	mov	(_W25Qxx_writePage_PARM_2 + 2),#0x00
+	mov	dptr,#0x0100
+	clr	a
+	mov	b,a
+	lcall	_W25Qxx_writePage
+;	./MS51_W25Q32.c:62: W25Qxx_readPage(256, data2);
+	mov	_W25Qxx_readPage_PARM_2,#_data2
+	mov	(_W25Qxx_readPage_PARM_2 + 1),#(_data2 >> 8)
+	mov	(_W25Qxx_readPage_PARM_2 + 2),#0x00
+	mov	dptr,#0x0100
+	clr	a
+	mov	b,a
+	lcall	_W25Qxx_readPage
+;	./MS51_W25Q32.c:64: for (uint16_t i = 0; i < 256; i++)
+	mov	r6,#0x00
+	mov	r7,#0x00
+00116$:
+	mov	ar4,r6
+	mov	ar5,r7
+	mov	a,#0x100 - 0x01
+	add	a,r5
+	jc	00108$
+;	./MS51_W25Q32.c:66: UART0_printNum(data2[i], HEX);
+	mov	a,r6
+	add	a,#_data2
+	mov	dpl,a
+	mov	a,r7
+	addc	a,#(_data2 >> 8)
+	mov	dph,a
+	movx	a,@dptr
+	mov	r0,a
+	mov	r1,#0x00
+	mov	r2,#0x00
+	mov	r3,#0x00
+	mov	_UART0_printNum_PARM_2,#0x10
+	mov	dpl,r0
+	mov	dph,r1
+	mov	b,r2
+	mov	a,r3
 	push	ar7
 	push	ar6
-	lcall	_SPI_transfer
-;	./Test_SPI.c:63: SPI_transfer(0x00);
-	mov	dpl,#0x00
-	lcall	_SPI_transfer
+	push	ar5
+	push	ar4
+	lcall	_UART0_printNum
+	pop	ar4
+	pop	ar5
 	pop	ar6
 	pop	ar7
-	sjmp	00101$
-00103$:
-;	./Test_SPI.c:67: SPI_transfer(addr);
-	mov	dpl,_MAX7219_transfer_PARM_2
+;	./MS51_W25Q32.c:67: if (i % 16 == 15)
+	anl	ar4,#0x0f
+	mov	r5,#0x00
+	cjne	r4,#0x0f,00106$
+	cjne	r5,#0x00,00106$
+;	./MS51_W25Q32.c:69: UART0_println("");
+	mov	dptr,#___str_2
+	mov	b,#0x80
 	push	ar7
-	lcall	_SPI_transfer
-;	./Test_SPI.c:68: SPI_transfer(data);
-	mov	dpl,_MAX7219_transfer_PARM_3
-	lcall	_SPI_transfer
+	push	ar6
+	lcall	_UART0_println
+	pop	ar6
 	pop	ar7
-;	./Test_SPI.c:71: while (--chip >= 1)
-00104$:
-	dec	r7
-	cjne	r7,#0x01,00132$
-00132$:
-	jc	00106$
-;	./Test_SPI.c:73: SPI_transfer(0x00);
-	mov	dpl,#0x00
-	push	ar7
-	lcall	_SPI_transfer
-;	./Test_SPI.c:74: SPI_transfer(0x00);
-	mov	dpl,#0x00
-	lcall	_SPI_transfer
-	pop	ar7
-	sjmp	00104$
+	sjmp	00117$
 00106$:
-;	./Test_SPI.c:76: setb(SPI_Px_SS, SPI_PIN_SS);
-	orl	_p1,#0x02
-;	./Test_SPI.c:77: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'main'
-;------------------------------------------------------------
-;	./Test_SPI.c:79: void main(void)
-;	-----------------------------------------
-;	 function main
-;	-----------------------------------------
-_main:
-;	./Test_SPI.c:81: MAX7219_begin();
-	lcall	_MAX7219_begin
-;	./Test_SPI.c:82: while (1)
-00102$:
-;	./Test_SPI.c:84: MAX7219_transfer(0x13, 1, 5);
-	mov	_MAX7219_transfer_PARM_2,#0x01
-	mov	_MAX7219_transfer_PARM_3,#0x05
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:85: MAX7219_transfer(0x13, 2, 9);
-	mov	_MAX7219_transfer_PARM_2,#0x02
-	mov	_MAX7219_transfer_PARM_3,#0x09
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:86: MAX7219_transfer(0x13, 3, 9);
-	mov	_MAX7219_transfer_PARM_2,#0x03
-	mov	_MAX7219_transfer_PARM_3,#0x09
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:87: MAX7219_transfer(0x13, 4, 1);
-	mov	_MAX7219_transfer_PARM_2,#0x04
-	mov	_MAX7219_transfer_PARM_3,#0x01
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:88: MAX7219_transfer(0x13, 5, 3 | CODEB_DP);
-	mov	_MAX7219_transfer_PARM_2,#0x05
-	mov	_MAX7219_transfer_PARM_3,#0xf3
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:89: MAX7219_transfer(0x13, 6, 0);
-	mov	_MAX7219_transfer_PARM_2,#0x06
-	mov	_MAX7219_transfer_PARM_3,#0x00
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:90: MAX7219_transfer(0x13, 7, 3 | CODEB_DP);
-	mov	_MAX7219_transfer_PARM_2,#0x07
-	mov	_MAX7219_transfer_PARM_3,#0xf3
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:91: MAX7219_transfer(0x13, 8, 1);
-	mov	_MAX7219_transfer_PARM_2,#0x08
-	mov	_MAX7219_transfer_PARM_3,#0x01
-	mov	dpl,#0x13
-	lcall	_MAX7219_transfer
-;	./Test_SPI.c:93: }
-	sjmp	00102$
+;	./MS51_W25Q32.c:73: UART0_print(" - ");
+	mov	dptr,#___str_3
+	mov	b,#0x80
+	push	ar7
+	push	ar6
+	lcall	_UART0_print
+	pop	ar6
+	pop	ar7
+00117$:
+;	./MS51_W25Q32.c:64: for (uint16_t i = 0; i < 256; i++)
+	inc	r6
+	cjne	r6,#0x00,00116$
+	inc	r7
+	sjmp	00116$
+00108$:
+;	./MS51_W25Q32.c:91: UART0_println("/////////////");
+	mov	dptr,#___str_4
+	mov	b,#0x80
+	lcall	_UART0_println
+;	./MS51_W25Q32.c:110: UART0_println("");
+	mov	dptr,#___str_2
+	mov	b,#0x80
+	lcall	_UART0_println
+;	./MS51_W25Q32.c:112: UART0_println("\nFinished the SPI Demo Code and test pass!!!\n");
+	mov	dptr,#___str_5
+	mov	b,#0x80
+	lcall	_UART0_println
+;	./MS51_W25Q32.c:113: while (1)
+00110$:
+;	./MS51_W25Q32.c:115: }
+	sjmp	00110$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
+	.area CONST   (CODE)
+___str_0:
+	.ascii "  "
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_1:
+	.ascii "read OK"
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_2:
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_3:
+	.ascii " - "
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_4:
+	.ascii "/////////////"
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_5:
+	.db 0x0a
+	.ascii "Finished the SPI Demo Code and test pass!!!"
+	.db 0x0a
+	.db 0x00
+	.area CSEG    (CODE)
 	.area XINIT   (CODE)
 	.area CABS    (ABS,CODE)

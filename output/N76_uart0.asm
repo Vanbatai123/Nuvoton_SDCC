@@ -8,7 +8,6 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _sprintf
 	.globl _eiph1
 	.globl _eip1
 	.globl _pmd
@@ -145,11 +144,14 @@
 	.globl _dpl
 	.globl _sp
 	.globl _p0
+	.globl _UART0_printNumln_PARM_2
+	.globl _UART0_printNum_PARM_2
 	.globl _UART0_begin
 	.globl _UART0_putChar
 	.globl _UART0_print
 	.globl _UART0_println
 	.globl _UART0_printNum
+	.globl _UART0_printNumln
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -305,8 +307,16 @@ _eiph1	=	0x00ff
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
-_UART0_printNum_dis_65536_30:
-	.ds 20
+_UART0_printNum_PARM_2:
+	.ds 1
+_UART0_printNum_i_131072_37:
+	.ds 1
+_UART0_printNum_sloc0_1_0:
+	.ds 4
+_UART0_printNum_sloc1_1_0:
+	.ds 4
+_UART0_printNumln_PARM_2:
+	.ds 1
 ;--------------------------------------------------------
 ; overlayable items in internal ram
 ;--------------------------------------------------------
@@ -333,6 +343,8 @@ _UART0_printNum_dis_65536_30:
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
+_UART0_printNum_dis_65536_31:
+	.ds 20
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -510,10 +522,16 @@ _UART0_println:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'UART0_printNum'
 ;------------------------------------------------------------
+;base                      Allocated with name '_UART0_printNum_PARM_2'
 ;num                       Allocated to registers r4 r5 r6 r7 
-;dis                       Allocated with name '_UART0_printNum_dis_65536_30'
+;max                       Allocated to registers r6 
+;flag                      Allocated to registers r2 
+;i                         Allocated with name '_UART0_printNum_i_131072_37'
+;sloc0                     Allocated with name '_UART0_printNum_sloc0_1_0'
+;sloc1                     Allocated with name '_UART0_printNum_sloc1_1_0'
+;dis                       Allocated with name '_UART0_printNum_dis_65536_31'
 ;------------------------------------------------------------
-;	./src/N76_uart0.c:46: void UART0_printNum(long num)
+;	./src/N76_uart0.c:46: void UART0_printNum(int32_t num, uint8_t base)
 ;	-----------------------------------------
 ;	 function UART0_printNum
 ;	-----------------------------------------
@@ -522,32 +540,421 @@ _UART0_printNum:
 	mov	r5,dph
 	mov	r6,b
 	mov	r7,a
-;	./src/N76_uart0.c:49: sprintf(dis, "%li", num);
-	push	ar4
-	push	ar5
-	push	ar6
+;	./src/N76_uart0.c:49: int8_t max = 0, flag = 0; // max: index of dis array, flag: = 1 if negative
+;	./src/N76_uart0.c:51: if (num == 0) // input 0
+	clr	a
+	mov	r3,a
+	mov	r2,a
+	mov	a,r4
+	orl	a,r5
+	orl	a,r6
+	orl	a,r7
+	jnz	00104$
+;	./src/N76_uart0.c:53: dis[max++] = '0';
+	mov	r3,#0x01
+	mov	dptr,#_UART0_printNum_dis_65536_31
+	mov	a,#0x30
+	movx	@dptr,a
+	sjmp	00131$
+00104$:
+;	./src/N76_uart0.c:55: else if (num < 0) // negative number
+	mov	a,r7
+	jnb	acc.7,00131$
+;	./src/N76_uart0.c:57: num = 0 - num;
+	clr	c
+	clr	a
+	subb	a,r4
+	mov	r4,a
+	clr	a
+	subb	a,r5
+	mov	r5,a
+	clr	a
+	subb	a,r6
+	mov	r6,a
+	clr	a
+	subb	a,r7
+	mov	r7,a
+;	./src/N76_uart0.c:58: flag = 1;
+	mov	r2,#0x01
+;	./src/N76_uart0.c:60: while (num > 0) // convert to base number and add to dis array
+00131$:
+00109$:
+	clr	c
+	clr	a
+	subb	a,r4
+	clr	a
+	subb	a,r5
+	clr	a
+	subb	a,r6
+	mov	a,#(0x00 ^ 0x80)
+	mov	b,r7
+	xrl	b,#0x80
+	subb	a,b
+	jc	00197$
+	ljmp	00138$
+00197$:
+;	./src/N76_uart0.c:62: if (num % base >= 10)
+	mov	_UART0_printNum_sloc0_1_0,_UART0_printNum_PARM_2
+	mov	(_UART0_printNum_sloc0_1_0 + 1),#0x00
+	mov	(_UART0_printNum_sloc0_1_0 + 2),#0x00
+	mov	(_UART0_printNum_sloc0_1_0 + 3),#0x00
+	mov	__modslong_PARM_2,_UART0_printNum_sloc0_1_0
+	mov	(__modslong_PARM_2 + 1),(_UART0_printNum_sloc0_1_0 + 1)
+	mov	(__modslong_PARM_2 + 2),(_UART0_printNum_sloc0_1_0 + 2)
+	mov	(__modslong_PARM_2 + 3),(_UART0_printNum_sloc0_1_0 + 3)
+	mov	dpl,r4
+	mov	dph,r5
+	mov	b,r6
+	mov	a,r7
 	push	ar7
-	mov	a,#___str_1
-	push	acc
-	mov	a,#(___str_1 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	a,#_UART0_printNum_dis_65536_30
-	push	acc
-	mov	a,#(_UART0_printNum_dis_65536_30 >> 8)
-	push	acc
-	mov	a,#0x40
-	push	acc
-	lcall	_sprintf
-	mov	a,sp
-	add	a,#0xf6
-	mov	sp,a
-;	./src/N76_uart0.c:50: UART0_print(dis);
-	mov	dptr,#_UART0_printNum_dis_65536_30
-	mov	b,#0x40
-;	./src/N76_uart0.c:51: }
+	push	ar6
+	push	ar5
+	push	ar4
+	push	ar3
+	push	ar2
+	lcall	__modslong
+	mov	_UART0_printNum_sloc1_1_0,dpl
+	mov	(_UART0_printNum_sloc1_1_0 + 1),dph
+	mov	(_UART0_printNum_sloc1_1_0 + 2),b
+	mov	(_UART0_printNum_sloc1_1_0 + 3),a
+	pop	ar2
+	pop	ar3
+	pop	ar4
+	pop	ar5
+	pop	ar6
+	pop	ar7
+	clr	c
+	mov	a,_UART0_printNum_sloc1_1_0
+	subb	a,#0x0a
+	mov	a,(_UART0_printNum_sloc1_1_0 + 1)
+	subb	a,#0x00
+	mov	a,(_UART0_printNum_sloc1_1_0 + 2)
+	subb	a,#0x00
+	mov	a,(_UART0_printNum_sloc1_1_0 + 3)
+	xrl	a,#0x80
+	subb	a,#0x80
+	jc	00107$
+;	./src/N76_uart0.c:63: dis[max] = num % base + 55;
+	mov	a,r3
+	mov	r0,a
+	rlc	a
+	subb	a,acc
+	mov	r1,a
+	mov	a,r0
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r1
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	r1,_UART0_printNum_sloc1_1_0
+	mov	a,#0x37
+	add	a,r1
+	mov	r1,a
+	movx	@dptr,a
+	sjmp	00108$
+00107$:
+;	./src/N76_uart0.c:65: dis[max] = num % base + 48;
+	mov	a,r3
+	mov	r0,a
+	rlc	a
+	subb	a,acc
+	mov	r1,a
+	mov	a,r0
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r1
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	r1,_UART0_printNum_sloc1_1_0
+	mov	a,#0x30
+	add	a,r1
+	mov	r1,a
+	movx	@dptr,a
+00108$:
+;	./src/N76_uart0.c:67: num = num / base;
+	mov	__divslong_PARM_2,_UART0_printNum_sloc0_1_0
+	mov	(__divslong_PARM_2 + 1),(_UART0_printNum_sloc0_1_0 + 1)
+	mov	(__divslong_PARM_2 + 2),(_UART0_printNum_sloc0_1_0 + 2)
+	mov	(__divslong_PARM_2 + 3),(_UART0_printNum_sloc0_1_0 + 3)
+	mov	dpl,r4
+	mov	dph,r5
+	mov	b,r6
+	mov	a,r7
+	push	ar3
+	push	ar2
+	lcall	__divslong
+	mov	r4,dpl
+	mov	r5,dph
+	mov	r6,b
+	mov	r7,a
+	pop	ar2
+	pop	ar3
+;	./src/N76_uart0.c:68: max++;
+	inc	r3
+	ljmp	00109$
+00138$:
+	mov	ar7,r3
+;	./src/N76_uart0.c:71: if (base == HEX) // add 0x for HEX and 0B for BIN
+	mov	a,#0x10
+	cjne	a,_UART0_printNum_PARM_2,00117$
+;	./src/N76_uart0.c:73: if (max % 2 == 1)
+	mov	a,r3
+	mov	r5,a
+	rlc	a
+	subb	a,acc
+	mov	r6,a
+	mov	__modsint_PARM_2,#0x02
+	mov	(__modsint_PARM_2 + 1),#0x00
+	mov	dpl,r5
+	mov	dph,r6
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar3
+	push	ar2
+	lcall	__modsint
+	mov	r1,dpl
+	mov	r4,dph
+	pop	ar2
+	pop	ar3
+	pop	ar5
+	pop	ar6
+	pop	ar7
+	cjne	r1,#0x01,00113$
+	cjne	r4,#0x00,00113$
+;	./src/N76_uart0.c:74: dis[max++] = '0';
+	mov	a,r3
+	inc	a
+	mov	r7,a
+	mov	a,r5
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r6
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	a,#0x30
+	movx	@dptr,a
+00113$:
+;	./src/N76_uart0.c:76: dis[max++] = 'x';
+	mov	a,r7
+	mov	r6,a
+	inc	a
+	mov	r5,a
+	mov	a,r6
+	rlc	a
+	subb	a,acc
+	mov	r4,a
+	mov	a,r6
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r4
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	a,#0x78
+	movx	@dptr,a
+;	./src/N76_uart0.c:77: dis[max++] = '0';
+	mov	a,r5
+	mov	r6,a
+	inc	a
+	mov	r7,a
+	mov	a,r6
+	rlc	a
+	subb	a,acc
+	mov	r5,a
+	mov	a,r6
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r5
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	a,#0x30
+	movx	@dptr,a
+	sjmp	00118$
+00117$:
+;	./src/N76_uart0.c:79: else if (base == BIN)
+	mov	a,#0x02
+	cjne	a,_UART0_printNum_PARM_2,00118$
+;	./src/N76_uart0.c:81: dis[max++] = 'B';
+	mov	a,r3
+	inc	a
+	mov	r6,a
+	mov	a,r3
+	rlc	a
+	subb	a,acc
+	mov	r5,a
+	mov	a,r3
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r5
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	a,#0x42
+	movx	@dptr,a
+;	./src/N76_uart0.c:82: dis[max++] = '0';
+	mov	a,r6
+	mov	r5,a
+	inc	a
+	mov	r7,a
+	mov	a,r5
+	rlc	a
+	subb	a,acc
+	mov	r6,a
+	mov	a,r5
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r6
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	a,#0x30
+	movx	@dptr,a
+00118$:
+;	./src/N76_uart0.c:85: if (flag == 1) // add minus to negative number
+	cjne	r2,#0x01,00137$
+;	./src/N76_uart0.c:86: dis[max++] = '-';
+	mov	ar6,r7
+	inc	r7
+	mov	a,r6
+	rlc	a
+	subb	a,acc
+	mov	r5,a
+	mov	a,r6
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r5
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	mov	a,#0x2d
+	movx	@dptr,a
+;	./src/N76_uart0.c:88: for (uint8_t i = 0; i < max / 2; i++) // revert dis array
+00137$:
+	mov	a,r7
+	dec	a
+	mov	_UART0_printNum_sloc1_1_0,a
+	mov	_UART0_printNum_i_131072_37,#0x00
+00123$:
+	mov	a,r7
+	mov	r3,a
+	rlc	a
+	subb	a,acc
+	mov	r4,a
+	mov	__divsint_PARM_2,#0x02
+	mov	(__divsint_PARM_2 + 1),#0x00
+	mov	dpl,r3
+	mov	dph,r4
+	push	ar7
+	push	ar4
+	push	ar3
+	lcall	__divsint
+	mov	r1,dpl
+	mov	r2,dph
+	pop	ar3
+	pop	ar4
+	pop	ar7
+	mov	r0,_UART0_printNum_i_131072_37
+	mov	r5,#0x00
+	clr	c
+	mov	a,r0
+	subb	a,r1
+	mov	a,r5
+	xrl	a,#0x80
+	mov	b,r2
+	xrl	b,#0x80
+	subb	a,b
+	jnc	00121$
+;	./src/N76_uart0.c:90: dis[max] = dis[i];
+	push	ar7
+	mov	a,r3
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	r2,a
+	mov	a,r4
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	r5,a
+	mov	a,_UART0_printNum_i_131072_37
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	r0,a
+	clr	a
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	r1,a
+	mov	dpl,r0
+	mov	dph,r1
+	movx	a,@dptr
+	mov	r7,a
+	mov	dpl,r2
+	mov	dph,r5
+	movx	@dptr,a
+;	./src/N76_uart0.c:91: dis[i] = dis[max - 1 - i];
+	mov	r5,_UART0_printNum_i_131072_37
+	mov	a,_UART0_printNum_sloc1_1_0
+	clr	c
+	subb	a,r5
+	mov	r5,a
+	rlc	a
+	subb	a,acc
+	mov	r2,a
+	mov	a,r5
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	r5,a
+	mov	a,r2
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	r2,a
+	mov	dpl,r5
+	mov	dph,r2
+	movx	a,@dptr
+	mov	r6,a
+	mov	dpl,r0
+	mov	dph,r1
+	movx	@dptr,a
+;	./src/N76_uart0.c:92: dis[max - 1 - i] = dis[max];
+	mov	dpl,r5
+	mov	dph,r2
+	mov	a,r7
+	movx	@dptr,a
+;	./src/N76_uart0.c:88: for (uint8_t i = 0; i < max / 2; i++) // revert dis array
+	inc	_UART0_printNum_i_131072_37
+	pop	ar7
+	sjmp	00123$
+00121$:
+;	./src/N76_uart0.c:94: dis[max] = '\0';  // end string character
+	mov	a,r3
+	add	a,#_UART0_printNum_dis_65536_31
+	mov	dpl,a
+	mov	a,r4
+	addc	a,#(_UART0_printNum_dis_65536_31 >> 8)
+	mov	dph,a
+	clr	a
+	movx	@dptr,a
+;	./src/N76_uart0.c:95: UART0_print(dis); // print dis
+	mov	dptr,#_UART0_printNum_dis_65536_31
+	mov	b,#0x00
+;	./src/N76_uart0.c:96: }
 	ljmp	_UART0_print
+;------------------------------------------------------------
+;Allocation info for local variables in function 'UART0_printNumln'
+;------------------------------------------------------------
+;base                      Allocated with name '_UART0_printNumln_PARM_2'
+;num                       Allocated to registers r4 r5 r6 r7 
+;------------------------------------------------------------
+;	./src/N76_uart0.c:98: void UART0_printNumln(long num, uint8_t base)
+;	-----------------------------------------
+;	 function UART0_printNumln
+;	-----------------------------------------
+_UART0_printNumln:
+	mov	r4,dpl
+	mov	r5,dph
+	mov	r6,b
+	mov	r7,a
+;	./src/N76_uart0.c:100: UART0_printNum(num, base);
+	mov	_UART0_printNum_PARM_2,_UART0_printNumln_PARM_2
+	mov	dpl,r4
+	mov	dph,r5
+	mov	b,r6
+	mov	a,r7
+	lcall	_UART0_printNum
+;	./src/N76_uart0.c:101: UART0_println("");
+	mov	dptr,#___str_1
+	mov	b,#0x80
+;	./src/N76_uart0.c:102: }
+	ljmp	_UART0_println
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
@@ -558,7 +965,6 @@ ___str_0:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_1:
-	.ascii "%li"
 	.db 0x00
 	.area CSEG    (CODE)
 	.area XINIT   (CODE)

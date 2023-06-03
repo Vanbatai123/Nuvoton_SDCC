@@ -415,124 +415,115 @@
       000023 43 B2 02         [24]  415 	orl	_p0m2,#0x02
                                     416 ;	./src/N76_SPI.c:31: setb(SPI_PxM2_SS, SPI_PIN_SS);
       000026 43 B4 02         [24]  417 	orl	_p1m2,#0x02
-                                    418 ;	./src/N76_SPI.c:33: else if (spi_mode== SPI_MODE_SLAVE)
+                                    418 ;	./src/N76_SPI.c:33: else if (spi_mode == SPI_MODE_SLAVE)
       000029                        419 00104$:
                                     420 ;	./src/N76_SPI.c:50: }
       000029 22               [24]  421 	ret
                                     422 ;------------------------------------------------------------
                                     423 ;Allocation info for local variables in function 'SPI_transfer'
                                     424 ;------------------------------------------------------------
-                                    425 ;data                      Allocated to registers r7 
+                                    425 ;data                      Allocated to registers 
                                     426 ;------------------------------------------------------------
                                     427 ;	./src/N76_SPI.c:52: uint8_t SPI_transfer(uint8_t data)
                                     428 ;	-----------------------------------------
                                     429 ;	 function SPI_transfer
                                     430 ;	-----------------------------------------
       00002A                        431 _SPI_transfer:
-      00002A AF 82            [24]  432 	mov	r7,dpl
-                                    433 ;	./src/N76_SPI.c:54: SPDR = data;
-      00002C 8F F5            [24]  434 	mov	_spdr,r7
-                                    435 ;	./src/N76_SPI.c:55: __asm__("nop");
-      00002E 00               [12]  436 	nop
-                                    437 ;	./src/N76_SPI.c:56: while (inbit(SPSR, SPIF) == 0)
-      00002F                        438 00101$:
-      00002F 74 80            [12]  439 	mov	a,#0x80
-      000031 55 F4            [12]  440 	anl	a,_spsr
-      000033 23               [12]  441 	rl	a
-      000034 54 01            [12]  442 	anl	a,#0x01
-      000036 FE               [12]  443 	mov	r6,a
-      000037 70 04            [24]  444 	jnz	00103$
-                                    445 ;	./src/N76_SPI.c:57: data = SPDR;
-      000039 AF F5            [24]  446 	mov	r7,_spdr
-      00003B 80 F2            [24]  447 	sjmp	00101$
-      00003D                        448 00103$:
-                                    449 ;	./src/N76_SPI.c:59: clrb(SPSR, SPIF);
-      00003D 53 F4 7F         [24]  450 	anl	_spsr,#0x7f
-                                    451 ;	./src/N76_SPI.c:60: return data;
-      000040 8F 82            [24]  452 	mov	dpl,r7
-                                    453 ;	./src/N76_SPI.c:61: }
-      000042 22               [24]  454 	ret
-                                    455 ;------------------------------------------------------------
-                                    456 ;Allocation info for local variables in function 'SPI_setBitOrder'
-                                    457 ;------------------------------------------------------------
-                                    458 ;bitOrder                  Allocated to registers r7 
-                                    459 ;------------------------------------------------------------
-                                    460 ;	./src/N76_SPI.c:76: void SPI_setBitOrder(uint8_t bitOrder)
-                                    461 ;	-----------------------------------------
-                                    462 ;	 function SPI_setBitOrder
-                                    463 ;	-----------------------------------------
-      000043                        464 _SPI_setBitOrder:
-                                    465 ;	./src/N76_SPI.c:78: if (bitOrder == LSBFIRST)
-      000043 E5 82            [12]  466 	mov	a,dpl
-      000045 70 04            [24]  467 	jnz	00102$
-                                    468 ;	./src/N76_SPI.c:79: setb(SPCR, LSBFE);
-      000047 43 F3 20         [24]  469 	orl	_spcr,#0x20
-      00004A 22               [24]  470 	ret
-      00004B                        471 00102$:
-                                    472 ;	./src/N76_SPI.c:81: clrb(SPCR, LSBFE);
-      00004B 53 F3 DF         [24]  473 	anl	_spcr,#0xdf
-                                    474 ;	./src/N76_SPI.c:82: }
-      00004E 22               [24]  475 	ret
-                                    476 ;------------------------------------------------------------
-                                    477 ;Allocation info for local variables in function 'SPI_setDataMode'
-                                    478 ;------------------------------------------------------------
-                                    479 ;dataMode                  Allocated to registers r7 
-                                    480 ;------------------------------------------------------------
-                                    481 ;	./src/N76_SPI.c:83: void SPI_setDataMode(uint8_t dataMode)
-                                    482 ;	-----------------------------------------
-                                    483 ;	 function SPI_setDataMode
-                                    484 ;	-----------------------------------------
-      00004F                        485 _SPI_setDataMode:
-      00004F AF 82            [24]  486 	mov	r7,dpl
-                                    487 ;	./src/N76_SPI.c:85: SPCR = (SPCR & ~SPI_MODE_MASK) | dataMode;
-      000051 74 F3            [12]  488 	mov	a,#0xf3
-      000053 55 F3            [12]  489 	anl	a,_spcr
-      000055 4F               [12]  490 	orl	a,r7
-      000056 F5 F3            [12]  491 	mov	_spcr,a
-                                    492 ;	./src/N76_SPI.c:86: }
-      000058 22               [24]  493 	ret
-                                    494 ;------------------------------------------------------------
-                                    495 ;Allocation info for local variables in function 'SPI_setClockDivider'
-                                    496 ;------------------------------------------------------------
-                                    497 ;clockDiv                  Allocated to registers r7 
-                                    498 ;------------------------------------------------------------
-                                    499 ;	./src/N76_SPI.c:87: void SPI_setClockDivider(uint8_t clockDiv)
-                                    500 ;	-----------------------------------------
-                                    501 ;	 function SPI_setClockDivider
-                                    502 ;	-----------------------------------------
-      000059                        503 _SPI_setClockDivider:
-      000059 AF 82            [24]  504 	mov	r7,dpl
-                                    505 ;	./src/N76_SPI.c:89: SPCR = (SPCR & ~SPI_CLOCK_MASK) | (clockDiv & SPI_CLOCK_MASK);
-      00005B 74 FC            [12]  506 	mov	a,#0xfc
-      00005D 55 F3            [12]  507 	anl	a,_spcr
-      00005F FE               [12]  508 	mov	r6,a
-      000060 74 03            [12]  509 	mov	a,#0x03
-      000062 5F               [12]  510 	anl	a,r7
-      000063 4E               [12]  511 	orl	a,r6
-      000064 F5 F3            [12]  512 	mov	_spcr,a
-                                    513 ;	./src/N76_SPI.c:90: }
-      000066 22               [24]  514 	ret
-                                    515 ;------------------------------------------------------------
-                                    516 ;Allocation info for local variables in function 'SPI_attachInterrupt'
-                                    517 ;------------------------------------------------------------
-                                    518 ;	./src/N76_SPI.c:91: void SPI_attachInterrupt()
-                                    519 ;	-----------------------------------------
-                                    520 ;	 function SPI_attachInterrupt
-                                    521 ;	-----------------------------------------
-      000067                        522 _SPI_attachInterrupt:
-                                    523 ;	./src/N76_SPI.c:93: }
-      000067 22               [24]  524 	ret
-                                    525 ;------------------------------------------------------------
-                                    526 ;Allocation info for local variables in function 'SPI_aetachInterrupt'
-                                    527 ;------------------------------------------------------------
-                                    528 ;	./src/N76_SPI.c:94: void SPI_aetachInterrupt()
-                                    529 ;	-----------------------------------------
-                                    530 ;	 function SPI_aetachInterrupt
-                                    531 ;	-----------------------------------------
-      000068                        532 _SPI_aetachInterrupt:
-                                    533 ;	./src/N76_SPI.c:96: }
-      000068 22               [24]  534 	ret
-                                    535 	.area CSEG    (CODE)
-                                    536 	.area CONST   (CODE)
-                                    537 	.area XINIT   (CODE)
-                                    538 	.area CABS    (ABS,CODE)
+      00002A 85 82 F5         [24]  432 	mov	_spdr,dpl
+                                    433 ;	./src/N76_SPI.c:56: while (inbit(SPSR, SPIF) == 0)
+      00002D                        434 00101$:
+      00002D 74 80            [12]  435 	mov	a,#0x80
+      00002F 55 F4            [12]  436 	anl	a,_spsr
+      000031 23               [12]  437 	rl	a
+      000032 54 01            [12]  438 	anl	a,#0x01
+      000034 60 F7            [24]  439 	jz	00101$
+                                    440 ;	./src/N76_SPI.c:58: clrb(SPSR, SPIF);
+      000036 53 F4 7F         [24]  441 	anl	_spsr,#0x7f
+                                    442 ;	./src/N76_SPI.c:59: return SPDR;
+      000039 85 F5 82         [24]  443 	mov	dpl,_spdr
+                                    444 ;	./src/N76_SPI.c:60: }
+      00003C 22               [24]  445 	ret
+                                    446 ;------------------------------------------------------------
+                                    447 ;Allocation info for local variables in function 'SPI_setBitOrder'
+                                    448 ;------------------------------------------------------------
+                                    449 ;bitOrder                  Allocated to registers r7 
+                                    450 ;------------------------------------------------------------
+                                    451 ;	./src/N76_SPI.c:75: void SPI_setBitOrder(uint8_t bitOrder)
+                                    452 ;	-----------------------------------------
+                                    453 ;	 function SPI_setBitOrder
+                                    454 ;	-----------------------------------------
+      00003D                        455 _SPI_setBitOrder:
+                                    456 ;	./src/N76_SPI.c:77: if (bitOrder == LSBFIRST)
+      00003D E5 82            [12]  457 	mov	a,dpl
+      00003F 70 04            [24]  458 	jnz	00102$
+                                    459 ;	./src/N76_SPI.c:78: setb(SPCR, LSBFE);
+      000041 43 F3 20         [24]  460 	orl	_spcr,#0x20
+      000044 22               [24]  461 	ret
+      000045                        462 00102$:
+                                    463 ;	./src/N76_SPI.c:80: clrb(SPCR, LSBFE);
+      000045 53 F3 DF         [24]  464 	anl	_spcr,#0xdf
+                                    465 ;	./src/N76_SPI.c:81: }
+      000048 22               [24]  466 	ret
+                                    467 ;------------------------------------------------------------
+                                    468 ;Allocation info for local variables in function 'SPI_setDataMode'
+                                    469 ;------------------------------------------------------------
+                                    470 ;dataMode                  Allocated to registers r7 
+                                    471 ;------------------------------------------------------------
+                                    472 ;	./src/N76_SPI.c:82: void SPI_setDataMode(uint8_t dataMode)
+                                    473 ;	-----------------------------------------
+                                    474 ;	 function SPI_setDataMode
+                                    475 ;	-----------------------------------------
+      000049                        476 _SPI_setDataMode:
+      000049 AF 82            [24]  477 	mov	r7,dpl
+                                    478 ;	./src/N76_SPI.c:84: SPCR = (SPCR & ~SPI_MODE_MASK) | dataMode;
+      00004B 74 F3            [12]  479 	mov	a,#0xf3
+      00004D 55 F3            [12]  480 	anl	a,_spcr
+      00004F 4F               [12]  481 	orl	a,r7
+      000050 F5 F3            [12]  482 	mov	_spcr,a
+                                    483 ;	./src/N76_SPI.c:85: }
+      000052 22               [24]  484 	ret
+                                    485 ;------------------------------------------------------------
+                                    486 ;Allocation info for local variables in function 'SPI_setClockDivider'
+                                    487 ;------------------------------------------------------------
+                                    488 ;clockDiv                  Allocated to registers r7 
+                                    489 ;------------------------------------------------------------
+                                    490 ;	./src/N76_SPI.c:86: void SPI_setClockDivider(uint8_t clockDiv)
+                                    491 ;	-----------------------------------------
+                                    492 ;	 function SPI_setClockDivider
+                                    493 ;	-----------------------------------------
+      000053                        494 _SPI_setClockDivider:
+      000053 AF 82            [24]  495 	mov	r7,dpl
+                                    496 ;	./src/N76_SPI.c:88: SPCR = (SPCR & ~SPI_CLOCK_MASK) | (clockDiv & SPI_CLOCK_MASK);
+      000055 74 FC            [12]  497 	mov	a,#0xfc
+      000057 55 F3            [12]  498 	anl	a,_spcr
+      000059 FE               [12]  499 	mov	r6,a
+      00005A 74 03            [12]  500 	mov	a,#0x03
+      00005C 5F               [12]  501 	anl	a,r7
+      00005D 4E               [12]  502 	orl	a,r6
+      00005E F5 F3            [12]  503 	mov	_spcr,a
+                                    504 ;	./src/N76_SPI.c:89: }
+      000060 22               [24]  505 	ret
+                                    506 ;------------------------------------------------------------
+                                    507 ;Allocation info for local variables in function 'SPI_attachInterrupt'
+                                    508 ;------------------------------------------------------------
+                                    509 ;	./src/N76_SPI.c:90: void SPI_attachInterrupt()
+                                    510 ;	-----------------------------------------
+                                    511 ;	 function SPI_attachInterrupt
+                                    512 ;	-----------------------------------------
+      000061                        513 _SPI_attachInterrupt:
+                                    514 ;	./src/N76_SPI.c:92: }
+      000061 22               [24]  515 	ret
+                                    516 ;------------------------------------------------------------
+                                    517 ;Allocation info for local variables in function 'SPI_aetachInterrupt'
+                                    518 ;------------------------------------------------------------
+                                    519 ;	./src/N76_SPI.c:93: void SPI_aetachInterrupt()
+                                    520 ;	-----------------------------------------
+                                    521 ;	 function SPI_aetachInterrupt
+                                    522 ;	-----------------------------------------
+      000062                        523 _SPI_aetachInterrupt:
+                                    524 ;	./src/N76_SPI.c:95: }
+      000062 22               [24]  525 	ret
+                                    526 	.area CSEG    (CODE)
+                                    527 	.area CONST   (CODE)
+                                    528 	.area XINIT   (CODE)
+                                    529 	.area CABS    (ABS,CODE)

@@ -43,14 +43,56 @@ void UART0_println(char *str)
 	UART0_print("\r\n");
 }
 
-
-void UART0_printNum(long num, uint8_t base)
+void UART0_printNum(int32_t num, uint8_t base)
 {
-	char dis[20];
-	if (base == DEC)	sprintf(dis, "%li", num);
-	else if (base == HEX)	sprintf(dis, "0x%lx", num);
-	// else if (base == BIN)	sprintf(dis, "can't print binary number");
-	UART0_print(dis);
+	__xdata char dis[20];	  // array of converted number
+	int8_t max = 0, flag = 0; // max: index of dis array, flag: = 1 if negative
+
+	if (num == 0) // input 0
+{
+		dis[max++] = '0';
+	}
+	else if (num < 0) // negative number
+	{
+		num = 0 - num;
+		flag = 1;
+	}
+	while (num > 0) // convert to base number and add to dis array
+	{
+		if (num % base >= 10)
+			dis[max] = num % base + 55;
+		else
+			dis[max] = num % base + 48;
+
+		num = num / base;
+		max++;
+	}
+
+	if (base == HEX) // add 0x for HEX and 0B for BIN
+	{
+		if (max % 2 == 1)
+			dis[max++] = '0';
+
+		dis[max++] = 'x';
+		dis[max++] = '0';
+	}
+	else if (base == BIN)
+	{
+		dis[max++] = 'B';
+		dis[max++] = '0';
+	}
+
+	if (flag == 1) // add minus to negative number
+		dis[max++] = '-';
+
+	for (uint8_t i = 0; i < max / 2; i++) // revert dis array
+	{
+		dis[max] = dis[i];
+		dis[i] = dis[max - 1 - i];
+		dis[max - 1 - i] = dis[max];
+	}
+	dis[max] = '\0';  // end string character
+	UART0_print(dis); // print dis
 }
 
 void UART0_printNumln(long num, uint8_t base)
