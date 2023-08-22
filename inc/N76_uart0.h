@@ -20,7 +20,7 @@ void UART0_begin(uint8_t baud);
 void UART0_putChar(uint8_t val);
 void UART0_print(char* str);
 void UART0_println(char* str);
-void UART0_printNum(long num, uint8_t base);
+void UART0_printNum(int32_t num, uint8_t base);
 void UART0_printNumln(long num, uint8_t base);
 
 #endif
