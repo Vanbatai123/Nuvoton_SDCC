@@ -130,7 +130,6 @@ void UART0_attachInterrupt(void)
 {
 	set_REN;
 	set_ES; // enable UART0 interrupt
-	sei();
 }
 // // interrupt deinit
 void UART0_detachInterrupt()

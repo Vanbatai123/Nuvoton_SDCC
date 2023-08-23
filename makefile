@@ -5,7 +5,8 @@ DIR_PRJ := .
 # NAME_PRJ := Test_PinInt
 # NAME_PRJ := Test_SPI
 # NAME_PRJ := Test_UART
-NAME_PRJ := MS51_W25Q32
+# NAME_PRJ := MS51_W25Q32
+NAME_PRJ := Test_RS485
 
 DIR_INC := $(DIR_PRJ)/inc
 DIR_SRC := $(DIR_PRJ)/src

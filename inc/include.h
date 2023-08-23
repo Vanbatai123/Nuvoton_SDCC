@@ -9,7 +9,9 @@
 #ifndef F_CPU
 #define F_CPU 				16000000UL
 #endif
-				   
+
+typedef unsigned char 		byte;
+
 typedef signed char 		int8_t;
 typedef signed short 		int16_t;
 typedef	signed long 		int32_t;
@@ -24,6 +26,7 @@ typedef __xdata unsigned char 		uint8_x;
 typedef __xdata unsigned short 		uint16_x;
 typedef __xdata unsigned long 		uint32_x;
 
+typedef enum { false, true } bool;
 // typedef void (*voidFuncPtr)(void);
 
 #define setb(reg, bit) 		reg |= (1<<bit)
@@ -47,6 +50,9 @@ typedef __xdata unsigned long 		uint32_x;
 	TA = 0x55;           \
 	reg &= ~(1 << bit);  \
 	sei();
+
+// #define true					1
+// #define false					0
 
 #define BIN						2
 #define DEC						10
