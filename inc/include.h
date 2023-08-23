@@ -17,6 +17,14 @@ typedef unsigned char 		uint8_t;
 typedef unsigned short 		uint16_t;
 typedef unsigned long 		uint32_t;
 
+typedef __xdata signed char 		int8_x;
+typedef __xdata signed short 		int16_x;
+typedef	__xdata signed long 		int32_x;
+typedef __xdata unsigned char 		uint8_x;
+typedef __xdata unsigned short 		uint16_x;
+typedef __xdata unsigned long 		uint32_x;
+
+// typedef void (*voidFuncPtr)(void);
 
 #define setb(reg, bit) 		reg |= (1<<bit)
 #define clrb(reg, bit) 		reg &= ~(1<<bit)

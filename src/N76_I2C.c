@@ -7,17 +7,17 @@
 #include <include.h>
 #include <N76_I2C.h>
 
-__xdata uint8_t t = 0;
+uint8_x t = 0;
 
-__xdata uint8_t rxBufferIndex;
-__xdata uint8_t rxBufferLength;
-__xdata uint8_t rxBuffer[I2C_BUFFER_LEN];
+uint8_x rxBufferIndex;
+uint8_x rxBufferLength;
+uint8_x rxBuffer[I2C_BUFFER_LEN];
 
-__xdata uint8_t txBufferIndex;
-__xdata uint8_t txBufferLength;
-__xdata uint8_t txBuffer[I2C_BUFFER_LEN];
+uint8_x txBufferIndex;
+uint8_x txBufferLength;
+uint8_x txBuffer[I2C_BUFFER_LEN];
 
-uint8_t timeOut(void)
+uint8_x timeOut(void)
 {
 	_delay_us(100);
 	if (++t > 10)

@@ -5,31 +5,28 @@
  */
 
 #include <include.h>
+#include <N76_uart0.h>
 
-#define LED_PORT 	P0
-#define LED_PIN		6
-#define BTN_PORT 	P0
-#define BTN_PIN		5
-
+int a = 0;
 
 void main(void)
 {
-	P06_PushPull_Mode;
-	P05_Input_Mode;
-    // pinMode(LED_PORT, LED_PIN, OUTPUT_PP);
-    // pinMode(BTN_PORT, BTN_PIN, INPUT);
-    while (1)
-    {
-        if (inbit(BTN_PORT, BTN_PIN))
+	setb(P1, 6);
+	P16_Input_Mode;
+	P02_Input_Mode;
+	UART0_begin(BAUD_115200);
+	// pinMode(LED_PORT, LED_PIN, OUTPUT_PP);
+	// pinMode(BTN_PORT, BTN_PIN, INPUT);
+	while (1)
+	{
+		if (inbit(P1, 6) == 0)
 		{
-			clrb(LED_PORT, LED_PIN);
+			UART0_printNumln(16, DEC);
 		}
-		else
+		if (inbit(P0, 2) == 0)
 		{
-			setb(LED_PORT, LED_PIN);
+			UART0_printNumln(2, DEC);
 		}
 		_delay_ms(10);
-		
-    }
-    
+	}
 }

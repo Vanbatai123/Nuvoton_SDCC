@@ -75,15 +75,15 @@ int dec2bcd(uint8_t num)
 void digitalClockDisplay()
 {
 	// digital clock display of the time
-	UART0_printNum(hour);
+	UART0_printNum(hour, DEC);
 	printDigits(minute);
 	printDigits(second);
 	UART0_print(" ");
-	UART0_printNum(day);
+	UART0_printNum(day, DEC);
 	UART0_print(" ");
-	UART0_printNum(month);
+	UART0_printNum(month, DEC);
 	UART0_print(" ");
-	UART0_printNum(year);
+	UART0_printNum(year, DEC);
 	UART0_println("");
 }
 
@@ -94,7 +94,7 @@ void printDigits(int digits)
 
 	if (digits < 10)
 		UART0_print("0");
-	UART0_printNum(digits);
+	UART0_printNum(digits, DEC);
 }
 
 /* cài đặt thời gian cho DS1307 */
